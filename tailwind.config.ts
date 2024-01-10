@@ -16,5 +16,8 @@ const config: Config = {
     },
   },
   plugins: [],
+  // corePlugins: {//tailwind for mui
+  //   preflight: false,
+  // },
 }
 export default config
