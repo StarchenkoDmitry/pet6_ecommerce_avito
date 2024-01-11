@@ -1,15 +1,16 @@
 'use client'
-import { Box, Button, Divider, IconButton, InputBase, Modal, Paper } from "@mui/material";
 import { useState } from "react";
-import { Backdrop } from '@mui/material';
 
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import SearchIcon from '@mui/icons-material/Search';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import MenuIcon from '@mui/icons-material/Menu';
 
 import { categorys } from "@/lib/Categorys";
+import { Search } from "./Search";
+import { Button } from "./buttons/Button";
 
+import Modal2 from "./Modal/Modal";
+
+import { Bars4Icon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
 export interface Props {}
 
@@ -26,39 +27,72 @@ function Navbar(props: Props) {
 
     return (
         <div className="p-2 flex bg-green-100">
-            <Button 
+            <Button
+                className="mx-2 bg-blue-500" 
                 onClick={handleOpen}
-                className="mx-2 bg-blue-500"
-                variant="contained"
-                startIcon={<MenuIcon/>}
             >
-                
+                <Bars4Icon className="w-6 h-6" />
                 Все категории
             </Button>
-            
-            <Paper
-                component="form"
-                sx={{ 
-                    // p: '2px 4px',
-                    display: 'flex', 
-                    alignItems: 'center',
-                    // width: "400"
-                    flex: 1
-                }}
-            >
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                    <SearchIcon />
-                </IconButton>
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="search"
-                    inputProps={{ 'aria-label': 'search google maps' }}
-                />
-            </Paper>
 
-            <Modal
+            <Search />
+
+            <Modal2
+                className="bg-[rgba(0,0,0,0.50)]"
+                open={open}
+                onClose={handleClose}
+            >
+                <div className="m-2 p-4 flex rounded-2xl bg-white max-h-80 h-full">
+
+                    <ul className="">
+                    {
+                        categorys.map(c=>(
+                        <li key={c.url}>
+                            <a
+                                href={c.url} 
+                                data-select={c === currentCategory}
+                                className="my-1 p-2 flex justify-between items-center rounded-lg data-[select=true]:text-blue-500 hover:bg-slate-100 data-[select=true]:bg-slate-100"
+                                onMouseEnter={()=>{ setCurrentCategory(c); }}
+                            >
+                                <span className="text-sm">{c.name}</span>
+                                <ChevronRightIcon className="w-4 h-4"/>
+                            </a>
+                        </li>))
+                    }
+                    </ul>
+
+                    <div className='mx-2 w-[1px] bg-slate-200'></div>
+
+                    <div className="p-1">
+                        <a 
+                            href=""
+                            className="p-2 block text-lg rounded-lg hover:text-blue-500 hover:bg-slate-100"
+                        >
+                            <h2 className="flex items-center">
+                                {currentCategory.name}
+                                <ChevronRightIcon className="w-4 h-4"/>
+                            </h2>
+                        </a>
+                        <ul className="px-2">
+                        {
+                            currentCategory.subCategorys.map(subc=>(
+                            <li key={subc.url}>
+                                <a 
+                                    href={subc.url} 
+                                    className="m-1 p-2 block rounded-2xl text-sm hover:text-blue-500 hover:bg-slate-100"
+                                >
+                                    {subc.name}
+                                </a>
+                            </li>))
+                        }
+                        </ul>
+                    </div>
+
+                    
+                </div>
+            </Modal2>
+            
+            {/* <Modal
                 // hideBackdrop
                 // disableEnforceFocus
                 open={open}
@@ -109,7 +143,7 @@ function Navbar(props: Props) {
                         </ul>
                     </div>
                 </Box>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }
