@@ -2,7 +2,7 @@
 
 import { HeartIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
-import { addFavorite } from '../actions/favorite';
+import { addFavorite } from '../lib/actions/favorite';
 
 
 export interface Props {

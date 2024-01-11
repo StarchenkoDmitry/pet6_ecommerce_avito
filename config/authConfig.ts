@@ -25,7 +25,7 @@ declare module "@auth/core/jwt" {
 }
 
 
-export const { handlers, auth } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
     providers: [ 
         GitHub,
         CredentialsProvider({
@@ -107,11 +107,11 @@ export const { handlers, auth } = NextAuth({
     },
     session:{
         strategy:"jwt",
-        generateSessionToken() {
-            const tok = v4();
-            console.log("/generateSessionToken:",tok);
-            return tok;
-        },
+        // generateSessionToken() {
+        //     const tok = v4();
+        //     console.log("/generateSessionToken:",tok);
+        //     return tok;
+        // },
     },
     debug:true,
 });
