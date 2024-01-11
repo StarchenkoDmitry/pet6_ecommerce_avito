@@ -21,7 +21,7 @@ export default function Modal({
     const refBack = useRef(null);
 
     const handleClose = (event: any)=>{
-        console.log("EVENT :",event.target)
+        // console.log("EVENT :",event.target)
         if(event.target === refBack.current){
             if(onClose) onClose();
         }
