@@ -39,14 +39,19 @@ export default function Home() {
   console.log("Render Main page");
 
   return (
-    <div className="border-4 border-blue-200 bg-green-100">
+    <div className="border-2 border-blue-200 bg-green-100">
       <Navbar/>
+
       <span>Main page</span>
-      <div className='flex flex-wrap'>
+
+      <h2>Рекомендации для вас</h2>
+
+      <div className='flex flex-wrap justify-around bg-lime-200'>
       {
         list.map(i=>(<ItemView key={i.url} title={i.title} url={i.url}/>))
       }
       </div>
+
     </div>
   )
 }

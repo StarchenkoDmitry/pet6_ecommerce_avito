@@ -1,16 +1,13 @@
 'use client'
 import { useState } from "react";
 
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
 import { categorys } from "@/lib/Categorys";
 import { Search } from "./Search";
 import { Button } from "./buttons/Button";
 
 import Modal2 from "./Modal/Modal";
 
-import { Bars4Icon } from "@heroicons/react/24/solid";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { Bars4Icon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 export interface Props {}
 
@@ -21,9 +18,7 @@ function Navbar(props: Props) {
     const [open,setOpen]= useState(false);
 
     const handleOpen = ()=>{ setOpen(true); }
-
     const handleClose = ()=>{ setOpen(false); }
-
 
     return (
         <div className="p-2 flex bg-green-100">
@@ -42,7 +37,7 @@ function Navbar(props: Props) {
                 open={open}
                 onClose={handleClose}
             >
-                <div className="m-2 p-4 flex rounded-2xl bg-white max-h-80 h-full">
+                <div className="m-4 p-2 flex rounded-2xl bg-white max-h-80 h-full">
 
                     <ul className="">
                     {
@@ -63,7 +58,7 @@ function Navbar(props: Props) {
 
                     <div className='mx-2 w-[1px] bg-slate-200'></div>
 
-                    <div className="p-1">
+                    <div className="">
                         <a 
                             href=""
                             className="p-2 block text-lg rounded-lg hover:text-blue-500 hover:bg-slate-100"
