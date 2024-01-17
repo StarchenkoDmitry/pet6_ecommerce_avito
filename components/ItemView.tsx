@@ -4,17 +4,17 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { addFavorite } from '../lib/actions/favorite';
 import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
+import { Item } from '@prisma/client';
 
+export type fgfg = Item & { favorite: boolean };
 
 export interface Props {
-    id:string;
-    imageId?:string | null;
-    title?:string;
-    favorite?:boolean;
+    // item: Item & { favorite?: boolean };
+    item: fgfg;
 }
 
-function ItemView({id,imageId,title,favorite}: Props) {
-
+function ItemView({item}: Props) {
+    const {id,imageId,lable,price,favorite} = item;
     const imageUrl = imageId ? `/api/image/${imageId}` : "/img/1.jpg";
 
     const itemUrl = `/item/${id}`;
@@ -44,7 +44,7 @@ function ItemView({id,imageId,title,favorite}: Props) {
             </a>
             <div className='flex _flex-wrap _flex-none justify-between'>
                 <a href={"/"} className='p-1 line-clamp-2 break-words text-sm text-blue-500'>
-                    {title}
+                    {lable}
                 </a>
                 <button className='flex-none flex justify-center items-center m-1 w-6 h-6' onClick={handleAdd}>
                 {
@@ -54,7 +54,7 @@ function ItemView({id,imageId,title,favorite}: Props) {
                 }
                 </button>
             </div>
-            <span className='px-1 block text-sm font-medium'>2 800 ₽</span>
+            <span className='px-1 block text-sm font-medium'>{price} ₽</span>
         </div>
     )
 }

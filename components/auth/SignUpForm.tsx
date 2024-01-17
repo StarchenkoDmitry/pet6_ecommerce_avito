@@ -1,40 +1,41 @@
 'use client'
 
-import { FormEvent, useRef } from "react";
+import { registerWithCredentials, signInWithCredentials } from "@/lib/actions/auth";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 
-interface Props {
+function SignUpForm() {
 
-}
+    const [error,setError] = useState("");
+    const [signUping,setSignUping] = useState(false);
 
-function SignUpForm(props: Props) {
-
-    const signing = useRef(false);
+    const router = useRouter();
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
 
-        if(signing.current)return;
-        signing.current = true;
+        if(signUping)return;
+        setSignUping(true);
 
         try {
             const formData = new FormData(event.currentTarget)
-            const response = await fetch('/api/signup', { 
-                method: 'POST',
-                body: formData,
-            })
-        
-            if (!response.ok) {
-                throw new Error('Failed to submit the data. Please try again.')
+            console.log("eventeventevent: ",event);
+
+            const response = await registerWithCredentials(formData);
+            console.log('authenticateWithCredentials response:',response);
+            if(response.registered){
+                const resSignIn = await signInWithCredentials(formData);
+                if(resSignIn.signUp){
+                    router.push("/");
+                }
+            }else{
+                setError(`Error registration ${response.error}`);
             }
-        
-            // Handle response if necessary
-            const data = await response.json()
-            console.log("DATA: ",data);
         } catch (error) {
-            console.error(error);
+            console.log(error);
         } finally {
-            signing.current = false;
+            setSignUping(false);
         }
     }
 
@@ -47,12 +48,14 @@ function SignUpForm(props: Props) {
                         className="my-1 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
                         type="text" 
                         name="login"
-                        placeholder="Phone or email"/>
+                        placeholder="Phone or email"
+                        />
                     <input 
                         className="my-1 py-2 p-1 text-sm rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
                         type="password"
                         name="password" 
-                        placeholder="password" />
+                        placeholder="password"
+                    />
                     <button className="p-1 block text-sm rounded-lg bg-green-400 hover:bg-green-300" type="submit">
                         SignUp
                     </button>
@@ -74,3 +77,13 @@ function SignUpForm(props: Props) {
 }
 
 export default SignUpForm;
+
+
+
+
+            // formData.append("login",event.currentTarget)
+            // const response = await fetch('/api/signup', { 
+            //     method: 'POST',
+            //     body: formData,
+            //     // body:{ dimka:100 }
+            // })

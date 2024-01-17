@@ -19,6 +19,7 @@ function Header(props: Props) {
                     <li><a href="/">Главная</a></li>
                     <li><a href="/about">О нас</a></li>
                     <li><a href="/myitems">Мои объявления</a></li>
+                    <li><a href="/createitem">Разместить объявление</a></li>
                 </ul>
             </nav>
 

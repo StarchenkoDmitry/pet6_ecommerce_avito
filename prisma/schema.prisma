@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,3 +7,89 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
+model User{
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  name String
+  
+  accessTokens    AccessToken[]
+  emailProviders EmailProvider[]
+}
+
+model AccessToken{
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  token       String @unique
+  expiresIn   DateTime 
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+}
+
+model EmailProvider{
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  email     String
+  password  String
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+}
+
+
+
+model MyFavoriteList{
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  myFavorites MyFavorite[]
+}
+
+model MyFavorite{  
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+
+  myFavoriteListId String
+  myFavoriteList MyFavoriteList @relation(fields: [myFavoriteListId],references: [id])
+
+  itemId String
+  item Item @relation(fields: [itemId],references: [id])
+}
+
+
+
+model Item{
+  id        String @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+  
+  lable String
+  price Int
+
+  imageId String?
+  image Image? @relation(fields: [imageId],references: [id])
+
+  myFavorite MyFavorite[]
+}
+
+model Image{
+  id String @id @unique @default(uuid())
+
+  createAt DateTime @default(now())
+
+  type String
+  size Int
+  buffer Bytes
+
+  
+  items Item[]
+}

@@ -16,7 +16,7 @@ export default async function Home() {
 
   let items = await getItemWithFavorite();
 
-  console.log("itemsitemsitems ",items);
+  // console.log("itemsitemsitems ",items);
 
   return (
     <div className="border-2 border-blue-200 bg-green-100">
@@ -31,10 +31,7 @@ export default async function Home() {
       {
         items.map(i=>(<ItemView 
           key={i.id}
-          id={i.id}
-          imageId={i.imageId}
-          title={i.lable} 
-          favorite={i.favorite}
+          item={i}
         />))
       }
       </div>
@@ -67,6 +64,7 @@ export async function getItemWithFavorite() {
           ceatedAt:true,
           updatedAt:true,
 
+          price:true,
           lable:true,
           imageId:true,
 
@@ -80,8 +78,11 @@ export async function getItemWithFavorite() {
         take:MAX_TAKE_ITEM,
       });
 
-      return items.map(({id,imageId,lable,myFavorite})=>({
+      return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,myFavorite})=>({
         id,
+        ceatedAt,
+        updatedAt,
+        price,
         imageId,
         lable,
         favorite: myFavorite.length === 1
