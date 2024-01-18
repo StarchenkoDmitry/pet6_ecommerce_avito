@@ -54,7 +54,7 @@ function ItemBuilder(props: Props) {
             <input 
               className='m-1 p-1 rounded-md bg-gray-200'
               name="price"
-              defaultValue={"50.8"}
+              // defaultValue={"50.8"}
               type="number"
               max={1_000_000_000}
               min={0}

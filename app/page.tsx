@@ -50,10 +50,30 @@ export async function getItemWithFavorite() {
 
   if(session){
     //TODO: доделать код для session
+    // const items = await db.item.findMany({
+    //   take:MAX_TAKE_ITEM,
+    // });
+    // return items.map(i=>({...i,favorite:false}))
+
     const items = await db.item.findMany({
       take:MAX_TAKE_ITEM,
+      include:{
+        myFavorites:{
+          where:{
+            userId:session.user.userId
+          }
+        }
+      }
     });
-    return items.map(i=>({...i,favorite:false}))
+    return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,myFavorites})=>({
+      id,
+      ceatedAt,
+      updatedAt,
+      price,
+      imageId,
+      lable,
+      favorite: myFavorites.length >= 1
+    }));
   }else{
     const myFLId = cookies().get(COOKIE_FAVORITE_KEY)?.value;
 
@@ -68,7 +88,7 @@ export async function getItemWithFavorite() {
           lable:true,
           imageId:true,
 
-          myFavorite:{
+          myTempFavorites:{
             where:{
               myFavoriteListId:myFLId
             },
@@ -78,14 +98,14 @@ export async function getItemWithFavorite() {
         take:MAX_TAKE_ITEM,
       });
 
-      return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,myFavorite})=>({
+      return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,myTempFavorites})=>({
         id,
         ceatedAt,
         updatedAt,
         price,
         imageId,
         lable,
-        favorite: myFavorite.length === 1
+        favorite: myTempFavorites.length >= 1
       }));
     }
     else

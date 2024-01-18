@@ -2,9 +2,8 @@
 
 import { auth } from "@/config/authConfig";
 import { cookies } from 'next/headers';
-import { addFavoriteToMyFavoriteList, createMyFavoriteList } from "../services/favorite.service";
 import { COOKIE_FAVORITE_KEY } from "../constants";
-
+import { addMyFavorite, addTempFavorite, createMyTempFavoriteList } from "../services/favorite.service";
 
 
 export async function addFavorite(itemId:string){
@@ -15,14 +14,18 @@ export async function addFavorite(itemId:string){
         console.log("addFavorite session: ",session);
 
         if(session){
-            throw new Error("need to do code... :D ");
+            if(!session.user.userId){
+                return { error: "failed_userId_is_not_exist" };
+            }else{
+                const favoriteRes = await addMyFavorite(itemId,session.user.userId);
+            }
         }else{
             const myFavoriteListId = await cookies().get(COOKIE_FAVORITE_KEY)?.value;
             if(myFavoriteListId){
-                const res = await addFavoriteToMyFavoriteList(itemId,myFavoriteListId);
+                const res = await addTempFavorite(itemId,myFavoriteListId);
                 return { ok: !!res };
             }else{
-                const newMyFavoriteList = await createMyFavoriteList();
+                const newMyFavoriteList = await createMyTempFavoriteList();
 
                 if(newMyFavoriteList){
                     //save newMyFavoriteListId in cookie
@@ -33,8 +36,7 @@ export async function addFavorite(itemId:string){
                         secure:true,
                         sameSite:"lax",
                     });
-                    
-                    const res = await addFavoriteToMyFavoriteList(itemId,newMyFavoriteList.id);
+                    const res = await addTempFavorite(itemId,newMyFavoriteList.id);
                     console.log("RESSS: ",res);
                     return { ok: !!res };
                 }else{

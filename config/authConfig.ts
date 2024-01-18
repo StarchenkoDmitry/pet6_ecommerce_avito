@@ -1,51 +1,34 @@
 import NextAuth from "next-auth";
-// import { User } from "next-auth";
+
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 // import { SignInWithGitHub } from "lib/db/auth";
+
 import { v4 } from "uuid";
 import db from "@/lib/db";
+import { cookies } from "next/headers";
+import { COOKIE_FAVORITE_KEY } from "@/lib/constants";
+import { transferFavorite } from "@/lib/services/favorite.service";
 
 
-const AUTH_DEBUG = true; 
+const AUTH_DEBUG = false; 
 
 declare module 'next-auth' {
     interface User{
-        // accountId:string
-        // accessToken:string
         // userId:string;
     }
-
     interface Session{
-        // accessToken:string
         user:{
             userId:string;
         }
     }
 }
-
 declare module "@auth/core/jwt" {
     interface JWT {
-        // accountId:string;
-        // accessToken:string;
         userId:string;
     }
 }
-
-// export type User = {
-//     id:string;
-// }
-
-// export type User = {
-//     id: string;
-//     name: string;
-//     email: string;
-//     password: string;
-//     role: 'teacher' | 'student';
-//     image_url: string | null;
-// };
-
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     providers: [ 
@@ -57,51 +40,56 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             // credentials: {
             //     username: { label: "Username", type: "text", placeholder: "jsmith" },
             //     password: { label: "Password", type: "password" }
-            //   },
+            // },
             //functiong for sing in
             async authorize(credentials){
                 if(AUTH_DEBUG)
                 console.log("/authorize:",credentials);
 
-                const {email , password} = credentials;
+                const { email , password } = credentials;
                 if(!email || !password)return null;
-                // return {
-                //     id:"",
-                //     accessToken:"",
-                //     accountId:""
-                // };
-                const res = await db.user.findFirst({
+
+                const userRes = await db.user.findFirst({
                     where:{
                         emailProviders:{
                             some:{
                                 email:email,
-                                password:password,
+                                passwordhash:password,
                             }
                         }
                     }
                 })
-                return res as any;
 
-                // const user : User = { 
-                //     id: v4(),
-                //     email:"",
-                //     image_url:"",
-                //     name:"FDF",
-                //     password:"dgfgfdg",
-                //     role:"student"
-                // };                
-                // return user;
+                if(!userRes)return null;
+
+                // console.log("/authorize cooks:",cooks);
+                const favoriteId = cookies().get(COOKIE_FAVORITE_KEY);
+                console.log("/authorize favoriteId:",favoriteId);
+                if(favoriteId){
+                    //может быть лучще сделать transferFavorite без await
+                    await transferFavorite(favoriteId.value,userRes.id);
+                    cookies().delete(COOKIE_FAVORITE_KEY);
+                }
+
+                const tokenRes = await db.accessToken.create({
+                    data:{
+                        expiresIn: new Date().toISOString(),
+                        token:v4(),
+                        userId:userRes.id,
+                    }
+                });
+                if(!tokenRes)return null;
+
+                return {
+                    ...userRes,
+                    accessToken:tokenRes.token
+                } as any
             }
         })
     ],
     debug:true,
     session:{
         strategy:"jwt",
-        generateSessionToken() {
-            const tok = "dimkaTOK_"+v4();
-            console.log("/generateSessionToken:",tok);
-            return tok;
-        },
     },
     secret:"1997",
     callbacks: {
@@ -122,6 +110,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             
             if(trigger === "signIn"){
                 token.userId = user.id;
+                token.accessToken = user.accessToken;
             }
             
             return token;

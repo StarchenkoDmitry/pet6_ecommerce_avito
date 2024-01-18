@@ -6,7 +6,7 @@ import db from "../db";
 export async function registerWithCredentials(formData: FormData){
     console.log("registerWithCredentials formData: ",formData);
 
-    const email = formData.get('login');
+    const email = formData.get('email');
     const password = formData.get('password');
 
     if(typeof email !== "string" || typeof password !== "string"){
@@ -41,7 +41,7 @@ export async function registerWithCredentials(formData: FormData){
             const emailProviderCreated = await ts.emailProvider.create({
                 data:{
                     email:email,
-                    password:password,
+                    passwordhash:password,
                     userId:userCreated.id
                 }
             });
@@ -68,7 +68,7 @@ export async function registerWithCredentials(formData: FormData){
 export async function signInWithCredentials(formData: FormData){
     console.log("signInWithCredentials formData: ", formData);
 
-    const email = formData.get('login');
+    const email = formData.get('email');
     const password = formData.get('password');
 
     if(typeof email !== "string" || typeof password !== "string"){

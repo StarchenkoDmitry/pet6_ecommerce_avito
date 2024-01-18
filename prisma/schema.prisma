@@ -15,9 +15,11 @@ model User{
   updatedAt DateTime @updatedAt()
 
   name String
+  surname String?
   
   accessTokens    AccessToken[]
   emailProviders EmailProvider[]
+  myFavorites MyFavorite[]
 }
 
 model AccessToken{
@@ -37,8 +39,8 @@ model EmailProvider{
   ceatedAt  DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  email     String
-  password  String
+  email         String
+  passwordhash  String
 
   userId String
   user User @relation(fields: [userId],references: [id])
@@ -46,25 +48,43 @@ model EmailProvider{
 
 
 
-model MyFavoriteList{
-  id        String   @id @default(uuid())
-  ceatedAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+// model MyFavoriteList{
+//   id        String   @id @default(uuid())
+//   ceatedAt  DateTime @default(now())
+//   updatedAt DateTime @updatedAt()
 
-  myFavorites MyFavorite[]
-}
-
+//   myFavorites MyFavorite[]
+// }
 model MyFavorite{  
   id        String   @id @default(uuid())
   ceatedAt  DateTime @default(now())
 
-  myFavoriteListId String
-  myFavoriteList MyFavoriteList @relation(fields: [myFavoriteListId],references: [id])
+  userId String
+  user User @relation(fields: [userId],references: [id])
 
   itemId String
   item Item @relation(fields: [itemId],references: [id])
 }
 
+
+model MyTempFavoriteList{
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  myFavorites MyTempFavorite[]
+}
+
+model MyTempFavorite{  
+  id        String   @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+
+  myFavoriteListId String
+  myFavoriteList MyTempFavoriteList @relation(fields: [myFavoriteListId],references: [id])
+
+  itemId String
+  item Item @relation(fields: [itemId],references: [id])
+}
 
 
 model Item{
@@ -78,7 +98,8 @@ model Item{
   imageId String?
   image Image? @relation(fields: [imageId],references: [id])
 
-  myFavorite MyFavorite[]
+  myFavorites MyFavorite[]
+  myTempFavorites MyTempFavorite[]
 }
 
 model Image{

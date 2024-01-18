@@ -20,7 +20,7 @@ function SignUpForm() {
 
         try {
             const formData = new FormData(event.currentTarget)
-            console.log("eventeventevent: ",event);
+            // console.log("eventeventevent: ",event);
 
             const response = await registerWithCredentials(formData);
             console.log('authenticateWithCredentials response:',response);
@@ -47,7 +47,7 @@ function SignUpForm() {
                     <input 
                         className="my-1 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
                         type="text" 
-                        name="login"
+                        name="email"
                         placeholder="Phone or email"
                         />
                     <input 
