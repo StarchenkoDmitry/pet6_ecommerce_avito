@@ -6,6 +6,7 @@ import db from '@/lib/db';
 import { COOKIE_FAVORITE_KEY } from '@/lib/constants';
 import { cookies } from 'next/headers';
 import ItemView from '@/components/ItemView';
+import FavoriteItem from '@/components/favorite/FavoriteItem';
 
 
 export default async function Home() {
@@ -20,7 +21,7 @@ export default async function Home() {
         <h2 className='m-1'>My favorites</h2>
         <div className='flex flex-wrap justify-between _justify-around bg-lime-200'>
         {
-          items.map(i=>(<ItemView 
+          items.map(i=>(<FavoriteItem 
             key={i.id}
             item={i}
           />))
