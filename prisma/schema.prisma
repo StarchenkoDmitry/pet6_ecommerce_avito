@@ -19,7 +19,8 @@ model User{
   
   accessTokens    AccessToken[]
   emailProviders EmailProvider[]
-  myFavorites MyFavorite[]
+  favorites Favorite[]
+  items Item[]
 }
 
 model AccessToken{
@@ -47,15 +48,7 @@ model EmailProvider{
 }
 
 
-
-// model MyFavoriteList{
-//   id        String   @id @default(uuid())
-//   ceatedAt  DateTime @default(now())
-//   updatedAt DateTime @updatedAt()
-
-//   myFavorites MyFavorite[]
-// }
-model MyFavorite{  
+model Favorite{  
   id        String   @id @default(uuid())
   ceatedAt  DateTime @default(now())
 
@@ -67,20 +60,20 @@ model MyFavorite{
 }
 
 
-model MyTempFavoriteList{
+model TempFavoriteList{
   id        String   @id @default(uuid())
   ceatedAt  DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  myFavorites MyTempFavorite[]
+  tempFavorites TempFavorite[]
 }
 
-model MyTempFavorite{  
+model TempFavorite{  
   id        String   @id @default(uuid())
   ceatedAt  DateTime @default(now())
 
-  myFavoriteListId String
-  myFavoriteList MyTempFavoriteList @relation(fields: [myFavoriteListId],references: [id])
+  tempFavoriteListId String
+  tempFavoriteList TempFavoriteList @relation(fields: [tempFavoriteListId],references: [id])
 
   itemId String
   item Item @relation(fields: [itemId],references: [id])
@@ -98,8 +91,11 @@ model Item{
   imageId String?
   image Image? @relation(fields: [imageId],references: [id])
 
-  myFavorites MyFavorite[]
-  myTempFavorites MyTempFavorite[]
+  userId String?
+  user User? @relation(fields: [userId],references: [id])
+
+  favorites Favorite[]
+  tempFavorites TempFavorite[]
 }
 
 model Image{
@@ -111,6 +107,5 @@ model Image{
   size Int
   buffer Bytes
 
-  
   items Item[]
 }

@@ -17,12 +17,13 @@ const AUTH_DEBUG = false;
 declare module 'next-auth' {
     interface User{
         // userId:string;
+        accessToken:string;
     }
-    interface Session{
+    interface Session{  
         user:{
             userId:string;
         }
-    }
+    }   
 }
 declare module "@auth/core/jwt" {
     interface JWT {
@@ -87,6 +88,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
         })
     ],
+    //TODO: когда буду выкладывать проект нужно обязательно удалить эту строчку trustHost:true
+    trustHost:true,//[auth][error] UntrustedHost: Host must be trusted. URL was: http://127.0.0.1:3000/ .Read more at https://errors.authjs.dev#untrustedhost
     debug:true,
     session:{
         strategy:"jwt",

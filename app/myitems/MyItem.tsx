@@ -1,27 +1,32 @@
 'use client'
 
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
-import Image from 'next/image';
-import { addFavorite } from '../lib/actions/favorite';
 import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
 import { Item } from '@prisma/client';
-
-
-export type ItemAndFavorite = Item & { favorite: boolean };
+import { useState } from 'react';
+import { changeFavorite } from '@/lib/actions/favorite';
 
 export interface Props {
-    item: ItemAndFavorite;
+    item: Item;
 }
 
-function ItemView({item}: Props) {
-    const {id,imageId,lable,price,favorite} = item;
+function MyItem({item}: Props) {
+    const { id, imageId, lable, price } = item;
+
     const imageUrl = imageId ? `/api/image/${imageId}` : "/img/1.jpg";
-    
     const itemUrl = `/item/${id}`;
 
-    const handleAdd = async ()=>{
-        const res = await addFavorite(id);
-        console.log("handleAdd",res);
+    const [isFavorite,setIsFavorite] = useState(true);
+    const [changing,setChanging] = useState(false);
+
+    const handelChange = async ()=>{
+        if(changing)return;
+        setChanging(true);
+        changeFavorite(id).then((changed)=>{
+            setChanging(false);
+            if(changed)
+            setIsFavorite((prev)=>!prev);
+        })
     }
 
     return (
@@ -39,27 +44,10 @@ function ItemView({item}: Props) {
                 <a href={"/"} className='p-1 line-clamp-2 break-words text-sm text-blue-500'>
                     {lable}
                 </a>
-                <button className='flex-none flex justify-center items-center m-1 w-6 h-6' onClick={handleAdd}>
-                {
-                    favorite ?
-                    <HeartIconSolid className='flex-none m-1 w-6 h-6 text-rose-500'/> :
-                    <HeartIconOutLine className='flex-none m-1 w-6 h-6 text-sky-300'/>   
-                }
-                </button>
             </div>
             <span className='px-1 block text-sm font-medium'>{price} ₽</span>
         </div>
     )
 }
 
-export default ItemView;
-
-
-
-                {/* <Image
-                    className="w-[250px] h-[200px] object-cover"
-                    src={imageUrl}
-                    alt="item"
-                    width={50}
-                    height={250}
-                /> */}
+export default MyItem;

@@ -36,14 +36,14 @@ export default async function Home() {
 
 const MAX_TAKE_ITEM = 16;
 
-export async function getMyFavoriteItems() {
+async function getMyFavoriteItems() {
   const session = await auth();
   
   if(session){
     const items = await db.item.findMany({
       take:MAX_TAKE_ITEM,
       where:{
-        myFavorites:{
+        favorites:{
           some:{
             userId:session.user.userId
           }
@@ -58,9 +58,9 @@ export async function getMyFavoriteItems() {
       const items = await db.item.findMany({
         take:MAX_TAKE_ITEM,
         where:{
-          myTempFavorites:{
+          tempFavorites:{
             some:{
-              myFavoriteListId:myFLId
+              tempFavoriteListId:myFLId
             }
           }
         }
@@ -71,6 +71,4 @@ export async function getMyFavoriteItems() {
     }
   }
 }
-
-
 

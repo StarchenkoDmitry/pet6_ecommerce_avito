@@ -16,8 +16,6 @@ export default async function Home() {
 
   let items = await getItemWithFavorite();
 
-  // console.log("itemsitemsitems ",items);
-
   return (
     <div className="border-2 border-blue-200 bg-green-100">
       <Navbar/>
@@ -45,39 +43,34 @@ export default async function Home() {
 
 const MAX_TAKE_ITEM = 16;
 
-export async function getItemWithFavorite() {
+async function getItemWithFavorite() {
   const session = await auth();
 
   if(session){
-    //TODO: доделать код для session
-    // const items = await db.item.findMany({
-    //   take:MAX_TAKE_ITEM,
-    // });
-    // return items.map(i=>({...i,favorite:false}))
-
     const items = await db.item.findMany({
       take:MAX_TAKE_ITEM,
       include:{
-        myFavorites:{
+        favorites:{
           where:{
             userId:session.user.userId
           }
         }
       }
     });
-    return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,myFavorites})=>({
+    return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,userId,favorites})=>({
       id,
       ceatedAt,
       updatedAt,
       price,
       imageId,
+      userId,
       lable,
-      favorite: myFavorites.length >= 1
+      favorite: favorites.length >= 1
     }));
   }else{
-    const myFLId = cookies().get(COOKIE_FAVORITE_KEY)?.value;
+    const tempFLId = cookies().get(COOKIE_FAVORITE_KEY)?.value;
 
-    if(myFLId){
+    if(tempFLId){
       const items = await db.item.findMany({
         select:{
           id:true,
@@ -87,10 +80,11 @@ export async function getItemWithFavorite() {
           price:true,
           lable:true,
           imageId:true,
+          userId:true,
 
-          myTempFavorites:{
+          tempFavorites:{
             where:{
-              myFavoriteListId:myFLId
+              tempFavoriteListId:tempFLId
             },
             take:1
           }
@@ -98,14 +92,15 @@ export async function getItemWithFavorite() {
         take:MAX_TAKE_ITEM,
       });
 
-      return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,myTempFavorites})=>({
+      return items.map(({id,ceatedAt,updatedAt,price,imageId,lable,userId,tempFavorites})=>({
         id,
         ceatedAt,
         updatedAt,
         price,
         imageId,
+        userId,
         lable,
-        favorite: myTempFavorites.length >= 1
+        favorite: tempFavorites.length >= 1
       }));
     }
     else

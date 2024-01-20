@@ -9,6 +9,7 @@ import Modal2 from "./Modal/Modal";
 
 import { Bars4Icon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
+
 export interface Props {}
 
 function Navbar(props: Props) {
@@ -86,6 +87,17 @@ function Navbar(props: Props) {
                     
                 </div>
             </Modal2>
+        </div>
+    )
+}
+
+export default Navbar
+
+
+
+
+
+
             
             {/* <Modal
                 // hideBackdrop
@@ -139,11 +151,10 @@ function Navbar(props: Props) {
                     </div>
                 </Box>
             </Modal> */}
-        </div>
-    )
-}
 
-export default Navbar
+
+
+
 
 
 

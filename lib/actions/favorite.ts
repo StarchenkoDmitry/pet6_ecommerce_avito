@@ -71,18 +71,18 @@ export async function changeFavorite(itemId:string){
 
         if(session){
             const res = await db.$transaction(async(ts)=>{
-                const currentFavorite = await ts.myFavorite.findFirst({
+                const currentFavorite = await ts.favorite.findFirst({
                     where:{
                         itemId:itemId,
                         userId:session.user.userId
                     }
                 });
                 if(currentFavorite){
-                    await ts.myFavorite.delete({
+                    await ts.favorite.delete({
                         where:{ id:currentFavorite.id }
                     });
                 }else{
-                    await db.myFavorite.create({
+                    await db.favorite.create({
                         data:{
                             itemId:itemId,
                             userId:session.user.userId,
@@ -92,43 +92,43 @@ export async function changeFavorite(itemId:string){
             });
             return true;
         }else{
-            const myFavoriteListId = await cookies().get(COOKIE_FAVORITE_KEY)?.value;
-            if(myFavoriteListId){
+            const tempFavoriteListId = await cookies().get(COOKIE_FAVORITE_KEY)?.value;
+            if(tempFavoriteListId){
                 const res = await db.$transaction(async(ts)=>{
-                    const currentTempFavorite = await ts.myTempFavorite.findFirst({
+                    const currentTempFavorite = await ts.tempFavorite.findFirst({
                         where:{
                             itemId:itemId,
-                            myFavoriteListId:myFavoriteListId
+                            tempFavoriteListId:tempFavoriteListId
                         }
                     });
                     if(currentTempFavorite){
-                        await ts.myTempFavorite.delete({
+                        await ts.tempFavorite.delete({
                             where:{ id:currentTempFavorite.id }
                         });
                     }else{
-                        await db.myTempFavorite.create({
+                        await db.tempFavorite.create({
                             data:{
                                 itemId:itemId,
-                                myFavoriteListId:myFavoriteListId
+                                tempFavoriteListId:tempFavoriteListId
                             }
                         });
                     }
                 });
                 return true;
             }else{
-                const newMyFavoriteList = await createMyTempFavoriteList();
-                if(!newMyFavoriteList) return false;
+                const newTempFavoriteList = await createMyTempFavoriteList();
+                if(!newTempFavoriteList) return false;
                 
-                //save newMyFavoriteListId in cookie
+                //save newTempFavoriteList in cookie
                 await cookies().set({
                     name:COOKIE_FAVORITE_KEY,
-                    value:newMyFavoriteList.id,
+                    value:newTempFavoriteList.id,
                     httpOnly:true,
                     secure:true,
                     sameSite:"lax",
                 });
 
-                const res = await addTempFavorite(itemId,newMyFavoriteList.id);
+                const res = await addTempFavorite(itemId,newTempFavoriteList.id);
                 return !!res;
             }
         }

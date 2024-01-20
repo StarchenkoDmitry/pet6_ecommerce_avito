@@ -1,11 +1,11 @@
-import { MyFavorite, MyTempFavorite, MyTempFavoriteList } from "@prisma/client";
+import { Favorite, TempFavorite, TempFavoriteList } from "@prisma/client";
 import db from "../db";
 
 
 export async function createMyTempFavoriteList(
-):Promise<MyTempFavoriteList | undefined>{
+):Promise<TempFavoriteList | undefined>{
     try {
-        const res = await db.myTempFavoriteList.create({
+        const res = await db.tempFavoriteList.create({
             data:{}
         });
         return res;
@@ -18,13 +18,13 @@ export async function createMyTempFavoriteList(
 //ToMyTempFavoriteList
 export async function addTempFavorite(
     itemId:string,
-    myFavoriteListId:string
-):Promise<MyTempFavorite | undefined>{
+    tempFavoriteListId:string
+):Promise<TempFavorite | undefined>{
     try {
-        const res = await db.myTempFavorite.create({
+        const res = await db.tempFavorite.create({
             data:{
                 itemId:itemId,
-                myFavoriteListId:myFavoriteListId,
+                tempFavoriteListId:tempFavoriteListId,
             }
         });
         return res;
@@ -37,9 +37,9 @@ export async function addTempFavorite(
 export async function addMyFavorite(
     itemId:string,
     userId:string
-):Promise<MyFavorite | undefined>{
+):Promise<Favorite | undefined>{
     try {
-        const res = await db.myFavorite.create({
+        const res = await db.favorite.create({
             data:{
                 itemId:itemId,
                 userId:userId,
@@ -56,32 +56,32 @@ export async function addMyFavorite(
 const TRANSFER_MAX_FAVORITE = 1024;
 
 export async function transferFavorite(
-    myTempFavoriteListId:string,
+    tempFavoriteListId:string,
     userId:string
 ):Promise<boolean>{
-    console.log("service transferFavorite:",myTempFavoriteListId,userId);
+    console.log("service transferFavorite:",tempFavoriteListId,userId);
     try {
         const resTrans = await db.$transaction(async(ts)=>{
-            const myTFIds = await ts.myTempFavorite.findMany({
+            const myTFIds = await ts.tempFavorite.findMany({
                 where:{
-                    myFavoriteListId:myTempFavoriteListId
+                    tempFavoriteListId:tempFavoriteListId
                 },
                 take:TRANSFER_MAX_FAVORITE
             });
-            await ts.myFavorite.createMany({
+            await ts.favorite.createMany({
                 data:myTFIds.map(i=>({
                     userId:userId,
                     itemId:i.itemId
                 }))
             });
-            await ts.myTempFavorite.deleteMany({
+            await ts.tempFavorite.deleteMany({
                 where:{
-                    myFavoriteListId:myTempFavoriteListId
+                    tempFavoriteListId:tempFavoriteListId
                 }
             });
-            await ts.myTempFavoriteList.delete({
+            await ts.tempFavoriteList.delete({
                 where:{
-                    id:myTempFavoriteListId
+                    id:tempFavoriteListId
                 }
             });
             return "NICE";
