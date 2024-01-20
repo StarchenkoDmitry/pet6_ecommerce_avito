@@ -2,11 +2,18 @@
 
 import { File } from "buffer";
 import db from "../db";
+import { convertByHeight } from "../image/converter";
+
+
+const MAX_WIDTH_IMAGE_LEVEL_0 = 100;
+const MAX_WIDTH_IMAGE_LEVEL_1 = 256;
+const MAX_WIDTH_IMAGE_LEVEL_2 = 512;
 
 
 const MAX_SIZE_IMAGE = 1024*1024*8;//8MiB
 
-export async function createItem(formData: FormData){   
+
+export async function createItem(formData: FormData){
     console.log("createItem");
 
     try {
@@ -18,7 +25,7 @@ export async function createItem(formData: FormData){
             typeof lable !== "string" ||
             typeof price !== "string"
         ){
-            return {error:"no corect data"}
+            return {error:"no corect data"};
         }
 
         // check file on type of image/*
@@ -31,9 +38,15 @@ export async function createItem(formData: FormData){
 
         if(imageExist){
             buffer = Buffer.from(await file.arrayBuffer());
+            buffer = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
+
+            console.log('bufferbufferbuffer', typeof buffer);
+            if(!buffer){
+                return {error:"failed_convert_image"};
+            }
 
             if(buffer.byteLength > MAX_SIZE_IMAGE){
-                return {error:`a file is larger than 8MiB`};
+                return {error:"a file is larger than 8MiB"};
             }
         }
         
@@ -67,6 +80,7 @@ export async function createItem(formData: FormData){
         
         return { statusOk: !!itemRes };
     } catch (error) {
+        console.log('bufferbufferbuffer',error);
         return { error:"error" };
     }
 }
