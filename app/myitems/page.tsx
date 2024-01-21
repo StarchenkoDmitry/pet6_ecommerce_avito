@@ -10,14 +10,10 @@ export default async function Home() {
   
   const session = await auth();
 
-  if(session?.user){
+  if(session){
     const items = await db.item.findMany({
       where:{
-        favorites:{
-          some:{
-            userId:session.user.userId
-          }
-        }
+        userId:session.user.userId
       }
     });
 
@@ -33,8 +29,8 @@ export default async function Home() {
     )
   }else{
     return (
-      <div className="border-2 border-blue-200 bg-green-100">
-        <span>Зарегистрируйтесь</span>
+      <div className="p-2 bg-gray-50 rounded-lg">
+        <span className='mx-1 text-xl'>Зарегистрируйтесь</span>
       </div>
     )
   } 

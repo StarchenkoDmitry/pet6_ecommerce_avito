@@ -65,7 +65,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
                 // console.log("/authorize cooks:",cooks);
                 const favoriteId = cookies().get(COOKIE_FAVORITE_KEY);
-                console.log("/authorize favoriteId:",favoriteId);
+                // console.log("/authorize favoriteId:",favoriteId);
                 if(favoriteId){
                     //может быть лучще сделать transferFavorite без await
                     await transferFavorite(favoriteId.value,userRes.id);

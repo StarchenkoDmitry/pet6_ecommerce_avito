@@ -3,7 +3,7 @@ import { signIn } from "@/config/authConfig";
 import db from "../db";
 
 
-export async function registerWithCredentials(formData: FormData){
+export async function registerWithCredentials(formData: FormData, dosingIn:boolean = true){
     console.log("registerWithCredentials formData: ",formData);
 
     const email = formData.get('email');
@@ -52,6 +52,11 @@ export async function registerWithCredentials(formData: FormData){
 
             return userCreated;
         });
+
+        if(dosingIn){
+            await signInWithCredentials(formData);
+        }
+
         return {
             registered:true,
             userId: resRegistered.id
@@ -85,7 +90,7 @@ export async function signInWithCredentials(formData: FormData){
             password: password,
             redirect:false,
         });
-        console.log("resSingIn: ",resSingIn);
+        // console.log("resSingIn: ",resSingIn);//example resSingIn:  http://127.0.0.1:3000/createitem
         return {
             signUp:true
         }

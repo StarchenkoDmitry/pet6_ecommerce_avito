@@ -3,9 +3,10 @@
 import { useState } from "react";
 
 import Modal from "../ui/Modal/Modal";
-import SignUpForm from "../auth/SignUpForm";
+import SignUpForm from "../auth/SignUpFormOld";
 
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import AuthForm from "../auth/AuthForm";
 
 
 export interface Props {}
@@ -25,7 +26,7 @@ function HeaderSignIn({}: Props) {
             
             <Modal className="flex justify-center items-center bg-[rgba(0,0,0,0.5)]" open={open} onClose={handleClose}>
                 <div className="relative">
-                    <SignUpForm/>
+                    <AuthForm/>
                     <button className="absolute right-[-48px] top-[-48px] _top-0 rounded-full hover:bg-[rgba(255,255,255,0.5)]"
                         onClick={handleClose}
                     >
