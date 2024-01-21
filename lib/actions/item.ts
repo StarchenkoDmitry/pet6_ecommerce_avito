@@ -41,37 +41,41 @@ export async function createItem(formData: FormData){
             file instanceof File && 
             file.type.includes("image/");
         
-        let buffer: Buffer | undefined = undefined;
-        let buffer0: Buffer | undefined = undefined;
-        let buffer1: Buffer | undefined = undefined;
-        let buffer2: Buffer | undefined = undefined;
+        if(!imageExist){
+            return {error: "a file is not a image"};
+        }
 
-        if(imageExist){
-            buffer = Buffer.from(await file.arrayBuffer());
-            buffer0 = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
-            buffer1 = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_1);
-            buffer2 = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_2);
+        if(file.size >= MAX_SIZE_IMAGE){
+            return {error:"a file is larger than 8MiB"};
+        }
 
-            console.log('bufferbufferbuffer', typeof buffer);
-            if(!buffer0 || !buffer1 || !buffer2){
-                return {error:"failed_convert_image"};
-            }
-
-            if(buffer.byteLength > MAX_SIZE_IMAGE){
-                return {error:"a file is larger than 8MiB"};
-            }
-        }else return;
+        let buffer: Buffer = Buffer.from(await file.arrayBuffer());
+        let buffer0: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
+        let buffer1: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_1);
+        let buffer2: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_2);
         
+        if(!buffer0 || !buffer1 || !buffer2){
+            return {error:"failed_convert_image"};
+        }
+        
+        if(
+            buffer0.byteLength >= MAX_SIZE_IMAGE ||
+            buffer1.byteLength >= MAX_SIZE_IMAGE ||
+            buffer2.byteLength >= MAX_SIZE_IMAGE
+        ){
+            return {error:"a converted file is larger than 8MiB"};
+        }
+
         const itemRes = await db.$transaction(async(ctx)=>{
             if(imageExist && buffer){
                 const imageRes = await db.itemImage.create({
                     data:{
                         size: buffer.byteLength,
                         buffer: buffer,
-                        buffer0:buffer0,
-                        buffer1:buffer1,
-                        buffer2:buffer2,
-                        size0:0,
+                        buffer0:buffer0 as Buffer,
+                        buffer1:buffer1 as Buffer,
+                        buffer2:buffer2 as Buffer,
+                        size0:buffer0.byteLength,
                         size1:0,
                         size2:0,
                     }
