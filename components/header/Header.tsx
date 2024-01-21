@@ -2,11 +2,18 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { BellIcon, HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 import HeaderSignIn from "./HeaderSignIn";
 import Link from "next/link";
+import { auth } from "@/config/authConfig";
+import HeaderAccount from "./HeaderAccount";
 
 
 export interface Props {}
 
-function Header(props: Props) {
+async function Header(props: Props) {
+    console.log("Render Header");
+    
+    const session = await auth();
+    
+
     return (
         <div className="p-2 flex items-center">
             <div className="p-2">
@@ -39,6 +46,7 @@ function Header(props: Props) {
                 </a>
 
                 <HeaderSignIn/>
+                {/* <HeaderAccount/> */}
             </div>
         </div>
     )

@@ -1,17 +1,12 @@
 'use client'
 
 import { useState } from "react";
-
-import Modal from "../ui/Modal/Modal";
-import SignUpForm from "../auth/SignUpFormOld";
-
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import Modal from "../ui/Modal/Modal";
 import AuthForm from "../auth/AuthForm";
 
 
-export interface Props {}
-
-function HeaderSignIn({}: Props) {
+function HeaderSignIn() {
 
     const [open,setOpen]= useState(false);
 
@@ -37,5 +32,4 @@ function HeaderSignIn({}: Props) {
         </>
     )
 }
-
 export default HeaderSignIn;
