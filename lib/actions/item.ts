@@ -2,7 +2,7 @@
 
 import { File } from "buffer";
 import db from "../db";
-import { convertByHeight } from "../image/converter";
+import { checkMaxAspectRation, convertByHeight } from "../image/converter";
 
 
 
@@ -14,7 +14,8 @@ const MAX_WIDTH_IMAGE_LEVEL_0 = 100;
 const MAX_WIDTH_IMAGE_LEVEL_1 = 256;
 const MAX_WIDTH_IMAGE_LEVEL_2 = 512;
 
-const MAX_K_WIDTH_HEIGHT = 10;
+// aspect ratio
+const MAX_ASPECT_RATION = 5;
 
 
 const MAX_SIZE_IMAGE = 1024*1024*8;//8MiB
@@ -36,48 +37,50 @@ export async function createItem(formData: FormData){
         }
 
         // check file on type of image/*
-        const imageExist = 
+        const fileIsImage = 
             typeof file === "object" && 
             file instanceof File && 
             file.type.includes("image/");
         
-        if(!imageExist){
-            return {error: "a file is not a image"};
-        }
+        if(fileIsImage){
+            if(file.size >= MAX_SIZE_IMAGE){
+                return {error:"a file is larger than 8MiB"};
+            }
+    
+            const buffer: Buffer = Buffer.from(await file.arrayBuffer());
 
-        if(file.size >= MAX_SIZE_IMAGE){
-            return {error:"a file is larger than 8MiB"};
-        }
+            if(!(await checkMaxAspectRation(buffer,MAX_ASPECT_RATION))){
+                return {error:`max aspect ration ${MAX_ASPECT_RATION}`};
+            }
 
-        let buffer: Buffer = Buffer.from(await file.arrayBuffer());
-        let buffer0: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
-        let buffer1: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_1);
-        let buffer2: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_2);
-        
-        if(!buffer0 || !buffer1 || !buffer2){
-            return {error:"failed_convert_image"};
-        }
-        
-        if(
-            buffer0.byteLength >= MAX_SIZE_IMAGE ||
-            buffer1.byteLength >= MAX_SIZE_IMAGE ||
-            buffer2.byteLength >= MAX_SIZE_IMAGE
-        ){
-            return {error:"a converted file is larger than 8MiB"};
-        }
+            const buffer0: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
+            const buffer1: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_1);
+            const buffer2: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_2);
+            
+            if(!buffer0 || !buffer1 || !buffer2){
+                return {error:"failed convert image"};
+            }
+            
+            if(
+                buffer0.byteLength >= MAX_SIZE_IMAGE ||
+                buffer1.byteLength >= MAX_SIZE_IMAGE ||
+                buffer2.byteLength >= MAX_SIZE_IMAGE
+            ){
+                return {error:"a converted file is larger than 8MiB"};
+            }
 
-        const itemRes = await db.$transaction(async(ctx)=>{
-            if(imageExist && buffer){
+            const itemRes = await db.$transaction(async(ctx)=>{
                 const imageRes = await db.itemImage.create({
                     data:{
-                        size: buffer.byteLength,
                         buffer: buffer,
-                        buffer0:buffer0 as Buffer,
-                        buffer1:buffer1 as Buffer,
-                        buffer2:buffer2 as Buffer,
+                        size: buffer.byteLength,
+
+                        buffer0:buffer0,
+                        buffer1:buffer1,
+                        buffer2:buffer2,
                         size0:buffer0.byteLength,
-                        size1:0,
-                        size2:0,
+                        size1:buffer1.byteLength,
+                        size2:buffer2.byteLength,
                     }
                 })
                 const itemRes = await ctx.item.create({
@@ -88,7 +91,10 @@ export async function createItem(formData: FormData){
                     }
                 })
                 return itemRes;
-            }else{
+            });
+            return { statusOk: !!itemRes };
+        }else{
+            const itemRes = await db.$transaction(async(ctx)=>{
                 const itemRes = await ctx.item.create({
                     data:{
                         lable:lable,
@@ -96,15 +102,118 @@ export async function createItem(formData: FormData){
                     }
                 })
                 return itemRes;
-            }
-        });
-        
-        return { statusOk: !!itemRes };
+            });
+            return { statusOk: !!itemRes };
+        }        
     } catch (error) {
-        console.log('bufferbufferbuffer',error);
+        console.log('Action createItem error:',error);
         return { error:"error" };
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export async function createItem(formData: FormData){
+//     console.log("createItem");
+
+//     try {
+//         const lable = formData.get("lable");
+//         const price = formData.get("price");
+//         const file = formData.get("file");
+        
+//         if(
+//             typeof lable !== "string" ||
+//             typeof price !== "string"
+//         ){
+//             return {error:"no corect data"};
+//         }
+
+//         // check file on type of image/*
+//         const imageExist = 
+//             typeof file === "object" && 
+//             file instanceof File && 
+//             file.type.includes("image/");
+        
+//         if(!imageExist){
+//             return {error: "a file is not a image"};
+//         }
+
+//         if(file.size >= MAX_SIZE_IMAGE){
+//             return {error:"a file is larger than 8MiB"};
+//         }
+
+//         let buffer: Buffer = Buffer.from(await file.arrayBuffer());
+//         let buffer0: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
+//         let buffer1: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_1);
+//         let buffer2: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_2);
+        
+//         if(!buffer0 || !buffer1 || !buffer2){
+//             return {error:"failed_convert_image"};
+//         }
+        
+//         if(
+//             buffer0.byteLength >= MAX_SIZE_IMAGE ||
+//             buffer1.byteLength >= MAX_SIZE_IMAGE ||
+//             buffer2.byteLength >= MAX_SIZE_IMAGE
+//         ){
+//             return {error:"a converted file is larger than 8MiB"};
+//         }
+
+//         const itemRes = await db.$transaction(async(ctx)=>{
+//             if(imageExist && buffer){
+//                 const imageRes = await db.itemImage.create({
+//                     data:{
+//                         size: buffer.byteLength,
+//                         buffer: buffer,
+//                         buffer0:buffer0 as Buffer,
+//                         buffer1:buffer1 as Buffer,
+//                         buffer2:buffer2 as Buffer,
+//                         size0:buffer0.byteLength,
+//                         size1:0,
+//                         size2:0,
+//                     }
+//                 })
+//                 const itemRes = await ctx.item.create({
+//                     data:{
+//                         lable:lable,
+//                         price:parseInt(price),
+//                         imageId:imageRes.id,
+//                     }
+//                 })
+//                 return itemRes;
+//             }else{
+//                 const itemRes = await ctx.item.create({
+//                     data:{
+//                         lable:lable,
+//                         price:parseInt(price),
+//                     }
+//                 })
+//                 return itemRes;
+//             }
+//         });
+        
+//         return { statusOk: !!itemRes };
+//     } catch (error) {
+//         console.log('bufferbufferbuffer',error);
+//         return { error:"error" };
+//     }
+// }
 
 
 

@@ -90,6 +90,7 @@ model Item{
   
   lable String
   price Int
+  description String?
 
   imageId String?
   image ItemImage? @relation(fields: [imageId],references: [id])

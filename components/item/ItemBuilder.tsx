@@ -37,7 +37,7 @@ function ItemBuilder(props: Props) {
           method="POST"
           onSubmit={handleSubmit}
         >
-            <label className='m-1 mb-0 text-black' htmlFor="">Lable</label>
+            <label className='m-1 mx-2 mb-0 text-black' htmlFor="">Lable</label>
             <input
               className='m-1 p-1 rounded-md placeholder-gray-600 bg-gray-200'
               name='lable'
@@ -45,16 +45,17 @@ function ItemBuilder(props: Props) {
               placeholder='write a title'
             />
             <input 
-              className='m-1 p-1 '
+              className='m-1 p-1'
               name="file"
               type="file"
               accept="image/*"
             />
-            <label className='m-1 mb-0 text-black' htmlFor="">Price</label>
+            <label className='m-1 mx-2 mb-0 text-black' htmlFor="">Price</label>
             <input 
               className='m-1 p-1 rounded-md bg-gray-200'
               name="price"
-              // defaultValue={"50.8"}
+              // defaultValue={"50.99"}
+              defaultValue={0}
               type="number"
               max={1_000_000_000}
               min={0}

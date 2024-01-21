@@ -39,7 +39,19 @@ export async function convertByHeight(imageBuffer:Buffer,maxHeight:number) {
     }
 }
 
-
+export async function checkMaxAspectRation(imageBuffer:Buffer,ration:number) {
+    try {
+        const meta = await sharp(imageBuffer,{
+            limitInputPixels:MAX_PIXELS
+        }).metadata();
+        if(!meta.width || !meta.height)return false;
+        const r1 = meta.width / meta.height;
+        const r2 = meta.height / meta.width;
+        return r1 <= ration && r2 <= ration;
+    } catch (error) {
+        return false;
+    }
+}
 
 
 
