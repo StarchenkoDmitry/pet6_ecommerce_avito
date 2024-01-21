@@ -16,7 +16,7 @@ export interface Props {
 function ItemView({item}: Props) {
     const {id,imageId,lable,price,favorite} = item;
     const imageUrl = imageId ? `/api/image/${imageId}` : "/img/1.jpg";
-    
+
     const itemUrl = `/item/${id}`;
 
     const handleAdd = async ()=>{

@@ -13,7 +13,7 @@ export async function GET(
         const id = params.id;
         // const id = "";
 
-        const res = await db.image.findFirst({
+        const res = await db.itemImage.findFirst({
             where:{
                 id:id
             }

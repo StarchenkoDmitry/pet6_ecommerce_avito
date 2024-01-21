@@ -16,6 +16,9 @@ model User{
 
   name String
   surname String?
+
+  imageId String?
+  image AvatarImage? @relation(fields: [imageId],references: [id])
   
   accessTokens    AccessToken[]
   emailProviders EmailProvider[]
@@ -89,7 +92,7 @@ model Item{
   price Int
 
   imageId String?
-  image Image? @relation(fields: [imageId],references: [id])
+  image ItemImage? @relation(fields: [imageId],references: [id])
 
   userId String?
   user User? @relation(fields: [userId],references: [id])
@@ -98,14 +101,37 @@ model Item{
   tempFavorites TempFavorite[]
 }
 
-model Image{
+model ItemImage{
   id String @id @unique @default(uuid())
 
   createAt DateTime @default(now())
 
-  type String
-  size Int
-  buffer Bytes
+  buffer  Bytes
+  buffer0 Bytes
+  buffer1 Bytes
+  buffer2 Bytes
+  size  Int
+  size0 Int
+  size1 Int
+  size2 Int
 
   items Item[]
+}
+
+
+model AvatarImage{
+  id String @id @unique @default(uuid())
+
+  createAt DateTime @default(now())
+
+  type String?
+  
+  buffer  Bytes
+  buffer0 Bytes
+  buffer1 Bytes
+  size  Int
+  size0 Int
+  size1 Int
+
+  users User[]
 }

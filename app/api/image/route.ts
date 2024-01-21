@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     const id = "36d4bd51-c870-49bd-bf83-a5223585c40c";
 
-    const res = await db.image.findFirst({
+    const res = await db.itemImage.findFirst({
         where:{
             id:id
         }
