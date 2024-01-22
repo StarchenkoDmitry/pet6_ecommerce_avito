@@ -15,16 +15,16 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
     // "baseUrl": ".",
     "paths": {
       "@/components/*": ["./components/*"],
       "@/lib/*": ["./lib/*"],
-      "@/config/*": ["./config/*"]
-    }
+      "@/config/*": ["./config/*"],
+    },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }
