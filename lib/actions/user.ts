@@ -15,12 +15,14 @@ export async function changeAvatar(formData: FormData){
 
     try {
         const file = formData.get("file");
+        console.log("changeAvatar file:",file);
         
         // check file on type of image/*
         const fileIsImage = 
-            typeof file === "object" &&
-            file instanceof File &&
-            file.type.includes("image/");
+            file 
+            && typeof file === "object";
+            // && file instanceof File
+            // && file.type.includes("image/");
 
         if(!fileIsImage){
             return {error:"a file is not a image"};
@@ -30,19 +32,23 @@ export async function changeAvatar(formData: FormData){
         if(!session){
             return {error:"not authorized"};
         }
-        const { user } = session;
-        const { userId } = user;
+        // const { user } = session;
+        // const { userId } = user;
+        const userId = session.user.userId;
         
         if(file.size >= MAX_SIZE_IMAGE){
             return {error:"a file is larger than 8MiB"};
         }
 
+        console.log("changeAvatar 0");
         const buffer: Buffer = Buffer.from(await file.arrayBuffer());
 
+        console.log("changeAvatar 1");
         if(!(await checkMaxAspectRation(buffer,MAX_ASPECT_RATION))){
             return {error:`max aspect ration ${MAX_ASPECT_RATION}`};
         }
 
+        console.log("changeAvatar 2");
         const result = await db.$transaction(async(ts)=>{
             const userUpdated = await ts.user.update({
                 data:{
@@ -59,9 +65,43 @@ export async function changeAvatar(formData: FormData){
             })
             return userUpdated;
         });
-        return !!result;
+        return {
+            statusOk:!!result,
+        }
     } catch (error) {
         console.log('Action createItem error:',error);
         return { error:"error" };
+    }
+}
+
+
+
+
+export async function changeName(name:string){
+    try {
+        console.log("setName: ",name);
+
+        const session = await auth();
+
+        if(!session){
+            return {error:"not authorized"};
+        }
+
+        const userId = session.user.userId;
+        
+        const result = await db.$transaction(async(ts)=>{
+            const userUpdated = await ts.user.update({
+                data:{
+                    name:name,
+                },
+                where:{
+                    id:userId
+                }
+            })
+            return userUpdated;
+        });
+        return !!result;    
+    } catch (error) {
+        return false;
     }
 }
