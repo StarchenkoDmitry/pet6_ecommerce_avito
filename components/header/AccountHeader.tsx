@@ -4,13 +4,19 @@ import { useSession } from "next-auth/react";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { BellIcon, HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 import SignInButton from "./SignInButton";
+import { User } from "@prisma/client";
 
-function AccountHeader() {
+
+export interface Props {
+    user: User;
+}
+
+function AccountHeader({ user }: Props) {
     console.log("Render HeaderAccount");
 
-    const session = useSession();
+    if(user){
+        const imageUrl = user.imageId ? `api/avatar/${user.imageId}` : "img/1.jpg";
 
-    if(session){
         return (
             <div className="ml-auto p-1 flex items-center">
                 <div className="p-1 flex bg-gray-100 rounded-lg">
@@ -30,10 +36,10 @@ function AccountHeader() {
                 <a href="/profile" className="mx-2">
                     <img
                         className="w-8 h-8 object-cover rounded-full hover:scale-[1.2] transition-all"
-                        src="img/1.jpg"
-                        alt="item"
-                        width={50}
-                        height={250}
+                        src={imageUrl}
+                        alt="avatar"
+                        // width={50}
+                        // height={250}
                     />
                 </a>
             </div>
