@@ -8,7 +8,7 @@ import { User } from "@prisma/client";
 
 
 export interface Props {
-    user: User;
+    user?: User;
 }
 
 function AccountHeader({ user }: Props) {

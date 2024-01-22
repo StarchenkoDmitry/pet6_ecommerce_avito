@@ -79,7 +79,7 @@ export async function changeAvatar(formData: FormData){
 
 export async function changeName(name:string){
     try {
-        console.log("setName: ",name);
+        console.log("changeName: ",name);
 
         const session = await auth();
 
@@ -96,6 +96,33 @@ export async function changeName(name:string){
                 },
                 where:{
                     id:userId
+                }
+            })
+            return userUpdated;
+        });
+        return !!result;    
+    } catch (error) {
+        return false;
+    }
+}
+
+export async function changeSurname(surname:string){
+    try {
+        console.log("changeSurname: ",surname);
+
+        const user = await db.user.currentUser();
+
+        if(!user){
+            return {error:"not authorized"};
+        }
+        
+        const result = await db.$transaction(async(ts)=>{
+            const userUpdated = await ts.user.update({
+                data:{
+                    surname:surname,
+                },
+                where:{
+                    id:user.id
                 }
             })
             return userUpdated;

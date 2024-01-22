@@ -7,10 +7,10 @@ import ProfileInput from '../ui/input/ProfileInput';
 import { changeAvatar, changeName } from '@/lib/actions/user';
 import clsx from 'clsx';
 
+
 interface Props {
     user:User;
 }
-
 
 function Profile({user}: Props) {
 
@@ -31,9 +31,9 @@ function Profile({user}: Props) {
         const files = event.target.files;
         if(!files)return;
 
-        // const fd = new FormData();
-        // fd.append("file",files[0]);
-        // changeAvatar(fd);
+        const fd = new FormData();
+        fd.append("file",files[0]);
+        changeAvatar(fd);
         setImageFile(files[0]);
     }
     const handleSelectFile = ()=>{
