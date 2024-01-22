@@ -14,7 +14,7 @@ interface Props {
 
 function Profile({user}: Props) {
 
-    const imageUrl = user.imageId ? `api/avatar/${user.imageId}` : "img/1.jpg";
+    const imageUrl = user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg";
 
 
     const [changingImage,setchangingImage] = useState(false);
@@ -124,63 +124,3 @@ function Profile({user}: Props) {
 }
 
 export default Profile;
-
-
-
-
-
-
-
-
-
-
-
-    // const [v,setV] = useState(user.name);
-
-    // useEffect(()=>{
-    //     setV(prev=>prev+Math.round((Math.random()*10)));
-    //     setInterval(()=>{
-    //         setV(prev=>prev+Math.round((Math.random()*10)));
-    //     },2000);
-    // },[]);
-
-
-
-
-// function Profile({user}: Props) {
-
-//     const [changingImage,setchangingImage] = useState(false);
-
-//     const handleSubmitImage = (event: FormEvent<HTMLFormElement>)=>{
-
-//     }
-
-//     return (
-//         <div>
-//             <span>Name: {user.name}</span>
-//             <span>Surname: {user.surname}</span>
-
-//             <img
-//                 className="w-24 h-24 object-cover rounded-full hover:scale-[1.2] transition-all"
-//                 src={user.imageId ? `image/${user.imageId}` : "img/1.jpg" }
-//                 alt="item"
-//                 width={50}
-//                 height={250}
-//             />
-//             <form 
-//                 className="p-1 max-w-80 flex flex-col bg-white rounded-lg"
-//                 method="POST"
-//                 onSubmit={handleSubmitImage}
-//             >
-//                 <input 
-//                     className='m-1 p-1'
-//                     name="file"
-//                     type="file"
-//                     accept="image/*"
-//                 />
-//             </form>
-//         </div>
-//     )
-// }
-
-// export default Profile;

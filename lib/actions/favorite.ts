@@ -9,10 +9,10 @@ import db from "../db";
 
 export async function addFavorite(itemId:string){
     try {
-        console.log("addFavorite itemId: ",itemId);
+        // console.log("addFavorite itemId: ",itemId);
         
         const session = await auth();
-        console.log("addFavorite session: ",session);
+        // console.log("addFavorite session: ",session);
 
         if(session){
             if(!session.user.userId){
@@ -38,7 +38,7 @@ export async function addFavorite(itemId:string){
                         sameSite:"lax",
                     });
                     const res = await addTempFavorite(itemId,newMyFavoriteList.id);
-                    console.log("RESSS: ",res);
+
                     return { ok: !!res };
                 }else{
                     return { error: "failed_to_add" }
@@ -50,24 +50,10 @@ export async function addFavorite(itemId:string){
     }
 }
 
-
-// const favoriteId =  await cookies().set({
-//     name:"TEST_ADD_FAVORITE",
-//     value:`rand-${Math.random()}`,
-//     httpOnly:true,
-//     secure:true,
-//     sameSite:"lax",
-// });
-
-
-
-
 export async function changeFavorite(itemId:string){
     try {
-        console.log("changeFavorite itemId: ",itemId);
-        
+        //TODO: заминить auth на db.user.currentUser();
         const session = await auth();
-        console.log("changeFavorite session: ",session);
 
         if(session){
             const res = await db.$transaction(async(ts)=>{

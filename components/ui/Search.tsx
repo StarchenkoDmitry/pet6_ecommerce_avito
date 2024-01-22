@@ -3,6 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import { ChangeEvent } from "react";
 
+
 interface SearchProps{
     className?:string;
     onChange?: (event: ChangeEvent<HTMLInputElement>)=>void;
@@ -16,7 +17,7 @@ export function Search({
     <div
         className={clsx(
             className,
-            "flex flex-1 shadow-md bg-white rounded-md",
+            "flex flex-1 border-2 h-[40px] _shadow-md bg-white rounded-lg",
         )}
     >
         <button className='p-2 flex justify-center items-center rounded-full text-gray-500 hover:bg-blue-100'>

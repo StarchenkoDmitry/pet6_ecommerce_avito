@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
 
 import db from '@/lib/db';
@@ -15,7 +16,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
   if(!item){
     return (
-      <div className="m-2 p-1 bg-gray-50 rounded-lg">
+      <div className="m-2 p-1 bg-gray-100 rounded-lg">
         <h2 className='p-1'>Item with id({id}) is not exist</h2>
       </div>
     )
@@ -28,7 +29,7 @@ export default async function Home({ params }: { params: { id: string } }) {
         <div className='flex-1'>
           <h2 className='m-2 text-2xl'>{lable}</h2>
           <img
-              className="w-[250px] h-[200px] object-cover"
+              className="w-[250px] h-[200px] object-cover rounded"
               src={imageUrl}
               alt="item"
               width={50}

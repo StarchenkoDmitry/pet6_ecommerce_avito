@@ -22,9 +22,9 @@ function Navbar(props: Props) {
     const handleClose = ()=>{ setOpen(false); }
 
     return (
-        <div className="p-2 flex bg-green-100">
+        <div className="p-2 flex">
             <Button
-                className="mx-2 bg-blue-500" 
+                className="mr-2 bg-blue-500"
                 onClick={handleOpen}
             >
                 <Bars4Icon className="w-6 h-6" />

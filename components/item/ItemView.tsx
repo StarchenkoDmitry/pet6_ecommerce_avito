@@ -1,23 +1,27 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import { addFavorite, changeFavorite } from '../../lib/actions/favorite';
 import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
 import { Item } from '@prisma/client';
-import { useRef, useState } from 'react';
-import { changeFavorite } from '@/lib/actions/favorite';
+import { useState } from 'react';
+
+
+export type ItemAndFavorite = Item & { favorite: boolean };
 
 export interface Props {
-    item: Item;
+    item: ItemAndFavorite;
 }
 
-function FavoriteItem({item}: Props) {
-    const { id, imageId, lable, price } = item;
-
+function ItemView({item}: Props) {
+    const {id,imageId,lable,price,favorite} = item;
     const imageUrl = imageId ? `/api/image/${imageId}` : "/img/1.jpg";
+
     const itemUrl = `/item/${id}`;
 
-    const [isFavorite,setIsFavorite] = useState(true);
+    const [isFavorite,setIsFavorite] = useState(favorite);
     const [changing,setChanging] = useState(false);
 
     const handelChange = async ()=>{
@@ -34,7 +38,7 @@ function FavoriteItem({item}: Props) {
         <div className="m-2 p-2 w-64 bg-white rounded-lg">
             <a href={itemUrl}>
                 <img
-                    className="w-[250px] h-[200px] object-cover"
+                    className="w-[250px] h-[200px] object-cover rounded"
                     src={imageUrl}
                     alt="item"
                     width={50}
@@ -58,4 +62,4 @@ function FavoriteItem({item}: Props) {
     )
 }
 
-export default FavoriteItem;
+export default ItemView;

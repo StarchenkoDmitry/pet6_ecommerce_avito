@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import { useSession } from "next-auth/react";
 
@@ -15,7 +16,7 @@ function AccountHeader({ user }: Props) {
     console.log("Render HeaderAccount");
 
     if(user){
-        const imageUrl = user.imageId ? `api/avatar/${user.imageId}` : "img/1.jpg";
+        const imageUrl = user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg";
 
         return (
             <div className="ml-auto p-1 flex items-center">

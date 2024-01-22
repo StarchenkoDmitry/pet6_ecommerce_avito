@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import Navbar from '../components/ui/Navbar';
-import ItemView from '@/components/ItemView';
+import ItemView from '@/components/item/ItemView';
 import { auth } from '@/config/authConfig';
 import db from '@/lib/db';
 import { cookies } from 'next/headers';
@@ -12,20 +12,14 @@ import { COOKIE_FAVORITE_KEY } from '@/lib/constants';
 export default async function Home() {
   console.log("Render Main page");
 
-  const session = await auth();
-
   let items = await getItemWithFavorite();
 
   return (
-    <div className="border-2 border-blue-200 bg-green-100">
+    <div className="">
       <Navbar/>
+      <h2 className='m-2 my-1 text-xl font-bold'>Рекомендации для вас</h2>
 
-      <span>Main page</span>
-      <span>User session:{ JSON.stringify(session)}</span>
-
-      <h2>Рекомендации для вас</h2>
-
-      <div className='flex flex-wrap justify-between _justify-around bg-lime-200'>
+      <div className='bg-gray-100 rounded-lg flex flex-wrap justify-between _justify-around'>
       {
         items.map(i=>(<ItemView 
           key={i.id}
