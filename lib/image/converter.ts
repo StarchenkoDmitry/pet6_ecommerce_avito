@@ -21,6 +21,7 @@ export async function convertByWidth(imageBuffer:Buffer,maxWidth:number) {
         .jpeg({ mozjpeg: true })
         .toBuffer();
     } catch (error) {
+        console.log("convertByWidth error",error);
         return;
     }
 }
@@ -35,6 +36,7 @@ export async function convertByHeight(imageBuffer:Buffer,maxHeight:number) {
         .jpeg({ mozjpeg: true })
         .toBuffer();
     } catch (error) {
+        console.log("convertByHeight error",error);
         return;
     }
 }
@@ -49,6 +51,7 @@ export async function checkMaxAspectRation(imageBuffer:Buffer,ration:number) {
         const r2 = meta.height / meta.width;
         return r1 <= ration && r2 <= ration;
     } catch (error) {
+        console.log("checkMaxAspectRation error",error);
         return false;
     }
 }

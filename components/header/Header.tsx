@@ -9,6 +9,7 @@ export interface Props {}
 async function Header(props: Props) {
     console.log("Render Header");
 
+
     const user = await db.user.currentUser();
 
     if(user){
