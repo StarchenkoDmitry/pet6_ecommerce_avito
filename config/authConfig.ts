@@ -22,12 +22,14 @@ declare module 'next-auth' {
     interface Session{  
         user:{
             userId:string;
+            accessToken:string;
         }
     }   
 }
 declare module "@auth/core/jwt" {
     interface JWT {
         userId:string;
+        accessToken:string;
     }
 }
 
@@ -124,6 +126,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
             if(session.user){
                 session.user.userId = token.userId;
+                session.user.accessToken = token.accessToken;
             }
             
             return session;
