@@ -128,11 +128,11 @@ model AvatarImage{
   type String?
   
   buffer  Bytes
-  buffer0 Bytes
-  buffer1 Bytes
+  // buffer0 Bytes
+  // buffer1 Bytes
   size  Int
-  size0 Int
-  size1 Int
+  // size0 Int
+  // size1 Int
 
   users User[]
 }

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    
+    "prettier": "prettier --write --ignore-unknown .",
+    "prettier:check": "prettier --check --ignore-unknown ."
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -34,6 +37,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8.4.33",
+    "prettier": "^3.2.4",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

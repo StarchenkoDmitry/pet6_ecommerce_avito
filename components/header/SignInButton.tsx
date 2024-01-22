@@ -6,7 +6,7 @@ import Modal from "../ui/Modal/Modal";
 import AuthForm from "../auth/AuthForm";
 
 
-function HeaderSignIn() {
+function SignInButton() {
 
     const [open,setOpen]= useState(false);
 
@@ -32,4 +32,4 @@ function HeaderSignIn() {
         </>
     )
 }
-export default HeaderSignIn;
+export default SignInButton;
