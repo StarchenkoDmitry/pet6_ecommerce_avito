@@ -1,12 +1,7 @@
-import Image from "next/image"
-
-import Navbar from "@/components/ui/Navbar"
-import { auth } from "@/config/authConfig"
 import db from "@/lib/db"
 import { COOKIE_FAVORITE_KEY } from "@/lib/constants"
 import { cookies } from "next/headers"
 import ItemView from "@/components/item/ItemView"
-import FavoriteItem from "@/components/item/FavoriteItem"
 
 export default async function Home() {
   console.log("Render CreateItem page")
@@ -15,13 +10,12 @@ export default async function Home() {
   .map((e) => ({ ...e, favorite: true }));
 
   return (
-    <div className="border-2 border-blue-200 bg-green-100">
-      <Navbar />
-      
-      <div className="m-1 p-1 flex flex-col">
-        <h2 className="m-1">My favorites</h2>
+    <div className="">
 
-        <div className="flex flex-wrap justify-between _justify-around bg-lime-200">
+      <div className="p1 flex flex-col bg-gray-100 rounded-lg">
+        <h2 className="mt-1 mx-4 text-xl">My favorites</h2>
+
+        <div className="flex flex-wrap justify-between">
           {items.map((i) => (
             <ItemView key={i.id} item={i} />
           ))}
@@ -36,15 +30,15 @@ export default async function Home() {
 const MAX_TAKE_ITEM = 16
 
 async function getMyFavoriteItems() {
-  const session = await auth();
+  const user = await db.user.currentUser();
 
-  if (session) {
+  if (user) {
     const items = await db.item.findMany({
       take: MAX_TAKE_ITEM,
       where: {
         favorites: {
           some: {
-            userId: session.user.userId,
+            userId: user.id,
           },
         },
       },

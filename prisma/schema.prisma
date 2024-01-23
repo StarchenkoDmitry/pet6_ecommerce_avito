@@ -24,6 +24,9 @@ model User{
   emailProviders EmailProvider[]
   favorites Favorite[]
   items Item[]
+
+  chatUsers ChatUser[]
+  messages Message[]
 }
 
 model AccessToken{
@@ -135,4 +138,41 @@ model AvatarImage{
   // size1 Int
 
   users User[]
+}
+
+
+model Chat{
+  id        String @id @default(uuid())
+  ceatedAt  DateTime @default(now())
+
+  messages Message[]
+  chatUsers ChatUser[]
+}
+
+model ChatUser{
+  id String @id @default(uuid())
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+  chatId String
+  chat Chat @relation(fields: [chatId],references: [id])
+
+  lastMessageId String?
+  lastMessage Message? @relation(fields: [lastMessageId],references: [id])
+}
+
+model Message{
+  id String @id @default(uuid())
+  ceatedAt DateTime @default(now())
+
+  text String
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+  chatId String
+  chat Chat @relation(fields: [chatId],references: [id])
+
+  chatUsers ChatUser[]
 }
