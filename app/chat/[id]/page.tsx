@@ -35,33 +35,33 @@ export default async function Home({ params }: { params: { id: string } }) {
     );
   }
 
-  let currentMessage = chat.lastMessageId;
   const bTime = Date.now();
 
 
-  const messages = [];
-  for(let i = 0; i < 10000 && !!currentMessage; i++){
-    const message = await db.message.findFirst({
-      where:{
-        id:currentMessage
-      }
-    });
-    if(message){
-      messages.push(message);
-      currentMessage = message.prevMessageID;
-    }
-  }
+  // const messages = [];
+  // let currentMessage = chat.lastMessageId;
+  // for(let i = 0; i < 10000 && !!currentMessage; i++){
+  //   const message = await db.message.findFirst({
+  //     where:{
+  //       id:currentMessage
+  //     }
+  //   });
+  //   if(message){
+  //     messages.push(message);
+  //     currentMessage = message.prevMessageID;
+  //   }
+  // }
 
 
-  // const messages = await db.message.findMany({
-  //   where:{
-  //     chatId:chat.id
-  //   },
-  //   orderBy:{
-  //     ceatedAt:'desc'
-  //   },
-  //   take:10000,
-  // });
+  const messages = await db.message.findMany({
+    where:{
+      chatId:chat.id
+    },
+    orderBy:{
+      ceatedAt:'desc'
+    },
+    take:10000,
+  });
 
 
   const aTime = Date.now();

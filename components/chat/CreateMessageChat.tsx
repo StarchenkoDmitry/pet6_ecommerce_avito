@@ -1,6 +1,6 @@
 'use client'
 
-import { createMessage } from "@/lib/actions/message";
+import { createMessage, deleteMessage } from "@/lib/actions/message";
 
 
 export interface Props {
@@ -22,6 +22,11 @@ function CreateMessageChat({chatId}: Props) {
                 const aTime = Date.now();
                 console.log(`Created message(${cre}) for time:`,aTime - bTime,`, created:${cre}`);
             }}>SEND</button>
+            <button onClick={async()=>{                
+                const resdelete = await deleteMessage(chatId,"051f7865-e4fc-4571-aefe-8d435c701277");
+                console.log('resdelete',resdelete);
+
+            }}>Delete</button>
         </div>
     );
 }

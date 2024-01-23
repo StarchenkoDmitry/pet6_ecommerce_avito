@@ -147,9 +147,6 @@ model Chat{
 
   messages Message[] @relation("messages_of_chat")
   chatUsers ChatUser[]
-
-  lastMessageId String?
-  lastMessage Message? @relation(fields: [lastMessageId],references: [id])
 }
 
 model ChatUser{
@@ -160,9 +157,6 @@ model ChatUser{
 
   chatId String
   chat Chat @relation(fields: [chatId],references: [id])
-
-  lastMessageId String?
-  lastMessage Message? @relation(fields: [lastMessageId],references: [id])
 }
 
 model Message{
@@ -176,12 +170,4 @@ model Message{
 
   chatId String
   chat Chat @relation("messages_of_chat",fields: [chatId],references: [id])
-
-
-  lastMessageChatUser ChatUser[]
-  lastMessageOfChat Chat[]
-
-  nextMessage Message[] @relation("MessageRef")
-  prevMessageID String?
-  prevMessage Message? @relation("MessageRef", fields: [prevMessageID],references: [id])
 }
