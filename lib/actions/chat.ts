@@ -11,3 +11,15 @@ export async function createChat(userId:string){
         return { error: "failed_request" }
     }
 }
+
+// const chatRes = await db.$transaction(async(ts)=>{
+//     const existChat = await ts.chat.findFirst({
+//         where:{
+//             chatUsers:{
+//                 some:{
+//                    userId: 
+//                 }
+//             }
+//         }
+//     });
+// });
