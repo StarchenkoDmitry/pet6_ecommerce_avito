@@ -3,6 +3,7 @@
 
 import { Item } from "@prisma/client";
 import { UserOwner } from "./Item";
+import { createChatAboutItem } from "@/lib/actions/chat";
 
 export interface Props {
     item: Item;
@@ -20,7 +21,10 @@ function ItemSidePanel({ isOwner, item, userOwner }: Props) {
         : "/img/1.jpg";
 
     const handleWriteMessage = () => {
-
+        createChatAboutItem(item.id)
+        .then((res)=>{
+          console.log("createChatAboutItem RESULT",res);
+        });
     };
 
     return (

@@ -31,6 +31,7 @@ export async function createChatAboutItem(
     itemId:string,
 ):Promise<Chat | undefined>{
     try {
+        console.log("createChatAboutItem itemId:",itemId);
         const user = await db.user.currentUser();
         if(!user) return;
 
@@ -64,7 +65,7 @@ export async function createChatAboutItem(
                     }
                 }
             });
-            
+
             if(createdChat){
                 return createdChat;
             }

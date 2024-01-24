@@ -8,6 +8,7 @@ import { HeartIcon as HeartIconOutLine } from "@heroicons/react/24/outline"
 import { Item } from "@prisma/client"
 import { useState } from "react"
 import ItemSidePanel from "./ItemSidePanel"
+import { createChatAboutItem } from "@/lib/actions/chat"
 
 
 export interface UserOwner{
@@ -45,9 +46,12 @@ function Item({ item, favorite, isOwner,userOwner }: Props) {
     });
   }
 
-  const handleCreateChat = ()=>{
-    
-  }
+  // const handleCreateChat = ()=>{
+  //   createChatAboutItem(item.id)
+  //   .then((res)=>{
+  //     console.log("createChatAboutItem RESULT",res);
+  //   });
+  // }
 
   return (
     <div className="m-2 p-2 _flex _bg-gray-100 _rounded-lg">
