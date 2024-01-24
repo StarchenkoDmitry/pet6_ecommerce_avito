@@ -51,7 +51,7 @@ export async function deleteMessage(chatId:string,messageId:string)
         if(!user) return false;
 
         const message = await db.message.delete({
-            where:{ 
+            where:{
                 id:messageId,
                 chatId:chatId,
                 userId:user.id,

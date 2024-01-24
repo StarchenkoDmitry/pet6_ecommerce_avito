@@ -4,7 +4,7 @@ import Image from 'next/image';
 import db from '@/lib/db';
 
 import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
-import Item, { ItemOwner } from '@/components/item/Item';
+import Item, { UserOwner } from '@/components/item/Item';
 
 
 
@@ -38,11 +38,11 @@ export default async function Home({ params }: { params: { id: string } }) {
       const owner = item.user ? item.user.id === user.id : false;
       const favorite = item.favorites.length >= 1;
 
-      const itemOwner: ItemOwner | undefined = item.user ?  {
+      const itemOwner: UserOwner | undefined = item.user ?  {
         ...item.user
       } : undefined;
 
-      return (<Item item={item} favorite={favorite} owner={owner} itemOwner={itemOwner}/>) 
+      return (<Item item={item} favorite={favorite} isOwner={owner} userOwner={itemOwner}/>) 
     }
   }else{
     const item = await db.item.findFirst({
@@ -59,10 +59,10 @@ export default async function Home({ params }: { params: { id: string } }) {
       }
     });
     if(item){
-      const itemOwner: ItemOwner | undefined = item.user ?  {
+      const itemOwner: UserOwner | undefined = item.user ?  {
         ...item.user
       } : undefined;
-      return (<Item item={item} favorite={true} owner={true} itemOwner={itemOwner}/>) 
+      return (<Item item={item} favorite={true} isOwner={true} userOwner={itemOwner}/>) 
     }
   }
   
