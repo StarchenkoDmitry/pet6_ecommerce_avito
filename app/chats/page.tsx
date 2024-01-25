@@ -1,8 +1,9 @@
 import ChatView from '@/components/chat/ChatView';
+import ChatsSideBar from '@/components/chats/ChatsSideBar';
 import db from '@/lib/db'
 
 export default async function Home() {
-  console.log("Render Messages page");
+  console.log("Render Chats page");
   
   const user = await db.user.currentUser();
 
@@ -13,8 +14,6 @@ export default async function Home() {
       </div>
     );
   }
-
-  console.log("Messages page user:",user.id);
 
   let chats = await db.chat.findMany({
     where:{
@@ -30,45 +29,37 @@ export default async function Home() {
           userId:{
             not:user.id
           }
+        },
+        select:{
+          user:{
+            select:{
+              id:true,
+              imageId:true,
+              name:true,
+              surname:true,
+            }
+          }
         }
-      }
-      // chatUsers:true,
+      },
+      item:true
     }
   });
   
-  // chats = [...chats,...chats,...chats,...chats,...chats,...chats];
   chats = [...chats,...chats,...chats];
 
-  // console.log("Messages page chats:",chats);
-  // type TypeCHATS = (typeof chats);
-  // type DataType = typeof chats[keyof typeof chats];
-  // console.log("Messages page DataType:",DataType);
-
-
-
   return (
-    <div className="p-2 _bg-gray-50 rounded-lg">
-      <span className='mx-1 text-xl'>Messages</span>
-      <div>MyID: {user.id}</div>
-
-      <div className='flex flex-wrap justify-between bg-blue-300  rounded-lg'>
-      {/* {
-        chats.map(e=>(
-        <div key={e.id} className='m-2 p-1 bg-gray-100 rounded-lg'>
-          <div>chatId:{e.id}</div>
-          <div>itemId:{e.itemId}</div>
-          {
-            e.chatUsers.map(u=>(<div key={u.id}>
-              userId:{u.userId}
-            </div>))
-          }
-        </div>))
-      } */}
-      {
-        chats.map(c=>(<ChatView key={c.id} chat={c} />))
-      }
+    <div className="p-2 rounded-lg">
+      <h2 className='mx-4 text-xl'>Messages</h2>
+      <div className='flex'>
+        <div className='m-1 _w-[300px] _w-56 w-48'>
+          <ChatsSideBar/>
+        </div>
+        <div className='m-1 flex-1 flex flex-col _flex-wrap justify-between bg-blue-100  rounded-lg'>
+        {
+          chats.map(c=>(<ChatView key={c.id} chat={c} />))
+        }
+        </div>
       </div>
-
     </div>
   );
 }

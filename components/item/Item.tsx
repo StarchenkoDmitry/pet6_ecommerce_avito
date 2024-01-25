@@ -8,7 +8,6 @@ import { HeartIcon as HeartIconOutLine } from "@heroicons/react/24/outline"
 import { Item } from "@prisma/client"
 import { useState } from "react"
 import ItemSidePanel from "./ItemSidePanel"
-import { createChatAboutItem } from "@/lib/actions/chat"
 
 
 export interface UserOwner{
