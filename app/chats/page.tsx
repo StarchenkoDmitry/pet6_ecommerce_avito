@@ -49,12 +49,12 @@ export default async function Home() {
 
   return (
     <div className="p-2 rounded-lg">
-      <h2 className='mx-4 text-xl'>Messages</h2>
+      <h2 className='mx-4 text-xl'>Chats</h2>
       <div className='flex'>
         <div className='m-1 _w-[300px] _w-56 w-48'>
           <ChatsSideBar/>
         </div>
-        <div className='m-1 flex-1 flex flex-col _flex-wrap justify-between bg-blue-100  rounded-lg'>
+        <div className='m-1 flex-1 flex flex-col _flex-wrap justify-between bg-gray-100 _bg-blue-100  rounded-lg'>
         {
           chats.map(c=>(<ChatView key={c.id} chat={c} />))
         }

@@ -33,7 +33,7 @@ function ItemBuilder(props: Props) {
 
     return (
         <form 
-          className="p-1 max-w-80 flex flex-col  _items-start bg-white rounded-lg"
+          className="p-1 max-w-80 flex flex-col  _items-start _bg-white bg-gray-50 rounded-lg"
           method="POST"
           onSubmit={handleSubmit}
         >

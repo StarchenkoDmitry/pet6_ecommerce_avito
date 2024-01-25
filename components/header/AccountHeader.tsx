@@ -27,7 +27,7 @@ function AccountHeader({ user }: Props) {
                     <a href="/profile/notifications">
                         <BellIcon className="w-6 h-6 text-blue-500"/>
                     </a>
-                    <a href="/messages">
+                    <a href="/chats">
                         <ChatBubbleLeftRightIcon className="w-6 h-6 text-blue-500"/>
                     </a>
                     <a href="/order/cart">
@@ -39,8 +39,6 @@ function AccountHeader({ user }: Props) {
                         className="w-8 h-8 object-cover rounded-full hover:scale-[1.2] transition-all"
                         src={imageUrl}
                         alt="avatar"
-                        // width={50}
-                        // height={250}
                     />
                 </a>
             </div>

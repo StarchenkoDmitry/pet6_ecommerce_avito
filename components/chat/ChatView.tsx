@@ -46,32 +46,28 @@ function ChatView({chat}: ChatViewProps) {
     const chatUrl = `/chat/${id}`;
     
     return (
-        <div className='m-1 p-1 flex bg-gray-50 rounded-lg'>
+        <Link 
+            className='m-1 p-1 flex bg-white _bg-gray-50 hover:bg-blue-100 transition-all _hover:bg-gray-100 rounded-lg'
+            href={chatUrl}
+        >
             <img
                 className="w-12 h-12 object-cover rounded-lg"
                 src={userAvatarUrl}
                 alt="item"
             />
-            <div className='p-1 '>
-                <div>name:{name}</div>
-            </div>
-            {
-                item?
-                <div>
-                    <div>Тавар:{item.lable}</div>
-                    <div>Price:{item.price}</div>
-                </div> :
-                <div>
-                    <span>Без товара</span>
+            <div className='ml-2'>
+                <div className=''>
+                    <span className='text-lg'>{name}</span>
                 </div>
-            }
-            <Link 
-                className='ml-auto p-2 text-white bg-green-400 rounded-lg hover:bg-green-500'
-                href={chatUrl}
-            >
-                Open
-            </Link>
-        </div>
+                {
+                    !!item &&
+                    <div className='flex text-xs bg-purple-300 rounded overflow-hidden'>
+                        <div className='px-2 py-[2px] text-white'>{item.lable}</div>
+                        <div className='px-1 py-[2px] text-white bg-blue-500'>$ {item.price}</div>
+                    </div>
+                }
+            </div>
+        </Link>
     )
 }
 

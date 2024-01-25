@@ -7,9 +7,10 @@ export default async function Home() {
   console.log("Render CreateItem page");
 
   return (
-    <div className="p-2 bg-gray-100 rounded-lg">
+    <div className="p-2 _bg-gray-100 rounded-lg">
+      <h2 className='mx-4 text-xl'>Создать объявление</h2>
       <div className=''>
-        <h2 className='mx-2 m-1 text-lg'>Создание объявления</h2>
+        {/* <h2 className='mx-2 m-1 text-lg'>Создание объявления</h2> */}
         <ItemBuilder/>
       </div>
     </div>
