@@ -1,97 +1,211 @@
-'use client'
+/* eslint-disable @next/next/no-img-element */
+"use client";
 
-import { createItem } from "@/lib/actions/item";
-import { FormEvent, useState } from "react";
-import { Button } from "../ui/buttons/Button";
+import { createItem, createItem3 } from "@/lib/actions/item";
+import { DEFAULT_ITEM_PRICE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MIN_ITEM_PRICE } from "@/lib/constants";
+import { convertFileToDataURL } from "@/lib/utils/imager";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+
 
 interface Props {}
 
 function ItemBuilder(props: Props) {
-    
-    const [submiting,setSubmiting] = useState(false);
+
+    const [submiting, setSubmiting] = useState(false);
+    const inputFileRef = useRef<HTMLInputElement>(null);
+
+    const [lable,setLable] = useState("");
+    const [price,setPrice] = useState("");
+    const [description,setDescription] = useState("");
+
+    const [files,setFiles] = useState<File[]>([]);
+    const [images,setImages] = useState<string[]>([]);
+
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if(submiting)return;
+        if (submiting) return;
         setSubmiting(true);
 
-        const formData = new FormData(event.currentTarget);
+        const formData2 = new FormData(event.currentTarget);
+        console.log("formData2: ",formData2.get("files"));
 
-        const name = formData.get("name");
-        const email = formData.get("email");
-        const file = formData.get("file");
+        const formData = new FormData();
+        formData.append("lable",lable);
+        formData.append("price",price);
+        formData.append("description",description);
         
-        console.log({ name, email, password: file });
+        for (var x = 0; x < files.length; x++) {
+            formData.append("files", files[x]);
+        }
 
-        createItem(formData).then(()=>{
-            setSubmiting(false);
-        })
-        .catch((err)=>{
-            console.log("err:",err);
+        createItem3(formData)
+        .then((res)=>{
+
+        }).catch((error)=>{
+
+        });
+
+        // createItem(formData)
+        //     .then(() => {
+        //         setSubmiting(false);
+        //     })
+        //     .catch((err) => {
+        //         setSubmiting(false);
+        //         console.log("err:", err);
+        //     });
+    };
+
+    const handleAddFiles = async (event: ChangeEvent<HTMLInputElement>)=>{
+        event.preventDefault();
+
+        const files = event.target.files;
+        if(!files || files.length === 0) return;
+
+        const filesArray = Array.from(files);
+
+        const cons = filesArray.map(async(e)=>convertFileToDataURL(e));
+        const newImages = await Promise.all(cons);
+
+
+        setFiles(prev=>{
+            if(prev.length + filesArray.length > MAX_COUNT_PICTURES){
+                return prev
+            }else{
+                return [...prev,...filesArray];
+            }
+        });
+
+        setImages(prev=>{
+            if(prev.length + newImages.length > MAX_COUNT_PICTURES){
+                return prev
+            }else{
+                return [...prev,...newImages];
+            }
         });
     }
 
+    const handleOpenFiles = ()=>{
+        inputFileRef.current?.click();
+    }
+
+    const changeLable = (event: ChangeEvent<HTMLInputElement>)=>{
+        setLable(event.target.value);
+    }
+
+    const changeDescription = (event: ChangeEvent<HTMLTextAreaElement>)=>{
+        setDescription(event.target.value);
+    }
+    
+    const changePrice = (event: ChangeEvent<HTMLInputElement>)=>{
+        // setPrice(parseFloat(event.target.value));
+        setPrice(event.target.value);
+        console.log(price)
+    }
+
     return (
-        <form 
-          className="p-1 max-w-80 flex flex-col  _items-start _bg-white bg-gray-50 rounded-lg"
-          method="POST"
-          onSubmit={handleSubmit}
+        <form
+            className="p-2 max-w-80 flex flex-col bg-gray-50 rounded-lg"
+            method="POST"
+            onSubmit={handleSubmit}
         >
-            <label className='m-1 mx-2 mb-0 text-black' htmlFor="">Lable</label>
+            <label htmlFor="lable">
+                Заголовок объявления
+            </label>
             <input
-              className='m-1 p-1 rounded-md placeholder-gray-600 bg-gray-200'
-              name='lable'
-              type="text"
-              placeholder='write a title'
+                className="mb-4 p-1 rounded-md bg-gray-200"
+                name="lable"
+                type="text"
+                value={lable}
+                onChange={changeLable}
             />
-            <input 
-              className='m-1 p-1'
-              name="file"
-              type="file"
-              accept="image/*"
+
+
+            <label htmlFor="price">
+                Цена
+            </label>
+            <input
+                className="mb-4 p-1 rounded-md bg-gray-200"
+                name="price"
+                // defaultValue={DEFAULT_ITEM_PRICE}
+                value={price}
+                type="number"
+                max={MAX_ITEM_PRICE}
+                min={MIN_ITEM_PRICE}
+                onChange={changePrice}
             />
-            <label className='m-1 mx-2 mb-0 text-black' htmlFor="">Price</label>
-            <input 
-              className='m-1 p-1 rounded-md bg-gray-200'
-              name="price"
-              // defaultValue={"50.99"}
-              defaultValue={0}
-              type="number"
-              max={1_000_000_000}
-              min={0}
+
+
+            <label htmlFor="description">
+                Описание
+            </label>
+            <textarea
+                className="resize-none border-2 outline-none border-b-gray-400 rounded-lg"
+                name="description"
+                rows={4}
+                maxLength={MAX_SIZE_ITEM_DESCRIPTION}
+                value={description}
+                onChange={changeDescription}
             />
-            <button className="m-1 p-1 px-2 w-fit rounded-md bg-blue-400 hover:bg-blue-500" type="submit">SEND</button>
+            <span className="mb-4 m-1 text-xs text-gray-700">
+                Максимально 2000 символов
+            </span>
+
+
+            <label htmlFor="files">
+                Фотографии
+            </label>
+            <div className="flex p-2 h-[241px] border-2 rounded-lg overflow-x-auto overflow-hidden">
+            {
+                !!images && images.length > 0 ? images.map((e,i)=>(
+                <div
+                    key={i}
+                    className="flex-none border-2 m-1 w-[204px] h-[204px] bg-gray-500 rounded-lg overflow-hidden"
+                >
+                    <img 
+                        className="w-[200px] h-[200px] object-cover"
+                        src={e} 
+                        alt="picture" 
+                    />
+                </div>)):
+                (<div
+                    className="flex-none p-2 flex items-center border-2 w-[204px] h-[204px] rounded-lg"
+                    onClick={handleOpenFiles}
+                >
+                    <span className="text-center">Перетащите фотографии сюда</span>
+                </div>)
+            }
+            </div>
+            <span className="m-1 text-xs text-gray-700">
+                Вы можете добавить не более 12 фотографий в своем объявлении
+            </span>
+            <input
+                className="hidden" 
+                name="files" 
+                type="file" 
+                accept="image/*"
+                multiple
+                ref={inputFileRef} 
+                onChange={handleAddFiles}
+            />
+            <button 
+                className="mb-4 p-2 text-white bg-blue-500 hover:bg-blue-400 rounded-lg"
+                onClick={handleOpenFiles}
+                type="button"
+            >
+                Добавить картинки
+            </button>
+
+
+            <button
+                className="p-1 px-2 w-fit text-white bg-blue-500 hover:bg-blue-400 rounded-lg"
+                type="submit"
+            >
+                Добавить 
+            </button>
         </form>
-    )
+    );
 }
 
-export default ItemBuilder
-
-
-
-
-/* <img className="" width={100} height={100} src="/api/image/a01bb91c-8e8b-4bac-a9ac-7684c1f90ccd" alt="" /> */
-
-// <img className="" width={100} height={100} src="/api/image" alt="" />
-
-// <img className="" width={100} height={100} src="/api/image/36d4bd51-c870-49bd-bf83-a5223585c40c" alt="" />
-
-
-
-
-
-
-// const handleSubmit = async (formData: FormData) => {
-//     if(submiting)return;
-//     setSubmiting(true);
-
-//     const name = formData.get("name");
-//     const email = formData.get("email");
-//     const file = formData.get("file");
-    
-//     console.log({ name, email, password: file });
-
-//     createItem(formData).then(()=>{
-//         setSubmiting(false);
-//     })
-// }
+export default ItemBuilder;

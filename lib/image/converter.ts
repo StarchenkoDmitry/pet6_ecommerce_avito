@@ -58,6 +58,7 @@ export async function checkMaxAspectRation(imageBuffer:Buffer,ration:number) {
 
 
 
+
 // export async function convertImage(buffer:Buffer) {
 //     try {
 //         let res =  await sharp(buffer,{
@@ -75,16 +76,10 @@ export async function checkMaxAspectRation(imageBuffer:Buffer,ration:number) {
 // }
 
 
-
-
         // res.metadata(function(err, info) {
         //     console.log('Image info:' + JSON.stringify(info));
         // });
         // let res2 = await res.rotate(90)
-
-
-
-
 
 
 // export async function convertImage(buffer:Buffer) {

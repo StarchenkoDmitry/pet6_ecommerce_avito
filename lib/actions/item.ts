@@ -4,6 +4,7 @@ import { File } from "buffer";
 import db from "../db";
 import { checkMaxAspectRation, convertByHeight } from "../image/converter";
 import { auth } from "@/config/authConfig";
+import { MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MAX_SIZE_ITEM_LABLE, MIN_ITEM_PRICE, MIN_SIZE_ITEM_DESCRIPTION, MIN_SIZE_ITEM_LABLE } from "../constants";
 
 
 
@@ -122,10 +123,155 @@ export async function createItem(formData: FormData){
 }
 
 
+// lable2: File {
+//     size: 103947,
+//     type: 'image/jpeg',
+//     name: 'jpg1851117301.jpg',
+//     lastModified: 1706292465540
+//   }
+
+export async function createItem3(formData: FormData){
+    try {
+        console.log("createItem2");
+        
+        const lable = formData.get("lable");
+        const priceStr = formData.get("price");
+        const description = formData.get("description");
+        const files: File[] = formData.getAll("files") as unknown as File[];
+
+
+        if(typeof lable !== "string"){
+            return;
+        }
+        if(typeof priceStr !== "string"){
+            return;
+        }        
+        if(typeof description !== "string"){
+            return;
+        }
+
+        if(
+            lable.length > MAX_SIZE_ITEM_LABLE || 
+            lable.length < MIN_SIZE_ITEM_LABLE){
+            return;
+        }
+
+        if(
+            description.length > MAX_SIZE_ITEM_DESCRIPTION){
+            return;
+        }
+
+        const price = parseFloat(priceStr);
+        if(price > MAX_ITEM_PRICE || price < MIN_ITEM_PRICE){
+            return;
+        }
+
+        if(files.length > MAX_COUNT_PICTURES){
+            return;
+        }
+
+        if(files.find(f=>!(f instanceof File))){
+            return;
+        }
+
+        const images = await formatFilesToImagesWithDifferentResolutions(files);
+
+
+        // console.log("lable:",lable);
+        // // console.log("lable2:",files2);
+        // console.log("Filess:",typeof files);
+        // console.log("Filess lenght3:",files3.length);
+        // console.log("Filess lenght:",files.length);
+        // // console.log("Filess lenght2:",files2.length);
+        // console.log("Filess instanceof:",files instanceof File);
+        
+    } catch (error) {
+        console.log("createItem2 error:",error);
+        
+    }
+}
+
+
+type ImageFI = {
+    buffer:Buffer;
+}
+
+//formatting images for different resolutions
+async function formatFilesToImagesWithDifferentResolutions(files:File[]){
+
+}
+
+
+
+        // check file on type of image/*
+        // const fileIsImage = 
+        //     typeof file === "object" && 
+        //     file instanceof File && 
+        //     file.type.includes("image/");
 
 
 
 
+
+        // export async function createItem3(formData: FormData){
+        //     try {
+        //         console.log("createItem2");
+                
+        //         const lable = formData.get("lable");
+        //         const files: File[] = formData.get("files") as unknown as File[];
+        //         const files3: File[] = formData.getAll("files") as unknown as File[];
+        //         // const files2: File[] = formData.get("files[]") as unknown as File[];
+                
+        //         console.log("lable:",lable);
+        //         // console.log("lable2:",files2);
+        //         console.log("Filess:",typeof files);
+        //         console.log("Filess lenght3:",files3.length);
+        //         console.log("Filess lenght:",files.length);
+        //         // console.log("Filess lenght2:",files2.length);
+        //         console.log("Filess instanceof:",files instanceof File);
+                
+        //     } catch (error) {
+        //         console.log("createItem2 error:",error);
+                
+        //     }
+        // }
+        
+
+
+
+
+
+
+
+// export type CreateItemProps = {
+//     lable:string;
+//     price:string;
+//     description:string;
+//     files:File[];
+// }
+
+// export async function createItem2({
+//     files,
+//     lable,
+// }: CreateItemProps){
+//     try {
+//         console.log("createItem2");
+        
+//         // check file on type of image/*
+//         // const fileIsImage = 
+//         //     typeof file === "object" && 
+//         //     file instanceof File && 
+//         //     file.type.includes("image/");
+        
+//         console.log("lable:",lable);
+//         console.log("Filess:",typeof files);
+//         console.log("Filess instanceof:",files instanceof File);
+        
+//     } catch (error) {
+//         console.log("createItem2 error:",error);
+        
+//     }
+// }
 
 
 
