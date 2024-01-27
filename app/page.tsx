@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import Navbar from '../components/ui/Navbar';
 import ItemView from '@/components/item/ItemView';
 import { auth } from '@/config/authConfig';
@@ -48,21 +46,27 @@ async function getItemWithFavorite() {
           where:{
             userId:session.user.userId
           }
-        }
+        },
+        images:{
+          select:{
+            id:true
+          }
+        },
       },
       orderBy:{
         ceatedAt:"desc"
       }
     });
-    return items.map(({id,ceatedAt,updatedAt,description,price,imageId,lable,userId,favorites})=>({
+    return items.map(({id,ceatedAt,updatedAt,description,price,mainImageId,images,lable,userId,favorites})=>({
       id,
       ceatedAt,
       updatedAt,
-      description,
-      price,
-      imageId,
-      userId,
       lable,
+      price,
+      description,
+      mainImageId,
+      images,
+      userId,
       favorite: favorites.length >= 1
     }));
   }else{
@@ -74,10 +78,11 @@ async function getItemWithFavorite() {
           id:true,
           ceatedAt:true,
           updatedAt:true,
-          description:true,
-          price:true,
           lable:true,
-          imageId:true,
+          price:true,
+          description:true,
+          mainImageId:true,
+          images:true,
           userId:true,
 
           tempFavorites:{
@@ -87,27 +92,49 @@ async function getItemWithFavorite() {
             take:1
           }
         },
+        // include:{
+        //   images:{
+        //     select:{
+        //       id:true,
+        //     }
+        //   }
+        // },
         take:MAX_TAKE_ITEM,
       });
 
-      return items.map(({id,ceatedAt,updatedAt,description,price,imageId,lable,userId,tempFavorites})=>({
+      return items.map(({id,ceatedAt,updatedAt,description,price,mainImageId,images,lable,userId,tempFavorites})=>({
         id,
         ceatedAt,
         updatedAt,
-        description,
-        price,
-        imageId,
-        userId,
         lable,
+        price,
+        description,
+        mainImageId,
+        images,
+        userId,
         favorite: tempFavorites.length >= 1
       }));
     }
     else
     {
+      // const items = await db.item.findMany({
+      //   take:MAX_TAKE_ITEM,
+      // });
+      // return items.map(i=>({...i,favorite:false}));
       const items = await db.item.findMany({
+        select:{
+          id:true,
+          ceatedAt:true,
+          updatedAt:true,
+          lable:true,
+          price:true,
+          description:true,
+          mainImageId:true,
+          images:true,
+          userId:true,
+        },
         take:MAX_TAKE_ITEM,
       });
-
       return items.map(i=>({...i,favorite:false}));
     }
   }
