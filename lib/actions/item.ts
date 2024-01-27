@@ -199,33 +199,58 @@ export async function createItem3(formData: FormData){
             }
         }
 
-        const image = images[0];
+        // const image = images[0];
         
-        const itemRes = await db.$transaction(async(ctx)=>{
-            const imageRes = await db.itemImage.create({
-                data:{
-                    buffer:image.buffer,
-                    buffer0:image.buffer0,
-                    buffer1:image.buffer1,
-                    buffer2:image.buffer2,
-                    buffer3:image.buffer3,
+        const itemRes = await db.$transaction(async(ts)=>{
+            const imagesDB = [];
+            for (let i = 0; i < images.length; i++) {
+                const image = images[i];
+                const imageDB = await ts.itemImage.create({
+                    data:{
+                        buffer:image.buffer,
+                        buffer0:image.buffer0,
+                        buffer1:image.buffer1,
+                        buffer2:image.buffer2,
+                        buffer3:image.buffer3,
+    
+                        size:image.buffer.length,
+                        size0:image.buffer0.length,
+                        size1:image.buffer1.length,
+                        size2:image.buffer2.length,
+                        size3:image.buffer3.length,
+                    }
+                });
+                imagesDB.push(imageDB);
+            }
 
-                    size:image.buffer.length,
-                    size0:image.buffer0.length,
-                    size1:image.buffer1.length,
-                    size2:image.buffer2.length,
-                    size3:image.buffer3.length,
-                }
-            })
-            const itemRes = await ctx.item.create({
-                data:{
-                    lable:lable,
-                    price:price,
-                    mainImageId:imageRes.id,
-                    userId:user.id,
-                }
-            })
-            return itemRes;
+            if(imagesDB.length>0){
+                const img = imagesDB[0];
+                const itemRes = await ts.item.create({
+                    data:{
+                        lable:lable,
+                        price:price,
+                        description:description,
+                        mainImageId:img.id,
+                        userId:user.id,
+                        images:{
+                            connect:imagesDB.map(e=>({
+                                id:e.id
+                            }))
+                        }
+                    }
+                })
+                return itemRes;
+            }else{
+                const itemRes = await ts.item.create({
+                    data:{
+                        lable:lable,
+                        price:price,
+                        description:description,
+                        userId:user.id,
+                    }
+                })
+                return itemRes;
+            }
         });
         return itemRes;
     } catch (error) {
@@ -266,3 +291,35 @@ async function formatFileToImageSacles(buffer:Buffer)
         return;
     }
 }
+
+
+
+                            // connect://[
+                            // {
+                            //     buffer:img.buffer,
+                            //     buffer0:img.buffer0,
+                            //     buffer1:img.buffer1,
+                            //     buffer2:img.buffer2,
+                            //     buffer3:img.buffer3,
+            
+                            //     size:img.buffer.length,
+                            //     size0:img.buffer0.length,
+                            //     size1:img.buffer1.length,
+                            //     size2:img.buffer2.length,
+                            //     size3:img.buffer3.length,
+                            // }
+                        //]
+                            // [
+                            //     imagesDB.map(e=>({
+                            //         buffer:e.buffer,
+                            //         buffer0:e.buffer0,
+                            //         buffer1:e.buffer1,
+                            //         buffer2:e.buffer2,
+                            //         buffer3:e.buffer3,
+                            //         size:image.buffer.length,
+                            //         size0:image.buffer.length,
+                            //         size1:image.buffer.length,
+                            //         size2:image.buffer.length,
+                            //         size3:image.buffer.length,
+                            //     }))
+                            // ]
