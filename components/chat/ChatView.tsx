@@ -17,12 +17,12 @@ export type ChatWithChatUserAndItem = Chat & {
     item: {
         id: string;
         ceatedAt: Date;
-        userId: string;
         updatedAt: Date;
-        imageId: string | null;
         lable: string;
         price: number;
         description: string | null;
+        mainImageId: string | null;
+        userId: string;
     } | null;
 }
 

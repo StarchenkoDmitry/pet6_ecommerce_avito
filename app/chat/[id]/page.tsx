@@ -1,5 +1,6 @@
 import db from '@/lib/db';
 import CreateMessageChat from '@/components/chat/CreateMessageChat';
+import Chat from '@/components/chat/Chat';
 
 
 export default async function Home({ params }: { params: { id: string } }) {
@@ -37,22 +38,6 @@ export default async function Home({ params }: { params: { id: string } }) {
 
   const bTime = Date.now();
 
-
-  // const messages = [];
-  // let currentMessage = chat.lastMessageId;
-  // for(let i = 0; i < 10000 && !!currentMessage; i++){
-  //   const message = await db.message.findFirst({
-  //     where:{
-  //       id:currentMessage
-  //     }
-  //   });
-  //   if(message){
-  //     messages.push(message);
-  //     currentMessage = message.prevMessageID;
-  //   }
-  // }
-
-
   const messages = await db.message.findMany({
     where:{
       chatId:chat.id
@@ -63,23 +48,14 @@ export default async function Home({ params }: { params: { id: string } }) {
     take:10000,
   });
 
-
   const aTime = Date.now();
   console.log("Time loading messages: ",aTime - bTime,` count:${messages.length}`);
-  
-
 
   return(
-    <div>
+    <div className='flex flex-col flex-1    _h-full _max-h-full'>
       <h3>CHATIK</h3>
       <CreateMessageChat chatId={chat.id}/>
-      <div className='p-2'>
-        {
-          messages.map(e=>(<div key={e.id}>
-            {e.text}
-          </div>))
-        }
-      </div>
+      <Chat chat={chat} messages={messages}/>
     </div>
   );
 }

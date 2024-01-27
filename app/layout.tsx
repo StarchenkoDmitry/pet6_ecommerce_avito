@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google'
 import Header from '../components/header/Header'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/config/authConfig'
+import clsx from 'clsx'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,16 +30,12 @@ export default async function RootLayout({
   return (
     <html lang="ru">
       <body className={inter.className}>
-
         <SessionProvider session={session}>
-
-          <main className='mx-auto px-1 w-full max-w-5xl min-h-dvh'>
+          <main className='mx-auto px-1 flex flex-col max-w-5xl w-full h-screen'>
             <Header/>
             {children}
-          </main>
-          
+          </main>          
         </SessionProvider>
-
       </body>
     </html>
   )
