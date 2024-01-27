@@ -49,6 +49,9 @@ async function getItemWithFavorite() {
             userId:session.user.userId
           }
         }
+      },
+      orderBy:{
+        ceatedAt:"desc"
       }
     });
     return items.map(({id,ceatedAt,updatedAt,description,price,imageId,lable,userId,favorites})=>({

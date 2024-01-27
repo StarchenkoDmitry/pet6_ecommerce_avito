@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { createItem, createItem3 } from "@/lib/actions/item";
+import { createItem3 } from "@/lib/actions/item";
 import { DEFAULT_ITEM_PRICE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MIN_ITEM_PRICE } from "@/lib/constants";
 import { convertFileToDataURL } from "@/lib/utils/imager";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 
 
-interface Props {}
+interface Props {
+    
+}
 
 function ItemBuilder(props: Props) {
 
@@ -28,9 +30,6 @@ function ItemBuilder(props: Props) {
         if (submiting) return;
         setSubmiting(true);
 
-        const formData2 = new FormData(event.currentTarget);
-        console.log("formData2: ",formData2.get("files"));
-
         const formData = new FormData();
         formData.append("lable",lable);
         formData.append("price",price);
@@ -42,19 +41,16 @@ function ItemBuilder(props: Props) {
 
         createItem3(formData)
         .then((res)=>{
-
+            setLable("");
+            setPrice("");
+            setDescription("");
+            setFiles([]);
+            setImages([]);
         }).catch((error)=>{
-
+            // console.log("error:", error);
+        }).finally(()=>{
+            setSubmiting(false);
         });
-
-        // createItem(formData)
-        //     .then(() => {
-        //         setSubmiting(false);
-        //     })
-        //     .catch((err) => {
-        //         setSubmiting(false);
-        //         console.log("err:", err);
-        //     });
     };
 
     const handleAddFiles = async (event: ChangeEvent<HTMLInputElement>)=>{

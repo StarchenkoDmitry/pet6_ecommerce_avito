@@ -15,3 +15,7 @@ export async function convertFileToDataURL(file:File):Promise<string>{
         }        
     });
 }
+
+// export async function convertFileToBuffer(file:File):Promise<Buffer> {
+//     return 
+// }
