@@ -56,14 +56,14 @@ function ChatView({chat}: ChatViewProps) {
                 alt="item"
             />
             <div className='ml-2'>
-                <div className=''>
+                <div>
                     <span className='text-lg'>{name}</span>
                 </div>
                 {
                     !!item &&
-                    <div className='flex text-xs bg-purple-300 rounded overflow-hidden'>
+                    <div className='flex w-fit text-xs bg-purple-300 rounded overflow-hidden'>
                         <div className='px-2 py-[2px] text-white'>{item.lable}</div>
-                        <div className='px-1 py-[2px] text-white bg-blue-500'>$ {item.price}</div>
+                        <div className='px-1 py-[2px] text-white bg-blue-500'>${item.price}</div>
                     </div>
                 }
             </div>
