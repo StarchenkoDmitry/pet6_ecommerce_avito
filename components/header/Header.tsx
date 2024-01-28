@@ -1,54 +1,48 @@
+'use client'
+
 import Link from "next/link";
 import AccountHeader from "./AccountHeader";
-import { auth } from "@/config/authConfig";
-import db from "@/lib/db";
+import { Bars4Icon, XMarkIcon } from "@heroicons/react/24/solid";
+import { User } from "@prisma/client";
+import clsx from "clsx";
+import { useState } from "react";
+import NavHeader from "./NavHeader";
+import PanelHeader from "./PanelHeader";
 
 
-export interface Props {}
+export interface Props {
+    user:User | null;
+}
 
-async function Header(props: Props) {
+function Header({user}: Props) {
     console.log("Render Header");
 
+    const [isOpen,setIsOpen] = useState(false);
 
-    const user = await db.user.currentUser();
+    const openPanel = ()=>{ setIsOpen(true); }
+    
+    const closePanel = ()=>{ setIsOpen(false); }
 
-    if(user){
-        return (
-            <div className="p-2 flex items-center">
-                <div className="p-2">
-                    <a href="/">
-                        <span className="mx-4 text-2xl">Avito</span>
-                    </a>
-                </div>
-                <nav className="ml-4">
-                    <ul className="flex [&>*:hover]:bg-gray-200 [&>*]:text-sm *:p-2 *:mx-1 *:rounded-full">
-                        <li><Link href="/">Главная</Link></li>
-                        <li><Link href="/about">О нас</Link></li>
-                        <li><Link href="/myitems">Мои объявления</Link></li>
-                        <li><Link href="/createitem">Разместить объявление</Link></li>
-                    </ul>
-                </nav>
-                <AccountHeader user={user}/>
-            </div>
-        )
-    }
     return (
-        <div className="p-2 flex items-center">
+        <div className="p-2 py-1 flex items-center">
             <div className="p-2">
                 <a href="/">
                     <span className="mx-4 text-2xl">Avito</span>
                 </a>
             </div>
 
-            <nav className="ml-4">
-                <ul className="flex [&>*:hover]:bg-gray-200 [&>*]:text-sm *:p-2 *:mx-1 *:rounded-full">
-                    <li><Link href="/">Главная</Link></li>
-                    <li><Link href="/about">О нас</Link></li>
-                    <li><Link href="/myitems">Мои объявления</Link></li>
-                    <li><Link href="/createitem">Разместить объявление</Link></li>
-                </ul>
-            </nav>
-            <AccountHeader/>
+            <NavHeader/>
+
+            <AccountHeader user={user}/>
+
+            <button
+                className="hidden max-[850px]:block"
+                onClick={openPanel}
+            >
+                <Bars4Icon className="w-10 h-10"/>
+            </button>
+
+            <PanelHeader isOpen={isOpen} onClose={closePanel}/>
         </div>
     )
 }

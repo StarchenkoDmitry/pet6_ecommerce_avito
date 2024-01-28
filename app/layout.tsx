@@ -8,6 +8,7 @@ import Header from '../components/header/Header'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/config/authConfig'
 import clsx from 'clsx'
+import db from '@/lib/db'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,18 +25,15 @@ export default async function RootLayout({
 }) {
   console.log("Render RootLayout");
 
-  const session = await auth();
-
+  const user = await db.user.currentUser();
 
   return (
     <html lang="ru">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <main className='mx-auto px-1 flex flex-col max-w-5xl w-full h-screen'>
-            <Header/>
-            {children}
-          </main>          
-        </SessionProvider>
+        <main className='mx-auto px-1 flex flex-col max-w-5xl w-full h-dvh _h-screen'>
+          <Header user={user}/>
+          {children}
+        </main>
       </body>
     </html>
   )
