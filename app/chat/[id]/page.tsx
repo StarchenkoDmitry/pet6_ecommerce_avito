@@ -25,8 +25,37 @@ export default async function Home({ params }: { params: { id: string } }) {
           userId:user.id
         }
       }
+    },
+    include:{
+      item:{},
+      chatUsers:{
+        select:{
+          id:true,
+          user:{
+            select:{
+              id:true,
+              imageId:true,
+              name:true,
+              surname:true,
+            }
+          },
+        },
+        where:{
+          userId:{
+            not:user.id
+          }
+        }
+      },
+      messages:{
+        orderBy:{
+          ceatedAt:'desc'
+        },
+        take:2
+      }
     }
   });
+
+  // console.log("CHAT: ",chat);
 
   if(!chat){
     return(
@@ -36,29 +65,44 @@ export default async function Home({ params }: { params: { id: string } }) {
     );
   }
 
-  const bTime = Date.now();
-
-  const messages = await db.message.findMany({
-    where:{
-      chatId:chat.id
-    },
-    orderBy:{
-      ceatedAt:'desc'
-    },
-    take:10000,
-  });
-
-  const aTime = Date.now();
-  console.log("Time loading messages: ",aTime - bTime,` count:${messages.length}`);
+  const { chatUsers,messages,item,...onlyChat } = chat;
+  // console.log(chatUsers);
+  // console.log(item);
 
   return(
-    <div className='flex flex-col flex-1    _h-full _max-h-full'>
-      <h3>CHATIK</h3>
-      <CreateMessageChat chatId={chat.id}/>
-      <Chat chat={chat} messages={messages}/>
+    <div className='flex flex-col flex-1'>
+      {/* <h3>CHATIK</h3>
+      <CreateMessageChat chatId={chat.id}/> */}
+      <Chat 
+        me={user} 
+        user={chatUsers.length > 0 ? chatUsers[0].user : undefined} 
+        chat={onlyChat} 
+        item={item}
+        messages={messages}
+      />
     </div>
   );
 }
+
+
+
+
+
+
+  // const bTime = Date.now();
+
+  // const messages = await db.message.findMany({
+  //   where:{
+  //     chatId:chat.id
+  //   },
+  //   orderBy:{
+  //     ceatedAt:'desc'
+  //   },
+  //   take:10000,
+  // });
+
+  // const aTime = Date.now();
+  // console.log("Time loading messages: ",aTime - bTime,` count:${messages.length}`);
 
 
 
