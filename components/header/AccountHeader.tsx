@@ -52,7 +52,7 @@ function AccountHeader({ user }: Props) {
                             className="w-8 h-8 object-cover rounded-full hover:scale-[1.2] transition-all"
                             src={imageUrl}
                             alt="avatar"
-                        />                        
+                        />
                     </button>
                     <div hidden={!isOpenMenu} className="z-10 fixed inset-0" onClick={toggleMenu} ></div>
                     <div hidden={!isOpenMenu} className="z-20 absolute w-max right-0 top-full p-2 bg-white rounded-lg border-2">
@@ -86,20 +86,3 @@ function AccountHeader({ user }: Props) {
     }
 }
 export default AccountHeader;
-
-
-
-{/* <a href="/profile" 
-                    className="mx-2 p-2 relative  group     bg-green-400"
-                >
-                    <img
-                        className="w-8 h-8 object-cover rounded-full hover:scale-[1.2] transition-all"
-                        src={imageUrl}
-                        alt="avatar"
-                    />
-                    <div className="absolute hidden group-hover:block  w-max right-0 top-full  p-2 bg-white rounded-lg border-2">
-                        <button className="p-1 px-2 hover:bg-blue-300 bg-gray-100 rounded-lg">
-                            Sing out
-                        </button>
-                    </div>
-                </a> */}
