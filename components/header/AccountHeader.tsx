@@ -45,8 +45,7 @@ function AccountHeader({ user }: Props) {
                     </Link>
                 </div>
                 <div className="mx-1 relative">
-                    <button 
-                        className="p-2"
+                    <button
                         onClick={toggleMenu}
                     >
                         <img
