@@ -6,8 +6,6 @@ import { Inter } from 'next/font/google'
 
 import Header from '../components/header/Header'
 import { SessionProvider } from 'next-auth/react'
-import { auth } from '@/config/authConfig'
-import clsx from 'clsx'
 import db from '@/lib/db'
 
 const inter = Inter({ subsets: ['latin'] })

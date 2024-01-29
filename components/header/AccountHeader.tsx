@@ -1,12 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
-import { BellIcon, HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { ChatBubbleLeftRightIcon,BellIcon, HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 import SignInButton from "./SignInButton";
-import { User } from "@prisma/client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
+import { User } from "@prisma/client";
 
 export interface Props {
     user: User | null;
@@ -23,6 +21,7 @@ function AccountHeader({ user }: Props) {
 
     const handleSignOut = ()=>{
         toggleMenu();
+        //todo:SignOut
     }
 
     if(user){

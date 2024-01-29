@@ -1,13 +1,13 @@
 'use client'
-
-import Link from "next/link";
-import AccountHeader from "./AccountHeader";
-import { Bars4Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import { User } from "@prisma/client";
-import clsx from "clsx";
 import { useState } from "react";
+
+import { Bars4Icon } from "@heroicons/react/24/solid";
+
+import AccountHeader from "./AccountHeader";
 import NavHeader from "./NavHeader";
 import PanelHeader from "./PanelHeader";
+
+import { User } from "@prisma/client";
 
 
 export interface Props {
