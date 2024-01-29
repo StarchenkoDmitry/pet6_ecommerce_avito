@@ -81,7 +81,7 @@ function AccountHeader({ user }: Props) {
                         <HeartIcon className='w-6 h-6 text-blue-500'/>
                     </a>
                 </div>
-                <SignInButton className="max-[560px]:hidden"/>
+                <SignInButton className="_max-[560px]:hidden"/>
             </div>
         )
     }

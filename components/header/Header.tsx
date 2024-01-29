@@ -25,9 +25,9 @@ function Header({user}: Props) {
 
     return (
         <div className="p-2 py-1 flex items-center">
-            <div className="p-2">
+            <div className="mx-4 p-2 max-[400px]:mx-2 max-[380px]:mx-0">
                 <a href="/">
-                    <span className="mx-4 text-2xl">Avito</span>
+                    <span className="text-2xl">Avito</span>
                 </a>
             </div>
 
