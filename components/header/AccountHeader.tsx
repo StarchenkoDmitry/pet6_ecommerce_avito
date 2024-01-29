@@ -43,12 +43,12 @@ function AccountHeader({ user }: Props) {
                         <ShoppingBagIcon className="w-6 h-6 text-blue-500"/>
                     </Link>
                 </div>
-                <div className="mx-1 relative">
+                <div className="mx-1 flex relative">
                     <button
                         onClick={toggleMenu}
                     >
                         <img
-                            className="w-8 h-8 object-cover rounded-full hover:scale-[1.2] transition-all"
+                            className="w-8 h-8 object-cover rounded-full hover:scale-105 transition-all"
                             src={imageUrl}
                             alt="avatar"
                         />

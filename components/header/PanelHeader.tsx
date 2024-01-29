@@ -19,7 +19,7 @@ function PanelHeader({user,isOpen,onClose}: Props) {
     
     return (
         <div className={clsx(
-            "z-30 fixed inset-0 w-screen bg-gray-50 transition-all _duration-1000 duration-300",
+            "z-30 fixed inset-0 w-full bg-gray-50 transition-all _duration-1000 duration-300",
             !isOpen && "left-full")}
             onClick={onClose}
         >
