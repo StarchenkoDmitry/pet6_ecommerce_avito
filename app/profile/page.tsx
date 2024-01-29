@@ -5,32 +5,29 @@ import db from '@/lib/db';
 
 
 export default async function Home() {
-  console.log("Render Main page");
+  console.log("Render Profile page");
 
-  const session = await auth();
+  const user = await db.user.currentUser();
 
-  if(session){
-    const user = await db.user.findFirst({ where:{ id:session.user.userId }});
-    if(user){
-      return (
-        <>
-          <h2>Profile page</h2>
-          <Breadcrumbs breadcrumbs={[
-            {
-              href:"/profile",
-              label:"Profile"
-            },
-            {
-              href:"/user",
-              label:"User"
-            }
-          ]}/>
-          <div className="p-2 bg-gray-50 rounded-lg">
-            <Profile user={user}/>
-          </div>
-        </>
-      )
-    }
+  if(user){
+    return (
+      <>
+        <h2>Profile page</h2>
+        <Breadcrumbs breadcrumbs={[
+          {
+            href:"/profile",
+            label:"Profile"
+          },
+          {
+            href:"/user",
+            label:"User"
+          }
+        ]}/>
+        <div className="p-2 bg-gray-50 rounded-lg">
+          <Profile user={user}/>
+        </div>
+      </>
+    )
   }
   return (
     <div className="p-2 bg-gray-50 rounded-lg">

@@ -4,9 +4,13 @@ import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Modal from "../ui/Modal/Modal";
 import AuthForm from "../auth/AuthForm";
+import clsx from "clsx";
 
+interface Props{
+    className?:string;
+}
 
-function SignInButton() {
+function SignInButton({className}:Props) {
 
     const [open,setOpen]= useState(false);
 
@@ -15,7 +19,10 @@ function SignInButton() {
 
     return (
         <>
-            <button className="m-1 px-2 p-1 rounded-lg text-white bg-blue-500" onClick={handleOpen}>
+            <button 
+                className={clsx("m-1 px-2 p-1 rounded-lg text-white bg-blue-500",
+                    className)} 
+                onClick={handleOpen}>
                 Вход и регистрация
             </button>
             

@@ -42,7 +42,7 @@ function Header({user}: Props) {
                 <Bars4Icon className="w-10 h-10"/>
             </button>
 
-            <PanelHeader isOpen={isOpen} onClose={closePanel}/>
+            <PanelHeader user={user} isOpen={isOpen} onClose={closePanel}/>
         </div>
     )
 }
