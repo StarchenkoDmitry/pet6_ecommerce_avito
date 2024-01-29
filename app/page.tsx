@@ -30,9 +30,6 @@ export default async function Home() {
 }
 
 
-
-
-
 const MAX_TAKE_ITEM = 16;
 
 async function getItemWithFavorite() {
@@ -57,16 +54,8 @@ async function getItemWithFavorite() {
         ceatedAt:"desc"
       }
     });
-    return items.map(({id,ceatedAt,updatedAt,description,price,mainImageId,images,lable,userId,favorites})=>({
-      id,
-      ceatedAt,
-      updatedAt,
-      lable,
-      price,
-      description,
-      mainImageId,
-      images,
-      userId,
+    return items.map(({favorites,...itemRest})=>({
+      ...itemRest,
       favorite: favorites.length >= 1
     }));
   }else{
@@ -78,13 +67,17 @@ async function getItemWithFavorite() {
           id:true,
           ceatedAt:true,
           updatedAt:true,
+
           lable:true,
           price:true,
           description:true,
           mainImageId:true,
-          images:true,
+          images:{
+            select:{
+              id:true
+            }
+          },
           userId:true,
-
           tempFavorites:{
             where:{
               tempFavoriteListId:tempFLId
@@ -92,35 +85,14 @@ async function getItemWithFavorite() {
             take:1
           }
         },
-        // include:{
-        //   images:{
-        //     select:{
-        //       id:true,
-        //     }
-        //   }
-        // },
         take:MAX_TAKE_ITEM,
       });
 
-      return items.map(({id,ceatedAt,updatedAt,description,price,mainImageId,images,lable,userId,tempFavorites})=>({
-        id,
-        ceatedAt,
-        updatedAt,
-        lable,
-        price,
-        description,
-        mainImageId,
-        images,
-        userId,
+      return items.map(({tempFavorites,...itemRest})=>({
+        ...itemRest,
         favorite: tempFavorites.length >= 1
       }));
-    }
-    else
-    {
-      // const items = await db.item.findMany({
-      //   take:MAX_TAKE_ITEM,
-      // });
-      // return items.map(i=>({...i,favorite:false}));
+    }else{
       const items = await db.item.findMany({
         select:{
           id:true,
@@ -130,7 +102,11 @@ async function getItemWithFavorite() {
           price:true,
           description:true,
           mainImageId:true,
-          images:true,
+          images:{
+            select:{
+              id:true
+            }
+          },
           userId:true,
         },
         take:MAX_TAKE_ITEM,
