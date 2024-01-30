@@ -180,7 +180,8 @@ function ItemBuilder(props: Props) {
                 className="hidden" 
                 name="files" 
                 type="file" 
-                accept="image/*"
+                // accept="image/*"
+                accept="image/png, image/jpg, image/jpeg"
                 multiple
                 ref={inputFileRef} 
                 onChange={handleAddFiles}
