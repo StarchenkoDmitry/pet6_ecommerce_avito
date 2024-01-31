@@ -34,8 +34,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
 #my trash
-_trash
+/_trash
+/_old
 
 #secret
 .env
