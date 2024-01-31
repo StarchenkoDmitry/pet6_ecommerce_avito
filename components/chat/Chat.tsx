@@ -42,8 +42,8 @@ function Chat({me,user,chat,item,messages}: Props) {
         <div className="flex flex-col flex-1 h-full">
             <div>
             {
-                user ? 
-                <div className="flex _bg-yellow-50 rounded-lg">
+                !!user ? 
+                (<div className="flex _bg-yellow-50 rounded-lg">
                     <img 
                         className="w-12 h-12 object-cover rounded-full"
                         src={user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg"}
@@ -61,12 +61,8 @@ function Chat({me,user,chat,item,messages}: Props) {
                             </div>
                         }
                     </div>
-                </div> :
-                <div>
-
-                </div>
-            }
-            
+                </div>):null
+            }            
             </div>
             <div className="my-2 p-2 flex-1 flex flex-col-reverse basis-0 overflow-hidden overflow-y-auto bg-sky-50 _bg-gray-100 rounded-lg">
             {

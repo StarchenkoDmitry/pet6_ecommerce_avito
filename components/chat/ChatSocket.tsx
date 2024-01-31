@@ -2,7 +2,7 @@
 
 import { GetBaseAddressWS } from '@/lib/const/websocket';
 import { CHAT_ADDED_MESSAGE, CHAT_ADD_MESSAGE, CHAT_INIT, ClientMessage, EVENT_CLIENT_MESSAGE, EVENT_SERVER_MESSAGE, ServerMessage } from '@/lib/interfaces/chat';
-import { Message } from '@prisma/client';
+import { Item, Message, User } from '@prisma/client';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import io, { Socket } from 'socket.io-client';
@@ -12,9 +12,13 @@ import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 interface Props{
     token:string;
     chatId:string;
+
+    me:User;
+    user?:Pick<User,"id" | "imageId" | "name" | 'surname'>;
+    item:Item | null;
 }
 
-export default function ChatSocket({token,chatId}:Props) {
+export default function ChatSocket({me,user,item,token,chatId}:Props) {
 
     const [messages,setMessages] = useState<Message[]>([]);
     const [text,setText] = useState<string>("");
@@ -74,6 +78,33 @@ export default function ChatSocket({token,chatId}:Props) {
 
     return (
         <div className="flex flex-col flex-1 h-full">
+            <div>
+            {
+                user ? 
+                <div className="flex _bg-yellow-50 rounded-lg">
+                    <img 
+                        className="w-12 h-12 object-cover rounded-full"
+                        src={user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg"}
+                        alt="avatar"
+                    />
+                    <div className="ml-2">
+                        <div>
+                            <span>{user.name}</span>
+                        </div>
+                        {
+                            !!item &&
+                            <div className='flex w-fit text-xs bg-purple-300 rounded overflow-hidden'>
+                                <div className='px-2 py-[2px] text-white'>{item.lable}</div>
+                                <div className='px-1 py-[2px] text-white bg-blue-500'>${item.price}</div>
+                            </div>
+                        }
+                    </div>
+                </div> :
+                <div>
+                </div>
+            }            
+            </div>
+
             <div className="my-2 p-2 flex-1 flex flex-col-reverse basis-0 overflow-hidden overflow-y-auto bg-sky-50 _bg-gray-100 rounded-lg">
             {
                 messages.map(e=>(<MessageBox key={e.id} message={e}/>))

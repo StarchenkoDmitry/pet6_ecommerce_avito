@@ -2,7 +2,7 @@
 "use client";
 
 import { createItem3 } from "@/lib/actions/item";
-import { DEFAULT_ITEM_PRICE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MIN_ITEM_PRICE } from "@/lib/constants";
+import { DEFAULT_ITEM_PRICE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MIN_ITEM_PRICE } from "@/lib/const";
 import { convertFileToDataURL } from "@/lib/utils/imager";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 

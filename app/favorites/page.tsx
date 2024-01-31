@@ -1,5 +1,5 @@
 import db from "@/lib/db"
-import { COOKIE_FAVORITE_KEY } from "@/lib/constants"
+import { COOKIE_FAVORITE_KEY } from "@/lib/const"
 import { cookies } from "next/headers"
 import ItemView from "@/components/item/ItemView"
 

@@ -3,7 +3,7 @@ import ItemView from '@/components/item/ItemView';
 import { auth } from '@/config/authConfig';
 import db from '@/lib/db';
 import { cookies } from 'next/headers';
-import { COOKIE_FAVORITE_KEY } from '@/lib/constants';
+import { COOKIE_FAVORITE_KEY } from '@/lib/const';
 
 
 

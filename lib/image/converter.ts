@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { MAX_PIXELS_IN_PICTURE } from "../constants";
+import { MAX_PIXELS_IN_PICTURE } from "../const";
 
 
 

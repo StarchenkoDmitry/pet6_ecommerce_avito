@@ -2,7 +2,7 @@
 
 import { auth } from "@/config/authConfig";
 import { cookies } from 'next/headers';
-import { COOKIE_FAVORITE_KEY } from "../constants";
+import { COOKIE_FAVORITE_KEY } from "../const";
 import { addMyFavorite, addTempFavorite, createMyTempFavoriteList } from "../services/favorite.service";
 import db from "../db";
 

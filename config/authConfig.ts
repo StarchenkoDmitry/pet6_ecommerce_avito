@@ -8,7 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { v4 } from "uuid";
 import db from "@/lib/db";
 import { cookies } from "next/headers";
-import { COOKIE_FAVORITE_KEY } from "@/lib/constants";
+import { COOKIE_FAVORITE_KEY } from "@/lib/const";
 import { transferFavorite } from "@/lib/services/favorite.service";
 
 
