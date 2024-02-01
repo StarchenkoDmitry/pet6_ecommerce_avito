@@ -1,72 +1,94 @@
 "use server"
 
-import { auth } from "@/config/authConfig";
-import { checkMaxAspectRation } from "../image/converter";
 import db from "../db";
 
+import { 
+    checkMaxAspectRation, 
+    convertByWidth 
+} from "../image/converter";
 
-// aspect ratio
-const MAX_ASPECT_RATION = 5;
-const MAX_SIZE_IMAGE = 1024*1024*8;//8MiB
+import { 
+    AVATAR_SCALE_WIDTH_0, 
+    AVATAR_SCALE_WIDTH_1, 
+    MAX_ASPECT_RATION_AVATAR,
+    MAX_FILE_SIZE_AVATAR 
+} from "../const";
 
 
 export async function changeAvatar(formData: FormData){
-    console.log("changeAvatar");
-
     try {
-        const file = formData.get("file");
-        console.log("changeAvatar file:",file);
-        
-        // check file on type of image/*
-        const fileIsImage = 
-            file 
-            && typeof file === "object";
-            // && file instanceof File
-            // && file.type.includes("image/");
+        console.log("changeAvatar");
 
-        if(!fileIsImage){
-            return {error:"a file is not a image"};
-        }
-
-        const session = await auth();
-        if(!session){
+        const user = await db.user.currentUser();
+        if(!user){
             return {error:"not authorized"};
         }
-        // const { user } = session;
-        // const { userId } = user;
-        const userId = session.user.userId;
-        
-        if(file.size >= MAX_SIZE_IMAGE){
-            return {error:"a file is larger than 8MiB"};
+        const userId = user.id;
+
+        const file = formData.get("file");
+
+        if( !file 
+            || typeof file !== "object" 
+            // || !(file instanceof File)
+            || !file.type.includes("image/")){
+            return {error:"a file is not an image"};
         }
 
-        console.log("changeAvatar 0");
+        if(file.size >= MAX_FILE_SIZE_AVATAR){
+            return {error:"an image is larger than 8MiB"};
+        }
+
         const buffer: Buffer = Buffer.from(await file.arrayBuffer());
 
-        console.log("changeAvatar 1");
-        if(!(await checkMaxAspectRation(buffer,MAX_ASPECT_RATION))){
-            return {error:`max aspect ration ${MAX_ASPECT_RATION}`};
+        if(!(await checkMaxAspectRation(buffer,MAX_ASPECT_RATION_AVATAR))){
+            return {error:`max aspect ration ${MAX_ASPECT_RATION_AVATAR}`};
+        }
+        
+
+        const b0 = await convertByWidth(buffer,AVATAR_SCALE_WIDTH_0);
+        const b1 = await convertByWidth(buffer,AVATAR_SCALE_WIDTH_1);
+
+        if(!b0 || !b1){
+            return {error:`failed to convert an image`};
         }
 
-        console.log("changeAvatar 2");
         const result = await db.$transaction(async(ts)=>{
+            const userBefore = await ts.user.findFirst({
+                where:{id:userId}
+            });
+            if(!userBefore){
+                return;
+            }
+            console.log("changeAvatar userAvatar:",userBefore);
+            const avatar = await ts.avatarImage.create({
+                data:{
+                    buffer:buffer,
+                    buffer0:b0,
+                    buffer1:b1,
+                    size:buffer.byteLength,
+                    size0:b0.byteLength,
+                    size1:b1.byteLength,
+                }
+            });
             const userUpdated = await ts.user.update({
                 data:{
-                    image:{
-                        create:{
-                            buffer:buffer,
-                            size:buffer.byteLength,
-                        }
-                    }
+                    imageId:avatar.id
                 },
-                where:{
-                    id:userId
-                }
+                where:{ id:userId }
             })
-            return userUpdated;
+            if(userBefore.imageId){
+                const deleted = await ts.avatarImage.delete({
+                    where:{
+                        id:userBefore.imageId
+                    }
+                });
+                console.log("changeAvatar deleted:",deleted);
+            }
+            console.log("changeAvatar userUpdated:",userUpdated);
+            return avatar;
         });
         return {
-            statusOk:!!result,
+            status:!!result,
         }
     } catch (error) {
         console.log('Action createItem error:',error);
@@ -75,27 +97,23 @@ export async function changeAvatar(formData: FormData){
 }
 
 
-
-
 export async function changeName(name:string){
     try {
         console.log("changeName: ",name);
 
-        const session = await auth();
+        const user = await db.user.currentUser();
 
-        if(!session){
+        if(!user){
             return {error:"not authorized"};
         }
 
-        const userId = session.user.userId;
-        
         const result = await db.$transaction(async(ts)=>{
             const userUpdated = await ts.user.update({
                 data:{
                     name:name,
                 },
                 where:{
-                    id:userId
+                    id:user.id
                 }
             })
             return userUpdated;
@@ -105,6 +123,7 @@ export async function changeName(name:string){
         return false;
     }
 }
+
 
 export async function changeSurname(surname:string){
     try {
