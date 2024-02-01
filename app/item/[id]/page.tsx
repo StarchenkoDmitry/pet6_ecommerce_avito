@@ -33,7 +33,7 @@ export default async function Home({ params }: { params: { id: string } }) {
         }
       }
     });
-    console.log("ITEM: ",item);
+    
     if(item){
       const owner = item.user ? item.user.id === user.id : false;
       const favorite = item.favorites.length >= 1;

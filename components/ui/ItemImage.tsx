@@ -16,9 +16,11 @@ interface Props {
     sizes?:string;
     width?:number;
     height?:number;
+
+    alt?:string;
 }
 
-function ItemImage({id,className,height,width,sizes}: Props) {
+function ItemImage({id,className,height,width,sizes,alt}: Props) {
     if(id){
         const imageUrl = `/api/imagesize/${id}`;
         const srcSeet = createSet(id);
@@ -30,7 +32,7 @@ function ItemImage({id,className,height,width,sizes}: Props) {
                 width={width}
                 height={height}
                 sizes={sizes? sizes : "250px"}
-                alt="item image"
+                alt={alt ? alt : "an item image"}
             />
         )
     }else{
@@ -42,7 +44,7 @@ function ItemImage({id,className,height,width,sizes}: Props) {
                 height={height ? height : 256}
                 quality={90}
                 sizes={sizes? sizes : "250px"}
-                alt="without an image"
+                alt={alt ? alt : "without image"}
             />
         )
     }

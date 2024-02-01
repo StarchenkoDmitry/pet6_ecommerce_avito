@@ -32,9 +32,13 @@ export default function ChatSocket({me,user,item,token,chatId}:Props) {
         });
 
         socket.current.on("connect", () => {
-            console.log(`Server connect`);
+            
         });
-        
+
+        socket.current.on("disconnect", (reason) => {
+            
+        });
+
         socket.current.on(EVENT_SERVER_MESSAGE, (message:ServerMessage) => {
             console.log(`Server data: ${JSON.stringify(message)}`);
             switch(message.type){
@@ -43,21 +47,15 @@ export default function ChatSocket({me,user,item,token,chatId}:Props) {
                     break;
                 }
                 case CHAT_ADDED_MESSAGE:{
-                    console.log("TESSST");
                     setMessages(prev=>[message.data.message,...prev]);
                     break;
                 }
                 default:{
-                    console.log("type default");
                     break;
                 }
             }
         });
-
-        socket.current.on("disconnect", (reason) => {
-            console.log(`Server disconnect reason: ${JSON.stringify(reason)}`);
-        });
-
+        
         return () => {
             socket.current?.disconnect();
             socket.current = undefined;
@@ -102,7 +100,7 @@ export default function ChatSocket({me,user,item,token,chatId}:Props) {
                 </div> :
                 <div>
                 </div>
-            }            
+            }
             </div>
 
             <div className="my-2 p-2 flex-1 flex flex-col-reverse basis-0 overflow-hidden overflow-y-auto bg-sky-50 _bg-gray-100 rounded-lg">

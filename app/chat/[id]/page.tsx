@@ -30,7 +30,7 @@ export default async function Home({ params }: { params: { id: string } }) {
   }
 
   const accessToken = session.user.accessToken;
-  console.log("ITME:",chat.chatUsers);
+  // console.log("ITME:",chat.chatUsers);
 
   const userCom = chat.chatUsers.length > 0 ? chat.chatUsers[0].user : undefined;
 

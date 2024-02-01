@@ -8,6 +8,7 @@ import { HeartIcon as HeartIconOutLine } from "@heroicons/react/24/outline"
 import { Item } from "@prisma/client"
 import { useState } from "react"
 import ItemSidePanel from "./ItemSidePanel"
+import ItemImage from "../ui/ItemImage"
 
 
 export interface UserOwner{
@@ -23,10 +24,9 @@ export interface Props {
   isOwner: boolean;
   userOwner?: UserOwner;
 }
-//itemOwner
+
 function Item({ item, favorite, isOwner,userOwner }: Props) {
-  const { id, imageId, lable, price } = item;
-  const imageUrl = imageId ? `/api/image/${imageId}` : "/img/1.jpg";
+  const { id, mainImageId, lable, price } = item;
   const userAvatarUrl = userOwner ? 
     userOwner.imageId ? `/api/avatar/${userOwner.imageId}` : "/img/1.jpg" : 
     undefined;
@@ -69,12 +69,9 @@ function Item({ item, favorite, isOwner,userOwner }: Props) {
             }
             <span className="px-1">Add to favorite</span>
           </button>
-          <img
+          <ItemImage 
+            id={mainImageId}
             className="w-[250px] h-[200px] object-cover rounded"
-            src={imageUrl}
-            alt="item"
-            width={50}
-            height={250}
           />
         </div>
         <ItemSidePanel isOwner={isOwner} item={item} userOwner={userOwner}/>
