@@ -6,6 +6,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import ProfileInput from '../ui/input/ProfileInput';
 import { changeAvatar, changeName } from '@/lib/actions/user';
 import clsx from 'clsx';
+import Avatar from '../ui/Avatar';
 
 
 interface Props {
@@ -13,14 +14,11 @@ interface Props {
 }
 
 function Profile({user}: Props) {
-
-    const imageUrl = user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg";
-
-
     const [changingImage,setchangingImage] = useState(false);
     const [imageFile,setImageFile] = useState<any>();
     const [image,setImage] = useState<any>();
     const inputRef = useRef<HTMLInputElement | null>(null);
+
     const imageRef = useRef({
         newFile: undefined,
         updatedFile: undefined,
@@ -31,9 +29,9 @@ function Profile({user}: Props) {
         const files = event.target.files;
         if(!files)return;
 
-        const fd = new FormData();
-        fd.append("file",files[0]);
-        changeAvatar(fd);
+        const formData = new FormData();
+        formData.append("file",files[0]);
+        changeAvatar(formData);
         setImageFile(files[0]);
     }
     const handleSelectFile = ()=>{
@@ -111,12 +109,12 @@ function Profile({user}: Props) {
                     onClick={handleSelectFile}
                     className='p-1 px-2 _block bg-green-300 hover:bg-green-400 transition-all rounded-lg'
                 >Upload a image</button>
-                <img
-                    className="m-2 w-24 h-24 object-cover rounded-xl hover:scale-[1.2] transition-all"
-                    src={imageUrl}
-                    alt="item"
-                    width={50}
-                    height={250}
+                <Avatar
+                    id={user.imageId}
+                    className='m-2 w-24 h-24 object-cover rounded-xl hover:scale-[1.2] transition-all'
+                    width={256}
+                    height={256}
+                    sizes='256px'
                 />
             </div>
         </div>
