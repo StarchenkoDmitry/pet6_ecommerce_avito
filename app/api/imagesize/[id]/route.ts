@@ -1,9 +1,11 @@
-import { PICTURE_SCALE_HEIGHT_0, PICTURE_SCALE_HEIGHT_1, PICTURE_SCALE_HEIGHT_2, PICTURE_SCALE_HEIGHT_3 } from "@/lib/const";
+import { 
+    PICTURE_SCALE_HEIGHT_0,
+    PICTURE_SCALE_HEIGHT_1,
+    PICTURE_SCALE_HEIGHT_2,
+    PICTURE_SCALE_HEIGHT_3 
+} from "@/lib/const";
 import db from "@/lib/db";
-import { NextApiRequest } from "next"
 import { NextRequest, NextResponse } from "next/server";
-
-
 
 
 export async function GET(
@@ -14,7 +16,6 @@ export async function GET(
         const searchParams = req.nextUrl.searchParams
         const heightStr = searchParams.get('h')
         const id = params.id;
-        // let image;
 
         console.log("ID: ",id);
         console.log("height: ",heightStr);
