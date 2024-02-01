@@ -57,6 +57,7 @@ function AccountHeader({ user }: Props) {
                         <Avatar
                             className="w-[32px] h-[32px] object-cover rounded-full hover:scale-110 transition-all"
                             id={user.imageId}
+                            sizes="32px"
                         />
                     </button>
                     <div hidden={!isOpenMenu} className="z-10 fixed inset-0" onClick={toggleMenu} ></div>
