@@ -1,17 +1,26 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
-import { ChatBubbleLeftRightIcon,BellIcon, HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
-import SignInButton from "./SignInButton";
+
 import Link from "next/link";
 import { useState } from "react";
+
+import { 
+    ChatBubbleLeftRightIcon,
+    BellIcon, 
+    HeartIcon, 
+    ShoppingBagIcon 
+} from "@heroicons/react/24/solid";
+
+import SignInButton from "./SignInButton";
+import Avatar from "../ui/Avatar";
+
 import { User } from "@prisma/client";
+
 
 export interface Props {
     user: User | null;
 }
 
 function AccountHeader({ user }: Props) {
-    console.log("Render HeaderAccount");
 
     const [isOpenMenu,setIsOpenMenu] = useState(false);
 
@@ -25,8 +34,6 @@ function AccountHeader({ user }: Props) {
     }
 
     if(user){
-        const imageUrl = user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg";
-
         return (
             <div className="ml-auto p-1 flex items-center">
                 <div className="p-1 flex bg-gray-100 rounded-lg">
@@ -43,14 +50,13 @@ function AccountHeader({ user }: Props) {
                         <ShoppingBagIcon className="w-6 h-6 text-blue-500"/>
                     </Link>
                 </div>
-                <div className="mx-1 flex relative">
+                <div className="m-1 flex relative">
                     <button
                         onClick={toggleMenu}
                     >
-                        <img
-                            className="w-8 h-8 object-cover rounded-full hover:scale-105 transition-all"
-                            src={imageUrl}
-                            alt="avatar"
+                        <Avatar
+                            className="w-[32px] h-[32px] object-cover rounded-full hover:scale-110 transition-all"
+                            id={user.imageId}
                         />
                     </button>
                     <div hidden={!isOpenMenu} className="z-10 fixed inset-0" onClick={toggleMenu} ></div>
@@ -84,4 +90,5 @@ function AccountHeader({ user }: Props) {
         )
     }
 }
+
 export default AccountHeader;
