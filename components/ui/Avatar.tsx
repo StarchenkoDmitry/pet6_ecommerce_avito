@@ -24,7 +24,7 @@ function Avatar({id,className,height,width,sizes,alt}: Props) {
         const srcSeet = createAvatarSrcSet(id);
         return (
             <img 
-                className={clsx("border-2",className)}
+                className={className}
                 src={imageUrl}
                 srcSet={srcSeet}
                 width={width}
@@ -36,7 +36,7 @@ function Avatar({id,className,height,width,sizes,alt}: Props) {
     }else{
         return(
             <Image 
-                className={clsx("border-2",className)}
+                className={className}
                 src={"/images/user.png"}
                 width={width ? width : 256}
                 height={height ? height : 256}
