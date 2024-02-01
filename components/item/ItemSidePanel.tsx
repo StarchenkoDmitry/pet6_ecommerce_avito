@@ -1,9 +1,10 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 
 import { Item } from "@prisma/client";
 import { UserOwner } from "./Item";
 import { createChatAboutItem } from "@/lib/actions/chat";
+import Avatar from "../ui/Avatar";
+
 
 export interface Props {
     item: Item;
@@ -14,56 +15,78 @@ export interface Props {
 function ItemSidePanel({ isOwner, item, userOwner }: Props) {
     const { price } = item;
 
-    const userAvatarUrl = userOwner
-        ? userOwner.imageId
-            ? `/api/avatar/${userOwner.imageId}`
-            : "/img/1.jpg"
-        : "/img/1.jpg";
-
     const handleWriteMessage = () => {
         createChatAboutItem(item.id)
         .then((res)=>{
-          console.log("createChatAboutItem RESULT",res);
+            console.log("createChatAboutItem RESULT",res);
         });
     };
 
+    const handleShowPhone = ()=>{
+        //todo:ShowPhone
+    }
+
     return (
-        <div className="w-80 flex flex-col">
-            <span className="px-1 block text-2xl font-medium_">{price} ₽</span>
+        <div className="md:w-80 flex flex-col">
+            <span className="px-1 block text-2xl font-medium_">$ {price}</span>
             {isOwner ? 
-                <div>
+                <div className="my-2 p-1 bg-sky-100 rounded-lg">
                     <span>Это ваше объявление</span>
                 </div> : 
                 <>
-                    <span>Купить</span>
                     <button
-                        className="my-2 p-2 text-white bg-sky-400 rounded-lg"
+                        className="p-2 bg-green-300 hover:bg-green-400 rounded-lg"
+                        onClick={handleShowPhone}>
+                        Показать номер телефона
+                    </button>
+                    <button
+                        className="my-2 p-2 text-white bg-sky-400 hover:bg-sky-500 rounded-lg"
                         onClick={handleWriteMessage}
                     >
                         Написать сообщение
                     </button>
                 </>
-            }            
+            }
             {userOwner ? (
-                <div className="p-1 bg-blue-100 rounded-lg">
-                    <a href="/profile" className="">
-                        <img
-                            className="w-11 h-11 object-cover rounded-full"
-                            src={userAvatarUrl}
-                            alt="avatar"
-                        />
-                    </a>
+                <div className="p-1 bg-sky-100 rounded-lg">
                     <h3>Продавец</h3>
-                    {!!userOwner.name ? (
-                        <span>Name: {userOwner.name}</span>
-                    ) : (
-                        <span>Без имени</span>
-                    )}
-                    {!!userOwner.surname && <span>Surname: {userOwner.surname}</span>}
+                    <div className="flex">
+                        <a
+                            className="mr-2"
+                            href={`/user/${userOwner.id}`}>
+                            <Avatar
+                                className="w-[64px] h-[64px] object-cover rounded-full"
+                                id={userOwner.imageId}
+                                sizes="64px"
+                            />
+                        </a>
+                        <div className="flex flex-col">
+                            <div>
+                                <span className="mr-2">name</span>
+                                <a
+                                    className="text-blue-400"
+                                    href={`/user/${userOwner.id}`}
+                                >
+                                    {userOwner.name}
+                                </a>
+                            </div>
+                            {!!userOwner.surname && 
+                                <div>
+                                    <span className="mr-2">surname</span>
+                                    <a
+                                        className="text-blue-400"
+                                        href={`/user/${userOwner.id}`}
+                                    >
+                                        {userOwner.surname}
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
             ) : (
-                <div>
-                    
+                <div className="p-1 bg-sky-100 rounded-lg">
+                    <h3>У данного товара отсутствует продавец</h3>
                 </div>
             )}
         </div>
