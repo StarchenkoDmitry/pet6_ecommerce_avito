@@ -1,19 +1,18 @@
-/* eslint-disable @next/next/no-img-element */
-
-import { Chat } from '@prisma/client';
 import Link from 'next/link';
 import React from 'react'
 
+import { Chat } from '@prisma/client';
+
+import Avatar from '../ui/Avatar';
+
 
 export type ChatWithChatUserAndItem = Chat & {
-    chatUsers: {
-        user:{
-            id: string;
-            imageId: string | null;
-            name: string;
-            surname: string | null;
-        }
-    }[];
+    user?:{
+        id: string;
+        imageId: string | null;
+        name: string;
+        surname: string | null;
+    },
     item: {
         id: string;
         ceatedAt: Date;
@@ -31,33 +30,20 @@ export interface ChatViewProps {
 }
 
 function ChatView({chat}: ChatViewProps) {
-    const { id,item,itemId, chatUsers  } = chat;
+    const { id, item, user } = chat;
 
-    let userAvatarUrl;
-    let name;
-    if(chatUsers.length > 0){
-        userAvatarUrl = chatUsers.length > 0 ?
-            chatUsers[0].user.imageId ? 
-            `/api/avatar/${chatUsers[0].user.imageId}` : "/img/1.jpg" : 
-        undefined;
-        name = chatUsers[0].user.name
-    }
-
-    const chatUrl = `/chat/${id}`;
-    
     return (
         <Link 
             className='m-1 p-1 flex bg-white _bg-gray-50 hover:bg-blue-100 transition-all _hover:bg-gray-100 rounded-lg'
-            href={chatUrl}
+            href={`/chat/${id}`}
         >
-            <img
-                className="w-12 h-12 object-cover rounded-lg"
-                src={userAvatarUrl}
-                alt="item"
+            <Avatar
+                className='w-[48px] h-[48px] object-cover rounded-lg'
+                id={user ? user.imageId : null}
             />
             <div className='ml-2'>
                 <div>
-                    <span className='text-lg'>{name}</span>
+                    <span className='text-lg'>{user? user.name : "без имени"}</span>
                 </div>
                 {
                     !!item &&
