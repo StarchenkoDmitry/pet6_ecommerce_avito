@@ -1,13 +1,31 @@
 'use client'
 
-import { GetBaseAddressWS } from '@/lib/const/websocket';
-import { CHAT_ADDED_MESSAGE, CHAT_ADD_MESSAGE, CHAT_INIT, ClientMessage, EVENT_CLIENT_MESSAGE, EVENT_SERVER_MESSAGE, ServerMessage } from '@/lib/interfaces/chat';
-import { Item, Message, User } from '@prisma/client';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-
+import { 
+    ChangeEvent, 
+    useEffect, 
+    useRef, 
+    useState 
+} from 'react';
 import io, { Socket } from 'socket.io-client';
-import MessageBox from './MessageBox';
+
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
+
+import { GetBaseAddressWS } from '@/lib/const/websocket';
+import { 
+    CHAT_ADDED_MESSAGE, 
+    CHAT_ADD_MESSAGE, 
+    CHAT_INIT, 
+    ClientMessage, 
+    EVENT_CLIENT_MESSAGE, 
+    EVENT_SERVER_MESSAGE, 
+    ServerMessage 
+} from '@/lib/interfaces/chat';
+
+import { Item, Message, User } from '@prisma/client';
+
+import MessageBox from './MessageBox';
+import Avatar from '../ui/Avatar';
+
 
 interface Props{
     token:string;
@@ -80,10 +98,10 @@ export default function ChatSocket({me,user,item,token,chatId}:Props) {
             {
                 user ? 
                 <div className="flex _bg-yellow-50 rounded-lg">
-                    <img 
-                        className="w-12 h-12 object-cover rounded-full"
-                        src={user.imageId ? `/api/avatar/${user.imageId}` : "/img/1.jpg"}
-                        alt="avatar"
+                    <Avatar
+                        className='w-[48px] h-[48px] object-cover rounded-full'
+                        id={user.imageId}
+                        sizes='48px'
                     />
                     <div className="ml-2">
                         <div>
