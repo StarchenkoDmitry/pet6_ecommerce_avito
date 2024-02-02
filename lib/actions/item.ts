@@ -3,125 +3,22 @@
 import { File } from "buffer";
 import db from "../db";
 import { checkMaxAspectRation, convertByHeight } from "../image/converter";
-import { auth } from "@/config/authConfig";
-import { MAX_ASPECT_RATION_PICTURE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MAX_SIZE_ITEM_LABLE, MIN_ITEM_PRICE, MIN_SIZE_ITEM_LABLE, PICTURE_SCALE_HEIGHT_0, PICTURE_SCALE_HEIGHT_1, PICTURE_SCALE_HEIGHT_2, PICTURE_SCALE_HEIGHT_3 } from "../const";
+import { 
+    MAX_ASPECT_RATION_PICTURE, 
+    MAX_COUNT_PICTURES, 
+    MAX_ITEM_PRICE, 
+    MIN_ITEM_PRICE, 
+    MAX_SIZE_ITEM_DESCRIPTION, 
+    MAX_SIZE_ITEM_LABLE, 
+    MIN_SIZE_ITEM_LABLE, 
+    PICTURE_SCALE_WIDTH_0, 
+    PICTURE_SCALE_WIDTH_1, 
+    PICTURE_SCALE_WIDTH_2, 
+    PICTURE_SCALE_WIDTH_3 
+} from "../const";
 
 
-
-// const MAX_WIDTH_IMAGE_LEVEL_0 = 100;
-// const MAX_WIDTH_IMAGE_LEVEL_1 = 256;
-// const MAX_WIDTH_IMAGE_LEVEL_2 = 512;
-
-// const MAX_SIZE_IMAGE = 1024*1024*8;//8MiB
-
-// export async function createItem(formData: FormData){
-//     console.log("createItem");
-
-//     try {
-//         const lable = formData.get("lable");
-//         const price = formData.get("price");
-//         const file = formData.get("file");
-        
-//         if(
-//             typeof lable !== "string" ||
-//             typeof price !== "string"
-//         ){
-//             return {error:"no corect data"};
-//         }
-
-//         // check file on type of image/*
-//         const fileIsImage = 
-//             typeof file === "object" && 
-//             file instanceof File && 
-//             file.type.includes("image/");
-
-//         const session = await auth();
-//         if(!session){
-//             return {error:"not authorized"};
-//         }
-//         const { user } = session;
-//         const { userId } = user;
-        
-//         if(fileIsImage){
-//             if(file.size >= MAX_SIZE_IMAGE){
-//                 return {error:"a file is larger than 8MiB"};
-//             }
-    
-//             const buffer: Buffer = Buffer.from(await file.arrayBuffer());
-
-//             if(!(await checkMaxAspectRation(buffer,MAX_ASPECT_RATION_PICTURE))){
-//                 return {error:`max aspect ration ${MAX_ASPECT_RATION_PICTURE}`};
-//             }
-
-//             const buffer0: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_0);
-//             const buffer1: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_1);
-//             const buffer2: Buffer | undefined = await convertByHeight(buffer,MAX_WIDTH_IMAGE_LEVEL_2);
-            
-//             if(!buffer0 || !buffer1 || !buffer2){
-//                 return {error:"failed convert image"};
-//             }
-            
-//             if(
-//                 buffer0.byteLength >= MAX_SIZE_IMAGE ||
-//                 buffer1.byteLength >= MAX_SIZE_IMAGE ||
-//                 buffer2.byteLength >= MAX_SIZE_IMAGE
-//             ){
-//                 return {error:"a converted file is larger than 8MiB"};
-//             }
-
-//             const itemRes = await db.$transaction(async(ctx)=>{
-//                 const imageRes = await db.itemImage.create({
-//                     data:{
-//                         buffer: buffer,
-//                         size: buffer.byteLength,
-
-//                         buffer0:buffer0,
-//                         buffer1:buffer1,
-//                         buffer2:buffer2,
-//                         size0:buffer0.byteLength,
-//                         size1:buffer1.byteLength,
-//                         size2:buffer2.byteLength,
-//                     }
-//                 })
-//                 const itemRes = await ctx.item.create({
-//                     data:{
-//                         lable:lable,
-//                         price:parseInt(price),
-//                         imageId:imageRes.id,
-//                         userId:userId,
-//                     }
-//                 })
-//                 return itemRes;
-//             });
-//             return { statusOk: !!itemRes };
-//         }else{
-//             const itemRes = await db.$transaction(async(ctx)=>{
-//                 const itemRes = await ctx.item.create({
-//                     data:{
-//                         lable:lable,
-//                         price:parseInt(price),
-//                         userId:userId,
-//                     }
-//                 })
-//                 return itemRes;
-//             });
-//             return { statusOk: !!itemRes };
-//         }        
-//     } catch (error) {
-//         console.log('Action createItem error:',error);
-//         return { error:"error" };
-//     }
-// }
-
-
-// File {
-//     size: 103947,
-//     type: 'image/jpeg',
-//     name: 'jpg1851117301.jpg',
-//     lastModified: 1706292465540
-//   }
-
-export async function createItem3(formData: FormData){
+export async function createItem(formData: FormData){
     try {
         console.log("createItem3");
 
@@ -136,22 +33,22 @@ export async function createItem3(formData: FormData){
 
 
         if(typeof lable !== "string"){
-            console.log("createItem3_0");
+            console.log("createItem lable is not string");
             return;
         }
         if(typeof priceStr !== "string"){
-            console.log("createItem3_1");
+            console.log("createItem priceStr is not string");
             return;
         }        
         if(typeof description !== "string"){
-            console.log("createItem3_2");
+            console.log("createItem description is not string");
             return;
         }
 
         if(
             lable.length > MAX_SIZE_ITEM_LABLE || 
             lable.length < MIN_SIZE_ITEM_LABLE){
-                console.log("createItem3_3");
+                // console.log(`createItem lable lenght biggest ${MAX_SIZE_ITEM_LABLE} or less than ${MIN_SIZE_ITEM_LABLE}`);
             return;
         }
 
@@ -198,8 +95,6 @@ export async function createItem3(formData: FormData){
                 images.push(img);
             }
         }
-
-        // const image = images[0];
         
         const itemRes = await db.$transaction(async(ts)=>{
             const imagesDB = [];
@@ -268,14 +163,14 @@ type ImageAndScales = {
     buffer3:Buffer;
 }
 
-//formatting images for different resolutions "formatFilesToImagesWithDifferentResolutions"
+//formatting images for different resolutions
 async function formatFileToImageSacles(buffer:Buffer)
 :Promise<ImageAndScales | undefined>{
     try {
-        const b0 = await convertByHeight(buffer,PICTURE_SCALE_HEIGHT_0);
-        const b1 = await convertByHeight(buffer,PICTURE_SCALE_HEIGHT_1);
-        const b2 = await convertByHeight(buffer,PICTURE_SCALE_HEIGHT_2);
-        const b3 = await convertByHeight(buffer,PICTURE_SCALE_HEIGHT_3);
+        const b0 = await convertByHeight(buffer,PICTURE_SCALE_WIDTH_0);
+        const b1 = await convertByHeight(buffer,PICTURE_SCALE_WIDTH_1);
+        const b2 = await convertByHeight(buffer,PICTURE_SCALE_WIDTH_2);
+        const b3 = await convertByHeight(buffer,PICTURE_SCALE_WIDTH_3);
         if(!b0 || !b1 || !b2 || !b3)return;
 
         const img : ImageAndScales = {
@@ -291,35 +186,3 @@ async function formatFileToImageSacles(buffer:Buffer)
         return;
     }
 }
-
-
-
-                            // connect://[
-                            // {
-                            //     buffer:img.buffer,
-                            //     buffer0:img.buffer0,
-                            //     buffer1:img.buffer1,
-                            //     buffer2:img.buffer2,
-                            //     buffer3:img.buffer3,
-            
-                            //     size:img.buffer.length,
-                            //     size0:img.buffer0.length,
-                            //     size1:img.buffer1.length,
-                            //     size2:img.buffer2.length,
-                            //     size3:img.buffer3.length,
-                            // }
-                        //]
-                            // [
-                            //     imagesDB.map(e=>({
-                            //         buffer:e.buffer,
-                            //         buffer0:e.buffer0,
-                            //         buffer1:e.buffer1,
-                            //         buffer2:e.buffer2,
-                            //         buffer3:e.buffer3,
-                            //         size:image.buffer.length,
-                            //         size0:image.buffer.length,
-                            //         size1:image.buffer.length,
-                            //         size2:image.buffer.length,
-                            //         size3:image.buffer.length,
-                            //     }))
-                            // ]

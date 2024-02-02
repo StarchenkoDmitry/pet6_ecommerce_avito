@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { createItem3 } from "@/lib/actions/item";
+import { createItem } from "@/lib/actions/item";
 import { DEFAULT_ITEM_PRICE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MIN_ITEM_PRICE } from "@/lib/const";
 import { convertFileToDataURL } from "@/lib/utils/imager";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
@@ -39,7 +39,7 @@ function ItemBuilder(props: Props) {
             formData.append("files", files[x]);
         }
 
-        createItem3(formData)
+        createItem(formData)
         .then((res)=>{
             setLable("");
             setPrice("");
