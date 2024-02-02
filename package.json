@@ -1,7 +1,6 @@
 {
   "name": "pet6_ecommerce_avito",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,11 +10,7 @@
     "prettier:check": "prettier --check --ignore-unknown ."
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.1.1",
-    "@mui/icons-material": "^5.15.3",
-    "@mui/material": "^5.15.3",
     "@prisma/client": "^5.8.0",
     "@types/uuid": "^9.0.7",
     "clsx": "^2.1.0",
