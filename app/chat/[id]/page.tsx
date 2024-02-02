@@ -6,7 +6,6 @@ import ChatSocket from "@/components/chat/ChatSocket";
 
 export default async function Home({ params }: { params: { id: string } }) {
     const { id: chatId } = params;
-    console.log("Render Chat page");
 
     const session = await auth();
     const user = await db.user.currentUser();

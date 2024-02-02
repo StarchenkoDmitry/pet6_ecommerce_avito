@@ -1,17 +1,20 @@
 'use client'
 
 import { useState } from "react";
+import clsx from "clsx";
+
 import { XMarkIcon } from "@heroicons/react/24/solid";
+
 import Modal from "../ui/Modal/Modal";
 import AuthForm from "../auth/AuthForm";
-import clsx from "clsx";
+
 
 interface Props{
     className?:string;
 }
 
 function SignInButton({className}:Props) {
-
+    
     const [open,setOpen]= useState(false);
 
     const handleOpen = ()=>{ setOpen(true); }

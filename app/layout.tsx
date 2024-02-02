@@ -1,38 +1,34 @@
-import './globals.css'
+import "./globals.css";
+import { Inter } from "next/font/google";
 
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import type { Metadata } from "next";
+
+import Header from "../components/header/Header";
+import db from "@/lib/db";
 
 
-import Header from '../components/header/Header'
-import { SessionProvider } from 'next-auth/react'
-import db from '@/lib/db'
-
-const inter = Inter({ subsets: ['latin'] })
-
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Avito',
-  description: 'Avito: недвижимость, транспорт, работа, услуги, вещи',
-}
+    title: "Avito",
+    description: "Avito: недвижимость, транспорт, работа, услуги, вещи",
+};
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
+export default async function RootLayout({ 
+  children 
+}: { 
+  children: React.ReactNode 
 }) {
-  console.log("Render RootLayout");
+    const user = await db.user.currentUser();
 
-  const user = await db.user.currentUser();
-
-  return (
-    <html lang="ru">
-      <body className={inter.className}>
-        <main className='mx-auto px-1 flex flex-col max-w-5xl w-full h-dvh _h-screen'>
-          <Header user={user}/>
-          {children}
-        </main>
-      </body>
-    </html>
-  )
+    return (
+        <html lang="ru">
+            <body className={inter.className}>
+                <main className="mx-auto flex flex-col max-w-5xl w-full h-dvh">
+                    <Header user={user} />
+                    {children}
+                </main>
+            </body>
+        </html>
+    );
 }

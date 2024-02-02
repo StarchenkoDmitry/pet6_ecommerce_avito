@@ -1,5 +1,12 @@
+'use client'
+
+import { 
+    ChangeEvent, 
+    InputHTMLAttributes, 
+    useLayoutEffect, 
+    useState 
+} from 'react';
 import clsx from 'clsx';
-import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from 'react'
 
 
 export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange">{
@@ -7,11 +14,16 @@ export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, "valu
     onChange?:(text:string)=>void;
 }
 
-function ProfileInput({value: valueProp, onChange, className, ...rest}: Props) {
+function ProfileInput({
+    value: valueProp, 
+    onChange, 
+    className, 
+    ...rest
+}: Props) {
     
     const [value,setValue] = useState(valueProp === null ? "" : valueProp);
 
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         setValue(valueProp === null ? "" : valueProp);
     },[valueProp]);
 
@@ -21,19 +33,19 @@ function ProfileInput({value: valueProp, onChange, className, ...rest}: Props) {
         if(onChange){
             onChange(newText);
         }
-    }
+    };
     
     return (
         <input 
-            {...rest}
-            className={clsx(//outline outline-2 outline-offset-2a
+            className={clsx(
                 "p-1 px-2 rounded-lg text-sm bg-gray-200 focus:outline-none focus:ring focus:border-blue-200",
                 className,
             )}
             onChange={hangleChange}
             value={value}
+            {...rest}
         />
-    )
+    );
 }
 
-export default ProfileInput
+export default ProfileInput;

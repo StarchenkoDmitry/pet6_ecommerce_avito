@@ -1,5 +1,4 @@
 import Image from "next/image";
-import clsx from "clsx";
 import { 
     AVATAR_SCALE_WIDTH_0,
     AVATAR_SCALE_WIDTH_1,

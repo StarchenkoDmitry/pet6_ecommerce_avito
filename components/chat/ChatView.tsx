@@ -1,5 +1,5 @@
+import React from 'react';
 import Link from 'next/link';
-import React from 'react'
 
 import { Chat } from '@prisma/client';
 
@@ -32,18 +32,22 @@ export interface ChatViewProps {
 function ChatView({chat}: ChatViewProps) {
     const { id, item, user } = chat;
 
+    const chatUrl = `/chat/${id}`;
+    const userImageID = user ? user.imageId : null;
+    const userName = user? user.name : "без имени";
+
     return (
         <Link 
             className='m-1 p-1 flex bg-white _bg-gray-50 hover:bg-blue-100 transition-all _hover:bg-gray-100 rounded-lg'
-            href={`/chat/${id}`}
+            href={chatUrl}
         >
             <Avatar
                 className='w-[48px] h-[48px] object-cover rounded-lg'
-                id={user ? user.imageId : null}
+                id={userImageID}
             />
             <div className='ml-2'>
                 <div>
-                    <span className='text-lg'>{user? user.name : "без имени"}</span>
+                    <span className='text-lg'>{userName}</span>
                 </div>
                 {
                     !!item &&

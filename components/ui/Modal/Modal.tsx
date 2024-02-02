@@ -1,7 +1,8 @@
 'use client'
 
-import clsx from "clsx";
 import { useRef } from "react";
+import clsx from "clsx";
+
 
 interface ModalProps{
     className?:string;
@@ -21,7 +22,6 @@ export default function Modal({
     const refBack = useRef(null);
 
     const handleClose = (event: any)=>{
-        // console.log("EVENT :",event.target)
         if(event.target === refBack.current){
             if(onClose) onClose();
         }

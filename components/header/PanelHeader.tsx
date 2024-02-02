@@ -1,13 +1,18 @@
-import { XMarkIcon } from '@heroicons/react/24/solid'
-import clsx from 'clsx'
+import React from 'react';
 import Link from 'next/link';
-import React from 'react'
+import clsx from 'clsx';
 
-
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
-import { BellIcon, HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { 
+    XMarkIcon,
+    ChatBubbleLeftRightIcon,
+    BellIcon, 
+    HeartIcon, 
+    ShoppingBagIcon 
+} from '@heroicons/react/24/solid';
+    
 import { User } from '@prisma/client';
 import SignInButton from './SignInButton';
+
 
 interface Props {
     user: User | null;
@@ -15,8 +20,7 @@ interface Props {
     onClose?:()=>void;
 }
 
-function PanelHeader({user,isOpen,onClose}: Props) {
-    
+function PanelHeader({user,isOpen,onClose}: Props) {    
     return (
         <div className={clsx(
             "z-30 fixed inset-0 w-full bg-gray-50 transition-all _duration-1000 duration-300",
@@ -80,4 +84,4 @@ function PanelHeader({user,isOpen,onClose}: Props) {
     )
 }
 
-export default PanelHeader
+export default PanelHeader;

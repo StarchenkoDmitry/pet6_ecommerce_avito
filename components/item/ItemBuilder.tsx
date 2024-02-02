@@ -1,15 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
-
-import { createItem } from "@/lib/actions/item";
-import { DEFAULT_ITEM_PRICE, MAX_COUNT_PICTURES, MAX_ITEM_PRICE, MAX_SIZE_ITEM_DESCRIPTION, MIN_ITEM_PRICE } from "@/lib/const";
-import { convertFileToDataURL } from "@/lib/utils/imager";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 
+import { 
+    DEFAULT_ITEM_PRICE, 
+    MAX_COUNT_PICTURES, 
+    MAX_ITEM_PRICE, 
+    MAX_SIZE_ITEM_DESCRIPTION, 
+    MIN_ITEM_PRICE 
+} from "@/lib/const";
 
-interface Props {
-    
-}
+import { createItem } from "@/lib/actions/item";
+import { convertFileToDataURL } from "@/lib/utils/imager";
+
+
+interface Props {}
 
 function ItemBuilder(props: Props) {
 
@@ -103,7 +107,6 @@ function ItemBuilder(props: Props) {
     return (
         <form
             className="p-2 max-w-80 flex flex-col bg-gray-50 rounded-lg"
-            method="POST"
             onSubmit={handleSubmit}
         >
             <label htmlFor="lable">

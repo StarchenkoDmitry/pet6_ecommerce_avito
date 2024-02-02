@@ -1,11 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 
 import { User } from '@prisma/client';
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import ProfileInput from '../ui/input/ProfileInput';
+
 import { changeAvatar, changeName } from '@/lib/actions/user';
-import clsx from 'clsx';
+
+import ProfileInput from '../ui/input/ProfileInput';
 import Avatar from '../ui/Avatar';
 
 

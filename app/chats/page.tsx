@@ -3,9 +3,7 @@ import ChatsSideBar from "@/components/chats/ChatsSideBar";
 import db from "@/lib/db";
 
 
-export default async function Home() {
-    console.log("Render Chats page");
-
+export default async function Home() {    
     const user = await db.user.currentUser();
 
     if (!user) {

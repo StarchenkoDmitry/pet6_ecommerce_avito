@@ -15,7 +15,6 @@ export interface Props {
 }
 
 function Header({user}: Props) {
-    console.log("Render Header");
 
     const [isOpen,setIsOpen] = useState(false);
 
