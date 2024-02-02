@@ -1,13 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
-import Image from 'next/image';
-import { addFavorite, changeFavorite } from '../../lib/actions/favorite';
-import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
-import { Item } from '@prisma/client';
 import { useState } from 'react';
-import { createMessage } from '@/lib/actions/message';
+
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
+
+import { Item } from '@prisma/client';
+import { changeFavorite } from '../../lib/actions/favorite';
+
+import ItemImage from '../ui/ItemImage';
 
 
 export type ItemAndFavorite = Item & { favorite: boolean };
@@ -18,8 +19,7 @@ export interface Props {
 
 function ItemView({item}: Props) {
     const {id,mainImageId,lable,price,favorite} = item;
-    const imageUrl = mainImageId ? `/api/image/${mainImageId}` : "/img/1.jpg";
-
+    
     const itemUrl = `/item/${id}`;
 
     const [isFavorite,setIsFavorite] = useState(favorite);
@@ -38,16 +38,14 @@ function ItemView({item}: Props) {
     return (
         <div className="m-2 p-2 w-64 bg-white rounded-lg">
             <a href={itemUrl}>
-                <img
+                <ItemImage
                     className="w-[250px] h-[200px] object-cover rounded"
-                    src={imageUrl}
-                    alt="item"
-                    width={50}
-                    height={250}
+                    id={mainImageId}
+                    sizes='250px'
                 />
             </a>
-            <div className='flex _flex-wrap _flex-none justify-between'>
-                <a href={"/"} className='p-1 line-clamp-2 break-words text-sm text-blue-500'>
+            <div className='flex justify-between'>
+                <a href={itemUrl} className='p-1 line-clamp-2 break-words text-sm text-blue-500'>
                     {lable}
                 </a>
                 <button className='flex-none flex justify-center items-center m-1 w-6 h-6' onClick={handelChange}>
@@ -58,7 +56,7 @@ function ItemView({item}: Props) {
                 }
                 </button>
             </div>
-            <span className='px-1 block text-sm font-medium'>{price} ₽</span>
+            <span className='px-1 block text-sm font-medium'>$ {price}</span>
         </div>
     )
 }
