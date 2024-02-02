@@ -1,11 +1,10 @@
 import Image from "next/image";
-import clsx from "clsx";
 import { 
-    PICTURE_SCALE_HEIGHT_0, 
-    PICTURE_SCALE_HEIGHT_1, 
-    PICTURE_SCALE_HEIGHT_2, 
-    PICTURE_SCALE_HEIGHT_3, 
-    PICTURE_SCALE_HEIGHT_MAX 
+    PICTURE_SCALE_WIDTH_0, 
+    PICTURE_SCALE_WIDTH_1, 
+    PICTURE_SCALE_WIDTH_2, 
+    PICTURE_SCALE_WIDTH_3, 
+    PICTURE_SCALE_WIDTH_MAX 
 } from "@/lib/const";
 
 
@@ -22,7 +21,7 @@ interface Props {
 
 function ItemImage({id,className,height,width,sizes,alt}: Props) {
     if(id){
-        const imageUrl = `/api/imagesize/${id}`;
+        const imageUrl = `/api/image/${id}`;
         const srcSeet = createSet(id);
         return (
             <img 
@@ -54,12 +53,12 @@ export default ItemImage;
 
 
 function createSet(id:string){
-    const bs = `/api/imagesize/${id}`;
+    const bs = `/api/image/${id}`;
     const sets = 
-    bs+`?h=${PICTURE_SCALE_HEIGHT_3} ${PICTURE_SCALE_HEIGHT_3}w, `+
-    bs+`?h=${PICTURE_SCALE_HEIGHT_2} ${PICTURE_SCALE_HEIGHT_2}w, `+
-    bs+`?h=${PICTURE_SCALE_HEIGHT_1} ${PICTURE_SCALE_HEIGHT_1}w, `+
-    bs+`?h=${PICTURE_SCALE_HEIGHT_0} ${PICTURE_SCALE_HEIGHT_0}w, `+
-    bs+` ${PICTURE_SCALE_HEIGHT_MAX}w`;    
+    bs+`?w=${PICTURE_SCALE_WIDTH_3} ${PICTURE_SCALE_WIDTH_3}w, `+
+    bs+`?w=${PICTURE_SCALE_WIDTH_2} ${PICTURE_SCALE_WIDTH_2}w, `+
+    bs+`?w=${PICTURE_SCALE_WIDTH_1} ${PICTURE_SCALE_WIDTH_1}w, `+
+    bs+`?w=${PICTURE_SCALE_WIDTH_0} ${PICTURE_SCALE_WIDTH_0}w, `+
+    bs+` ${PICTURE_SCALE_WIDTH_MAX}w`;    
     return sets;
 }
