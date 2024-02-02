@@ -9,6 +9,7 @@ import ItemSidePanel from "./ItemSidePanel";
 import ItemImage from "../ui/ItemImage";
 
 import { Item, User } from "@prisma/client";
+import { UserOwner } from "@/lib/types/user";
 import { changeFavorite } from "../../lib/actions/favorite";
 
 
@@ -16,7 +17,7 @@ export interface Props {
     item: Item;
     favorite: boolean;
     isOwner: boolean;
-    userOwner?: Pick<User,"id" | "imageId" | "name" | "surname">;
+    userOwner?: UserOwner;
 }
 
 function Item({ item, favorite, isOwner, userOwner }: Props) {
@@ -35,7 +36,7 @@ function Item({ item, favorite, isOwner, userOwner }: Props) {
     };
 
     return (
-        <div className="m-2 p-2 _flex _bg-gray-100 _rounded-lg">
+        <div className="m-2 p-2">
             <div className="md:flex">
                 <div className="flex-1">
                     <h2 className="m-2 text-2xl">{lable}</h2>
