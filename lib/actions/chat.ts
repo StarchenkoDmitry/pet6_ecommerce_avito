@@ -4,28 +4,6 @@ import { Chat } from "@prisma/client";
 import db from "../db";
 
 
-export async function createChat(userId:string){
-    try {
-        // const session = await auth();
-        throw "todo";
-    } catch (error) {
-        return { error: "failed_request" }
-    }
-}
-
-// const chatRes = await db.$transaction(async(ts)=>{
-//     const existChat = await ts.chat.findFirst({
-//         where:{
-//             chatUsers:{
-//                 some:{
-//                    userId: 
-//                 }
-//             }
-//         }
-//     });
-// });
-
-
 //create a conversation about a product
 export async function createChatAboutItem(
     itemId:string,
@@ -71,7 +49,7 @@ export async function createChatAboutItem(
             }
             else return;
         });
-        return chatRes;        
+        return chatRes;
     } catch (error) {
         console.log("createChatAboutItem error:",error);
         return;
