@@ -1,29 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { Chat } from '@prisma/client';
-
 import Avatar from '../ui/Avatar';
+import { ChatWithChatUserAndItem } from '@/lib/types/chat';
 
-
-export type ChatWithChatUserAndItem = Chat & {
-    user?:{
-        id: string;
-        imageId: string | null;
-        name: string;
-        surname: string | null;
-    },
-    item: {
-        id: string;
-        ceatedAt: Date;
-        updatedAt: Date;
-        lable: string;
-        price: number;
-        description: string | null;
-        mainImageId: string | null;
-        userId: string;
-    } | null;
-}
 
 export interface ChatViewProps {
     chat:ChatWithChatUserAndItem;

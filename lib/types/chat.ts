@@ -8,3 +8,8 @@ export type ChatWithItem = Chat & {
         user:Pick<User,"id" | "imageId" | "name" | 'surname'>
     }[]
 };
+
+export type ChatWithChatUserAndItem = Chat & {
+    user?:Pick<User, "id" | "imageId" | "name" | "surname">,
+    item: Item | null;
+}

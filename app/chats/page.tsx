@@ -1,6 +1,7 @@
 import ChatView from "@/components/chat/ChatView";
 import ChatsSideBar from "@/components/chats/ChatsSideBar";
 import db from "@/lib/db";
+import { ChatWithChatUserAndItem } from "@/lib/types/chat";
 
 
 export default async function Home() {    
@@ -44,7 +45,7 @@ export default async function Home() {
         },
     });
 
-    const chats = chatsRaw.map(({chatUsers,...chat})=>({
+    const chats: ChatWithChatUserAndItem[] = chatsRaw.map(({chatUsers,...chat})=>({
       ...chat,
       user:chatUsers.length >=1 ? chatUsers[0].user : undefined,
     }))
