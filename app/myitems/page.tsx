@@ -2,7 +2,7 @@ import db from "@/lib/db";
 import MyItem from "./MyItem";
 
 
-const MAX_TAKE_ITEM = 16;
+const MAX_TAKE_ITEM = 64;
 
 export default async function Home() {
     const user = await db.user.currentUser();

@@ -25,7 +25,7 @@ export default async function Home() {
 }
 
 
-const MAX_TAKE_ITEM = 16;
+const MAX_TAKE_ITEM = 64;
 
 async function getItemWithFavorite() {
     const user = await db.user.currentUser();
