@@ -1,5 +1,5 @@
 import { Item } from "@prisma/client";
 
-export type ItemAndFavorite = Item & { 
-    favorite: boolean 
+export type ItemAndFavorite = Item & {
+    isFavorite: boolean;
 };
