@@ -79,7 +79,7 @@ model TempFavorite{
   ceatedAt  DateTime @default(now())
 
   tempFavoriteListId String
-  tempFavoriteList TempFavoriteList @relation(fields: [tempFavoriteListId],references: [id])
+  tempFavoriteList TempFavoriteList @relation(fields: [tempFavoriteListId],references: [id], onDelete: Cascade)
 
   itemId String
   item Item @relation(fields: [itemId],references: [id])
