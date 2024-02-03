@@ -26,7 +26,7 @@ function SignInButton({className}:Props) {
                 className={clsx("m-1 px-2 p-1 rounded-lg text-white bg-blue-500",
                     className)} 
                 onClick={handleOpen}>
-                Вход и регистрация
+                Войти
             </button>
             
             <Modal className="flex justify-center items-center bg-[rgba(0,0,0,0.5)]" open={open} onClose={handleClose}>
