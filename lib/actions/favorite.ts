@@ -1,25 +1,22 @@
 'use server'
 
-import { auth } from "@/config/authConfig";
 import { cookies } from 'next/headers';
-import { COOKIE_FAVORITE_KEY } from "../const";
-import { addMyFavorite, addTempFavorite, createMyTempFavoriteList } from "../services/favorite.service";
 import db from "../db";
+import { 
+    addMyFavorite, 
+    addTempFavorite, 
+    createMyTempFavoriteList 
+} from "../services/favorite.service";
+import { COOKIE_FAVORITE_KEY } from "../const";
 
 
 export async function addFavorite(itemId:string){
     try {
-        // console.log("addFavorite itemId: ",itemId);
-        
-        const session = await auth();
-        // console.log("addFavorite session: ",session);
+        const user = await db.user.currentUser();
 
-        if(session){
-            if(!session.user.userId){
-                return { error: "failed_userId_is_not_exist" };
-            }else{
-                const favoriteRes = await addMyFavorite(itemId,session.user.userId);
-            }
+        if(user){
+            const favoriteRes = await addMyFavorite(itemId,user.id);
+            return { ok: !!favoriteRes };
         }else{
             const myFavoriteListId = await cookies().get(COOKIE_FAVORITE_KEY)?.value;
             if(myFavoriteListId){
@@ -46,21 +43,21 @@ export async function addFavorite(itemId:string){
             }
         }
     } catch (error) {
+        console.log("addFavorite error:",error);
         return { error: "failed_request" }
     }
 }
 
 export async function changeFavorite(itemId:string){
     try {
-        //TODO: заминить auth на db.user.currentUser();
-        const session = await auth();
+        const user = await db.user.currentUser();
 
-        if(session){
+        if(user){
             const res = await db.$transaction(async(ts)=>{
                 const currentFavorite = await ts.favorite.findFirst({
                     where:{
                         itemId:itemId,
-                        userId:session.user.userId
+                        userId:user.id
                     }
                 });
                 if(currentFavorite){
@@ -71,7 +68,7 @@ export async function changeFavorite(itemId:string){
                     await db.favorite.create({
                         data:{
                             itemId:itemId,
-                            userId:session.user.userId,
+                            userId:user.id
                         }
                     });
                 }
@@ -120,6 +117,7 @@ export async function changeFavorite(itemId:string){
         }
     }
     catch(error){
+        console.log("changeFavorite error:",error);
         return false;
     }
 }
