@@ -1,5 +1,10 @@
-import { Favorite, TempFavorite, TempFavoriteList } from "@prisma/client";
+import { TRANSFER_MAX_FAVORITE } from "../const";
 import db from "../db";
+import { 
+    Favorite, 
+    TempFavorite, 
+    TempFavoriteList 
+} from "@prisma/client";
 
 
 export async function createMyTempFavoriteList(
@@ -15,7 +20,6 @@ export async function createMyTempFavoriteList(
     }
 }
 
-//ToMyTempFavoriteList
 export async function addTempFavorite(
     itemId:string,
     tempFavoriteListId:string
@@ -52,16 +56,13 @@ export async function addMyFavorite(
     }
 }
 
-
-const TRANSFER_MAX_FAVORITE = 1024;
-
 export async function transferFavorite(
     tempFavoriteListId:string,
     userId:string
 ):Promise<boolean>{
-    console.log("service transferFavorite:",tempFavoriteListId,userId);
+    console.log("transferFavorite:",tempFavoriteListId,userId);
     try {
-        const resTrans = await db.$transaction(async(ts)=>{
+        await db.$transaction(async(ts)=>{
             const myTFIds = await ts.tempFavorite.findMany({
                 where:{
                     tempFavoriteListId:tempFavoriteListId
@@ -74,19 +75,12 @@ export async function transferFavorite(
                     itemId:i.itemId
                 }))
             });
-            await ts.tempFavorite.deleteMany({
-                where:{
-                    tempFavoriteListId:tempFavoriteListId
-                }
-            });
             await ts.tempFavoriteList.delete({
                 where:{
-                    id:tempFavoriteListId
+                    id:tempFavoriteListId,
                 }
             });
-            return "NICE";
         });
-        console.log("transferFavorite resTrans:",resTrans);
         return true;
     } catch (error) {
         console.log("transferFavorite error:",error);
