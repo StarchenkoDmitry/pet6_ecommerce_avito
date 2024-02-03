@@ -16,6 +16,13 @@ export const DEFAULT_ITEM_PRICE = 0;
 
 
 
+//settings for converter file
+export const CONVERT_TO_MAX_WIDTH = 1024*16;
+export const CONVERT_TO_MAX_HEIGHT = 1024*16;
+
+
+
+
 export const MAX_COUNT_PICTURES = 12;//maximum count of pictures
 // export const MIN_COUNT_PICTURES = 0;
 
