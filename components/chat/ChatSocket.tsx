@@ -19,7 +19,7 @@ import {
     EVENT_CLIENT_MESSAGE, 
     EVENT_SERVER_MESSAGE, 
     ServerMessage 
-} from '@/lib/interfaces/chat';
+} from '@/lib/interfaces/chat.socket';
 
 import { Item, Message, User } from '@prisma/client';
 
