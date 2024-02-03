@@ -35,7 +35,7 @@ function Header({user}: Props) {
             <AccountHeader user={user}/>
 
             <button
-                className="hidden max-[850px]:block"
+                className="hidden max-[750px]:block"
                 onClick={openPanel}
             >
                 <Bars4Icon className="w-10 h-10"/>
