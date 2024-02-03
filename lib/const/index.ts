@@ -47,3 +47,14 @@ export const MAX_FILE_SIZE_AVATAR = 1024*1024*8;//8MiB
 export const AVATAR_SCALE_WIDTH_MAX = 257;
 export const AVATAR_SCALE_WIDTH_0 = 256;
 export const AVATAR_SCALE_WIDTH_1 = 64;
+
+
+
+//for register
+export const MAX_EMAIL_LENGHT = 64;
+export const MIN_EMAIL_LENGHT = 3;
+export const MAX_PASSWORD_LENGHT = 64;
+export const MIN_PASSWORD_LENGHT = 4;
+
+//after register
+export const TRANSFER_MAX_FAVORITE = 1024;//count tempFavorite for transfer to favorite
