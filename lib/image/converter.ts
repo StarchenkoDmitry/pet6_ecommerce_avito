@@ -1,10 +1,9 @@
 import sharp from "sharp";
-import { MAX_PIXELS_IN_PICTURE } from "../const";
-
-
-
-const CONVERT_TO_MAX_WIDTH = 1024*16;
-const CONVERT_TO_MAX_HEIGHT = 1024*16;
+import { 
+    CONVERT_TO_MAX_HEIGHT, 
+    CONVERT_TO_MAX_WIDTH, 
+    MAX_PIXELS_IN_PICTURE 
+} from "../const";
 
 
 export async function convertByWidth(imageBuffer:Buffer,maxWidth:number) {
@@ -53,37 +52,3 @@ export async function checkMaxAspectRation(imageBuffer:Buffer,ration:number) {
         return false;
     }
 }
-
-
-
-
-// export async function convertImage(buffer:Buffer) {
-//     try {
-//         let res =  await sharp(buffer,{
-//             limitInputPixels:MAX_PIXELS
-//         });
-//         // res = res.rotate(40);
-//         res = res.resize(null,105);
-//         res = res.jpeg({ mozjpeg: true });
-//         const result = res.toBuffer();
-
-//         return result;
-//     } catch (error) {
-//         return;
-//     }
-// }
-
-
-        // res.metadata(function(err, info) {
-        //     console.log('Image info:' + JSON.stringify(info));
-        // });
-        // let res2 = await res.rotate(90)
-
-
-// export async function convertImage(buffer:Buffer) {
-//     return await sharp(buffer)
-//     .rotate(90)
-//     // .resize(200)
-//     .jpeg({ mozjpeg: true })
-//     .toBuffer();
-// }
