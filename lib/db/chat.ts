@@ -1,6 +1,7 @@
 import db from ".";
 
-import { Chat, Item, User } from "@prisma/client";
+import { Chat } from "@prisma/client";
+import { ChatWithItem } from "../types/chat";
 
 
 export async function findChatByIdAndUserId(chatId:string,userId:string)
@@ -22,11 +23,6 @@ export async function findChatByIdAndUserId(chatId:string,userId:string)
         return null;
     }
 }
-
-export type ChatWithItem = Chat & { item: Item | null } & {chatUsers:{
-    id:string;
-    user:Pick<User,"id" | "imageId" | "name" | 'surname'>
-}[]};
 
 export async function findChatByIdAndUserIdWithItem(chatId:string,userId:string)
 :Promise<ChatWithItem | null>{
