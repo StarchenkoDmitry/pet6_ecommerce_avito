@@ -1,4 +1,3 @@
-
 export async function convertFileToDataURL(file:File):Promise<string>{
     return new Promise((res,rej)=>{
         try {
@@ -15,7 +14,3 @@ export async function convertFileToDataURL(file:File):Promise<string>{
         }        
     });
 }
-
-// export async function convertFileToBuffer(file:File):Promise<Buffer> {
-//     return 
-// }
