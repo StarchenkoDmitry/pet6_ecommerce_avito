@@ -39,7 +39,7 @@ async function getMyFavoriteItems(): Promise<ItemAndFavorite[]> {
                 },
             },
         });
-        return items.map((e) => ({ ...e, favorite: true }));
+        return items.map((e) => ({ ...e, isFavorite: true }));
     } else {
         const myFLId = cookies().get(COOKIE_FAVORITE_KEY)?.value;
 
@@ -54,7 +54,7 @@ async function getMyFavoriteItems(): Promise<ItemAndFavorite[]> {
                     },
                 },
             });
-            return items.map((e) => ({ ...e, favorite: true }));
+            return items.map((e) => ({ ...e, isFavorite: true }));
         } else {
             return [];
         }

@@ -16,11 +16,11 @@ export interface Props {
 }
 
 function ItemView({item}: Props) {
-    const {id,mainImageId,lable,price,favorite} = item;
+    const {id,mainImageId,lable,price,isFavorite:isFavoriteProp} = item;
     
     const itemUrl = `/item/${id}`;
 
-    const [isFavorite,setIsFavorite] = useState(favorite);
+    const [isFavorite,setIsFavorite] = useState(isFavoriteProp);
     const [changing,setChanging] = useState(false);
 
     const handelChange = async ()=>{
