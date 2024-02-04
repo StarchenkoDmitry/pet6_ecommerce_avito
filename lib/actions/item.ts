@@ -16,6 +16,7 @@ import {
     PICTURE_SCALE_WIDTH_2, 
     PICTURE_SCALE_WIDTH_3 
 } from "../const";
+import { ItemAndFavorite } from "../types/item";
 
 
 export async function createItem(formData: FormData){
@@ -184,5 +185,36 @@ async function formatFileToImageSacles(buffer:Buffer)
     } catch (error) {
         console.log("formatFileToImageSacles error:",error);
         return;
+    }
+}
+
+
+export async function searchItemsWithFavoriteByText(text:string)
+:Promise<ItemAndFavorite[] | undefined>{
+    try {
+        const items = await db.item.findMany({
+            where:{
+                lable:{
+                    startsWith:text
+                }
+            },
+            orderBy: { ceatedAt: "desc" },
+        });
+
+        return items.map((item) => ({ 
+            ...item, 
+            isFavorite: false 
+        }));
+    } catch (error) {
+        
+    }
+}
+
+export async function getCountItems() {
+    try {
+        const count = await db.item.count({});
+        return count;
+    } catch (error) {
+        console.log("getCountItems error:",error);
     }
 }
