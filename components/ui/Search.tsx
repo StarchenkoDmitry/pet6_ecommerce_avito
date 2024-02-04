@@ -1,15 +1,28 @@
 "use client";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import clsx from "clsx";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 
 interface SearchProps {
     className?: string;
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+    value?:string;
+    // onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+    
+    onChangeText?: (text:string) => void;
 }
 
-export function Search({ className, onChange }: SearchProps) {
+export function Search({ className, onChangeText,value }: SearchProps) {
+
+    const [text,setText] = useState(value ?? "");
+
+    const changeText = (event: ChangeEvent<HTMLInputElement>)=>{
+        setText(event.target.value);
+        if(onChangeText){
+            onChangeText(event.target.value);
+        }
+    }
+
     return (
         <div
             className={clsx(
@@ -27,7 +40,8 @@ export function Search({ className, onChange }: SearchProps) {
                 className="px-2 p-1 w-[23px] flex-1 outline-none rounded-md"
                 type="text"
                 placeholder="search"
-                onChange={onChange}
+                value={text}
+                onChange={changeText}
             />
         </div>
     );
