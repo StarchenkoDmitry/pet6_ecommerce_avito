@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import { categorys } from "@/lib/Categorys";
 import { Search } from "./Search";
@@ -10,9 +10,12 @@ import Modal2 from "./Modal/Modal";
 import { Bars4Icon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 
-export interface Props {}
+export interface Props {
+    value?:string;
+    onChangeText?:(text:string)=>void;
+}
 
-function Navbar(props: Props) {
+function Navbar({value,onChangeText}: Props) {
 
     const [currentCategory,setCurrentCategory]= useState(categorys[0]);
 
@@ -31,7 +34,10 @@ function Navbar(props: Props) {
                 Все категории
             </Button>
 
-            <Search />
+            <Search
+                value={value}
+                onChangeText={onChangeText}
+            />
 
             <Modal2
                 className="bg-[rgba(0,0,0,0.50)]"
