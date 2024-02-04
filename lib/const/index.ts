@@ -69,6 +69,4 @@ export const TRANSFER_MAX_FAVORITE = 1024;//count tempFavorite for transfer to f
 
 
 //main page
-export const COUNT_ITEMS_ON_PAGE = 10;
-export const MAX_TAKE_ITEM = 2;
-export const SKIP_ITEMS = 100;
+export const COUNT_ITEMS_LOAD = 10;
