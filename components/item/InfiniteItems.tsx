@@ -22,12 +22,11 @@ function InfiniteItems({
 
     const [canLoad,setCanLoad] = useState(true);
     const [items,setItems] = useState(initItems);
-
-    const [text,setText] = useState(searchValue);
     
     const [isLoading,setIsLoading] = useState(false);
     const [isSearch,setIsSearch] = useState(false);
 
+    const textRef = useRef(searchValue);
     const isNextSearch = useRef(false);
 
 
@@ -38,8 +37,8 @@ function InfiniteItems({
         setIsSearch(true);
         isNextSearch.current = false;
         setItems([]);
-        
-        getItemsWithFavoriteWithQuery(COUNT_ITEMS_LOAD,0,text)
+
+        getItemsWithFavoriteWithQuery(COUNT_ITEMS_LOAD,0,textRef.current)
         .then((newItems)=>{ 
             if(newItems){
                 setItems(newItems);
@@ -57,7 +56,7 @@ function InfiniteItems({
     }
 
     const changeText = async (text:string)=>{
-        setText(text);
+        textRef.current = text;
         isNextSearch.current = true;
         doSearch();
     }
