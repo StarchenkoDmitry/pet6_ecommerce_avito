@@ -1,11 +1,17 @@
 'use client'
+import { 
+    useLayoutEffect, 
+    useRef, 
+    useState 
+} from 'react';
+import { ItemAndFavorite } from '@/lib/types/item';
+import { 
+    getItemsWithFavoriteAndCountByText, 
+} from '@/lib/actions/item';
+import { COUNT_ITEMS_LOAD } from '@/lib/const';
 
-import { useLayoutEffect, useRef, useState } from 'react';
 import Navbar from '../ui/Navbar';
 import ItemView from './ItemView';
-import { ItemAndFavorite } from '@/lib/types/item';
-import { getItemsWithFavoriteWithQuery } from '@/lib/actions/item';
-import { COUNT_ITEMS_LOAD } from '@/lib/const';
 
 
 interface Props {
@@ -16,9 +22,11 @@ interface Props {
 
 function InfiniteItems({
     items:initItems,
-    countItems,
+    countItems:initCount,
     searchValue = ""
 }: Props) {
+
+    const [countItems,setCountItems] = useState(initCount);
 
     const [canLoad,setCanLoad] = useState(true);
     const [items,setItems] = useState(initItems);
@@ -38,13 +46,16 @@ function InfiniteItems({
         isNextSearch.current = false;
         setItems([]);
 
-        getItemsWithFavoriteWithQuery(COUNT_ITEMS_LOAD,0,textRef.current)
-        .then((newItems)=>{ 
-            if(newItems){
-                setItems(newItems);
+        getItemsWithFavoriteAndCountByText(COUNT_ITEMS_LOAD,0,textRef.current)
+        .then((res)=>{ 
+            if(res){
+                const { items,count } = res;
+                setItems(items);
+                setCountItems(count);
                 setCanLoad(true);
             }else{
                 setItems([]);
+                setCountItems(0);
                 setCanLoad(false);
             }
         })
@@ -76,16 +87,18 @@ function InfiniteItems({
 
         setIsLoading(true);
 
-        getItemsWithFavoriteWithQuery(COUNT_ITEMS_LOAD,items.length,text)
-        .then((newItems)=>{
-            if(!newItems){
-                setCanLoad(false);
-                return;
-            }else{
-                setItems(prev=>[...prev,...newItems]);
-                if(newItems.length === 0){
+        getItemsWithFavoriteAndCountByText(COUNT_ITEMS_LOAD,items.length,textRef.current)
+        .then((res)=>{
+            if(res){
+                const { items,count } = res;
+                setItems(prev=>[...prev,...items]);
+                setCountItems(count);
+                if(items.length === 0){
                     setCanLoad(false);
                 }
+            }else{
+                setCanLoad(false);
+                return;
             }
         }).finally(()=>{
             setIsLoading(false);
@@ -99,7 +112,6 @@ function InfiniteItems({
             const scrollTop = event.target.documentElement.scrollTop;
             const innerHeight = window.innerHeight;
             const isEndPage = scrollHeight < (scrollTop + innerHeight + 2);
-            console.log("IF: ",isEndPage);
 
             if(isEndPage){
                 fetchItems();
@@ -133,7 +145,7 @@ function InfiniteItems({
             {
                 isLoading ? 
                 <div className='my-2 p-2 w-full text-center bg-gray-100 rounded-lg'>
-                    Loading
+                    загружается
                 </div> : 
                 canLoad ? 
                 <button
