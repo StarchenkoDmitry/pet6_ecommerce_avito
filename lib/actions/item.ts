@@ -18,7 +18,10 @@ import {
     MAX_TAKE_ITEMS
 } from "../const";
 import { ItemAndFavorite } from "../types/item";
-import { getItemsForMainPage } from "../services/item.service";
+import { 
+    getCountItemsByText, 
+    getItemsForMainPage 
+} from "../services/item.service";
 
 
 export async function createItem(formData: FormData){
@@ -201,6 +204,35 @@ export async function getItemsWithFavoriteWithQuery(
         
         const items = await getItemsForMainPage(take,skip,text);
         return items;
+    } catch (error) {
+        console.log("getItemsWithFavoriteWithQuery error:",error);
+    }
+}
+
+export async function getItemsWithFavoriteAndCountByText(
+    take:number,
+    skip:number,
+    text:string)
+:Promise<{
+    items: ItemAndFavorite[]
+    count: number;
+} | undefined>{
+    try {
+        if(skip < 0 || take < 0){ return; }
+        if(take > MAX_TAKE_ITEMS){ return; }
+        
+        const [items, num] = await Promise.all([
+            getItemsForMainPage(take,skip,text),
+            getCountItemsByText(text)
+        ]);
+
+        if(!!items && typeof num !== "undefined" && Number.isInteger(num)){
+            return {
+                items:items,
+                count:num,
+            };
+        }
+        return;
     } catch (error) {
         console.log("getItemsWithFavoriteWithQuery error:",error);
     }
