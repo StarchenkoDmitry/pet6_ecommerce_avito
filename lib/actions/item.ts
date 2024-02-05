@@ -14,9 +14,11 @@ import {
     PICTURE_SCALE_WIDTH_0, 
     PICTURE_SCALE_WIDTH_1, 
     PICTURE_SCALE_WIDTH_2, 
-    PICTURE_SCALE_WIDTH_3 
+    PICTURE_SCALE_WIDTH_3, 
+    MAX_TAKE_ITEMS
 } from "../const";
 import { ItemAndFavorite } from "../types/item";
+import { getItemsForMainPage } from "../services/item.service";
 
 
 export async function createItem(formData: FormData){
@@ -216,5 +218,23 @@ export async function getCountItems() {
         return count;
     } catch (error) {
         console.log("getCountItems error:",error);
+    }
+}
+
+
+
+export async function getItemsWithFavoriteWithQuery(
+    skip:number,
+    take:number,
+    text:string)
+:Promise<ItemAndFavorite[] | undefined>{
+    try {
+        if(skip < 0 || take < 0){ return; }
+        if(take > MAX_TAKE_ITEMS){ return; }
+        
+        const items = await getItemsForMainPage(take,skip,text);
+        return items;
+    } catch (error) {
+        console.log("getItemsWithFavoriteWithQuery error:",error);
     }
 }
