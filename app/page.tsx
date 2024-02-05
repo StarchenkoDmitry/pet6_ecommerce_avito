@@ -1,14 +1,13 @@
+import InfiniteItems from "@/components/item/InfiniteItems";
 import ItemsSearch from "@/components/item/ItemsSearch";
 import { getCountItems } from "@/lib/actions/item";
 import { getItemsForMainPage } from "@/lib/services/item.service";
 
 
 export default async function Home() {
-    // const items = await getItemsForMainPage();
-    // const countItems = await getCountItems();
-
+    
     const [items,countItems] = await Promise.all([
-        getItemsForMainPage(4),
+        getItemsForMainPage(),
         getCountItems()
     ]);
 
@@ -16,7 +15,7 @@ export default async function Home() {
         <div className="flex flex-col flex-1 px-2">
             {
                 items ? (
-                    <ItemsSearch
+                    <InfiniteItems
                         items={items}
                         countItems={countItems}
                     />
