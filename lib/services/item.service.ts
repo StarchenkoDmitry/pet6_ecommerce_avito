@@ -7,19 +7,20 @@ import { COOKIE_FAVORITE_KEY, COUNT_ITEMS_LOAD } from "../const";
 export async function getItemsForMainPage(
     take:number = COUNT_ITEMS_LOAD,
     skip:number = 0,
+    text:string = "",
 ):Promise<ItemAndFavorite[] | undefined> {
     try {
         const user = await db.user.currentUser();
 
         if (user) {
-            return await getItemsWithFavoriteByUser(user.id,take,skip);
+            return await getItemsWithFavoriteByUser(user.id,take,skip,text);
         } else {
             const tempFavoriteListId = cookies().get(COOKIE_FAVORITE_KEY)?.value;
 
             if(tempFavoriteListId){
-                return await getItemsWithFavoriteByTempFavorite(tempFavoriteListId,2,1);
+                return await getItemsWithFavoriteByTempFavorite(tempFavoriteListId,take,skip,text);
             } else {
-                return await getItemsWithFavorite(2,2);
+                return await getItemsWithFavorite(take,skip,text);
             }
         }
     } catch (error) {
@@ -34,9 +35,11 @@ async function getItemsWithFavoriteByUser(
     userId:string,
     take:number,
     skip:number,
+    text:string = "",
 ):Promise<ItemAndFavorite[] | undefined> {
     try {
         const items = await db.item.findMany({
+            where:{ lable:{ startsWith:text } },
             include: {
                 favorites: {
                     where: { userId },
@@ -46,7 +49,7 @@ async function getItemsWithFavoriteByUser(
             take,
             orderBy: { ceatedAt: "desc" },
         });
-        
+
         return items.map(({favorites,...item}) => ({ 
             ...item, 
             isFavorite: favorites.length > 0 
@@ -62,9 +65,11 @@ async function getItemsWithFavoriteByTempFavorite(
     tempFavoriteListId:string,
     take:number,
     skip:number,
+    text:string = "",
 ):Promise<ItemAndFavorite[] | undefined> {
     try {
         const items = await db.item.findMany({
+            where:{ lable:{ startsWith:text } },
             include:{
                 tempFavorites:{
                     where:{ tempFavoriteListId },
@@ -89,9 +94,11 @@ async function getItemsWithFavoriteByTempFavorite(
 async function getItemsWithFavorite(
     take:number,
     skip:number,
+    text:string = "",
 ):Promise<ItemAndFavorite[] | undefined> {
     try {
         const items = await db.item.findMany({
+            where:{ lable:{ startsWith:text } },
             take,
             skip,
             orderBy: { ceatedAt: "desc" },
