@@ -113,3 +113,13 @@ async function getItemsWithFavorite(
         return;
     }
 }
+
+
+export async function getCountItems() {
+    try {
+        const count = await db.item.count({});
+        return count;
+    } catch (error) {
+        console.log("getCountItems error:",error);
+    }
+}

@@ -190,42 +190,9 @@ async function formatFileToImageSacles(buffer:Buffer)
     }
 }
 
-
-export async function searchItemsWithFavoriteByText(text:string)
-:Promise<ItemAndFavorite[] | undefined>{
-    try {
-        const items = await db.item.findMany({
-            where:{
-                lable:{
-                    startsWith:text
-                }
-            },
-            orderBy: { ceatedAt: "desc" },
-        });
-
-        return items.map((item) => ({ 
-            ...item, 
-            isFavorite: false 
-        }));
-    } catch (error) {
-        
-    }
-}
-
-export async function getCountItems() {
-    try {
-        const count = await db.item.count({});
-        return count;
-    } catch (error) {
-        console.log("getCountItems error:",error);
-    }
-}
-
-
-
 export async function getItemsWithFavoriteWithQuery(
-    skip:number,
     take:number,
+    skip:number,
     text:string)
 :Promise<ItemAndFavorite[] | undefined>{
     try {
