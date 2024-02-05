@@ -131,7 +131,7 @@ function InfiniteItems({
                 <h2 className="mx-2 text-lg font-bold">Рекомендации для вас</h2>
                 {
                     !!countItems &&
-                    <span className='mx-2 max-[580px]:hidden'>кол-во товара на сайте {countItems}</span>
+                    <span className='mx-2 max-[580px]:hidden'>найдено {countItems} товара</span>
                 }
             </div>
             
