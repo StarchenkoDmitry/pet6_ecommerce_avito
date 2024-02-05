@@ -1,10 +1,10 @@
 'use client'
 
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import Navbar from '../ui/Navbar';
 import ItemView from './ItemView';
 import { ItemAndFavorite } from '@/lib/types/item';
-import { getItemsWithFavoriteWithQuery, searchItemsWithFavoriteByText } from '@/lib/actions/item';
+import { getItemsWithFavoriteWithQuery } from '@/lib/actions/item';
 import { COUNT_ITEMS_LOAD } from '@/lib/const';
 
 
@@ -20,32 +20,77 @@ function InfiniteItems({
     searchValue = ""
 }: Props) {
 
-    const [countLoaded,setCoundLoad] = useState(initItems.length);
+    const [canLoad,setCanLoad] = useState(true);
     const [items,setItems] = useState(initItems);
+
     const [text,setText] = useState(searchValue);
     
     const [isLoading,setIsLoading] = useState(false);
+    const [isSearch,setIsSearch] = useState(false);
 
-    const changeText = async (text:string)=>{   
-        const newItems = await searchItemsWithFavoriteByText(text);
-        setItems(newItems ?? []);
+    const isNextSearch = useRef(false);
+
+
+    const doSearch = async ()=>{
+        if(isSearch || isLoading){ return; }
+
+        setIsLoading(true);
+        setIsSearch(true);
+        isNextSearch.current = false;
+        setItems([]);
+        
+        getItemsWithFavoriteWithQuery(COUNT_ITEMS_LOAD,0,text)
+        .then((newItems)=>{ 
+            if(newItems){
+                setItems(newItems);
+                setCanLoad(true);
+            }else{
+                setItems([]);
+                setCanLoad(false);
+            }
+        })
+        .finally(()=>{
+            setIsLoading(false);
+            setIsSearch(false);
+            doNext();
+        });
+    }
+
+    const changeText = async (text:string)=>{
+        setText(text);
+        isNextSearch.current = true;
+        doSearch();
     }
     
+    const doNext = ()=>{
+        if(isNextSearch.current){
+            doSearch();
+            return;
+        }
+    }
+
     const fetchItems = ()=>{
         if(isLoading){ return; }
-        if(countItems && countItems - countLoaded <= 0){return;}
+        if(!canLoad){ return; }
+
+        if(isSearch){ return; }
 
         setIsLoading(true);
 
-        getItemsWithFavoriteWithQuery(countLoaded,COUNT_ITEMS_LOAD,text)
+        getItemsWithFavoriteWithQuery(COUNT_ITEMS_LOAD,items.length,text)
         .then((newItems)=>{
-            if(!newItems)return;
-            setItems(prev=>[...prev,...newItems]);
-            setCoundLoad(prev=>prev + newItems.length);
-            console.log("Query newItems",newItems);
+            if(!newItems){
+                setCanLoad(false);
+                return;
+            }else{
+                setItems(prev=>[...prev,...newItems]);
+                if(newItems.length === 0){
+                    setCanLoad(false);
+                }
+            }
         }).finally(()=>{
-            console.log("Query finally");
             setIsLoading(false);
+            doNext();
         });
     }
 
@@ -54,16 +99,18 @@ function InfiniteItems({
             const scrollHeight = event.target.documentElement.scrollHeight;
             const scrollTop = event.target.documentElement.scrollTop;
             const innerHeight = window.innerHeight;
-            const isEndPage = scrollHeight === scrollTop + innerHeight + 2;
+            const isEndPage = scrollHeight < (scrollTop + innerHeight + 2);
             console.log("IF: ",isEndPage);
+
+            if(isEndPage){
+                fetchItems();
+            }
         }
         window.addEventListener("scroll",handleScroll);
         return ()=>{
             window.removeEventListener("scroll", handleScroll);
         }
-    },[]);
-
-    const canLoad = countItems ? countItems - countLoaded > 0 : false;
+    },[fetchItems]);
 
     return (
         <div className="flex flex-col flex-1">
@@ -72,9 +119,8 @@ function InfiniteItems({
             <div className='flex flex-wrap justify-between'>
                 <h2 className="mx-2 text-lg font-bold">Рекомендации для вас</h2>
                 {
-                    !!countItems && (
-                        <span className='mx-2 max-[580px]:hidden'>кол-во товара на сайте {countItems}</span>
-                    )
+                    !!countItems &&
+                    <span className='mx-2 max-[580px]:hidden'>кол-во товара на сайте {countItems}</span>
                 }
             </div>
             
@@ -99,7 +145,6 @@ function InfiniteItems({
                 </button> : null
             }
             </div>
-
         </div>
     );
 }
