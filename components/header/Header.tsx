@@ -23,7 +23,7 @@ function Header({user}: Props) {
     const closePanel = ()=>{ setIsOpen(false); }
 
     return (
-        <div className="p-2 py-1 flex items-center">
+        <div className="p-2 py-0 flex items-center">
             <div className="mx-4 p-2 max-[400px]:mx-2 max-[380px]:mx-0">
                 <a href="/">
                     <span className="text-2xl">Avito</span>
