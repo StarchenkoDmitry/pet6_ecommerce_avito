@@ -123,3 +123,19 @@ export async function getCountItems() {
         console.log("getCountItems error:",error);
     }
 }
+
+export async function getCountItemsByText(text:string) {
+    try {
+        const count = await db.item.count({
+            where:{
+                lable:{
+                    startsWith:text
+                }
+            }
+        });
+        return count;
+    } catch (error) {
+        console.log("getCountItemsByText error:",error);
+        return;
+    }
+}
