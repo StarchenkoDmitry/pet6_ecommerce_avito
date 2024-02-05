@@ -25,7 +25,7 @@ function Navbar({value,onChangeText}: Props) {
     const handleClose = ()=>{ setOpen(false); }
 
     return (
-        <div className="p-2 flex">
+        <div className="p-0 flex">
             <Button
                 className="mr-2 bg-blue-500"
                 onClick={handleOpen}
