@@ -1,11 +1,12 @@
+import { 
+    getCountItems, 
+    getItemsForMainPage 
+} from "@/lib/services/item.service";
 import InfiniteItems from "@/components/item/InfiniteItems";
-import ItemsSearch from "@/components/item/ItemsSearch";
-import { getCountItems } from "@/lib/actions/item";
-import { getItemsForMainPage } from "@/lib/services/item.service";
 
 
 export default async function Home() {
-    
+
     const [items,countItems] = await Promise.all([
         getItemsForMainPage(),
         getCountItems()
