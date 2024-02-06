@@ -3,7 +3,8 @@ import { useRef, useState } from 'react';
 import Navbar from '../ui/Navbar';
 import ItemView from './ItemView';
 import { ItemAndFavorite } from '@/lib/types/item';
-import { searchItemsWithFavoriteByText } from '@/lib/actions/item';
+import { getItemsWithFavoriteAndCountByText } from '@/lib/actions/item';
+import { COUNT_ITEMS_LOAD } from '@/lib/const';
 
 
 interface Props {
@@ -28,8 +29,8 @@ function ItemsSearch({
 
     const changeText = async (text:string)=>{   
         // setText(text);
-        const newItems = await searchItemsWithFavoriteByText(text);
-        setItems(newItems ?? []);
+        const newItems = await getItemsWithFavoriteAndCountByText(COUNT_ITEMS_LOAD,0, text);
+        setItems(newItems ? newItems.items :  []);
     }
 
     return (
