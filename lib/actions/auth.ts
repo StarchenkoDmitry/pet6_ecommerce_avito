@@ -1,9 +1,13 @@
 'use server'
-import { signIn } from "@/config/authConfig";
+import { 
+    signIn, 
+    signOut, 
+    update 
+} from "@/config/authConfig";
 import db from "../db";
 
 
-export async function registerWithCredentials(formData: FormData, dosingIn:boolean = true){
+export async function signUpWithCredentials(formData: FormData, doSingIn:boolean = true){
     console.log("registerWithCredentials formData: ",formData);
 
     const email = formData.get('email');
@@ -11,7 +15,7 @@ export async function registerWithCredentials(formData: FormData, dosingIn:boole
 
     if(typeof email !== "string" || typeof password !== "string"){
         return {
-            registered:false,
+            signUp:false,
             error:"email or password is not string",
         };
     }
@@ -24,7 +28,7 @@ export async function registerWithCredentials(formData: FormData, dosingIn:boole
                 }
             });
 
-            if(existEmail){                
+            if(existEmail){
                 throw new Error("email is already registered");
             }
 
@@ -53,18 +57,24 @@ export async function registerWithCredentials(formData: FormData, dosingIn:boole
             return userCreated;
         });
 
-        if(dosingIn){
-            await signInWithCredentials(formData);
+        if(doSingIn){
+            const signInRes = await signInWithCredentials(formData);
+            return {
+                signUp:true,
+                signIn:signInRes.signIn,
+                userId: resRegistered.id
+            };
+        }else{
+            return {
+                signUp:true,
+                userId: resRegistered.id
+            };
         }
 
-        return {
-            registered:true,
-            userId: resRegistered.id
-        };
     } catch (error) {
         console.log("registerWithCredentials error: ",error);
         return {
-            registered:false,
+            signUp:false,
             error:"registration error"
         }
     }
@@ -78,80 +88,49 @@ export async function signInWithCredentials(formData: FormData){
 
     if(typeof email !== "string" || typeof password !== "string"){
         return {
-            signUp:false,
+            signIn:false,
             error:"email or password is not string",
         };
     }
 
     try {
         //проверить что будет если signIn выдаст ошибку при неверных данных
-        const resSingIn = await signIn('credentials', {
+        const resSingIn = await signIn("credentials", {
             email: email,
             password: password,
             redirect:false,
         });
-        // console.log("resSingIn: ",resSingIn);//example resSingIn:  http://127.0.0.1:3000/createitem
+        
         return {
-            signUp:true
+            signIn:true
         }
     } catch (error) {
-        console.log("signInWithCredentials error: ",error);
+        console.log("signInWithCredentials error:",error);
         // throw error;
         return {
-            signUp:false,
-            error:"signInWithCredentials error 6475756874734675985478"
+            signIn:false,
+            error:"server error"
         }
     }
 }
 
 
+export async function signOutAction(){
+    try {
+        //delete accessToken and clear it in token
+        const sessionRes = await update({
+            user:{ accessToken:"" }
+        });
+        // console.log("signOutAction update sessionRes",sessionRes);
 
-// export function dfgfdgdfg(params:type) {    
-//     try {
-//         const res = await signIn('credentials', {
-//             // email: `Radn@gmail.cooi${Math.random()}`,
-//             login: email,
-//             password: password,
-//             redirect:false,
-//         });
-//     } catch (error) {
-//         console.log("authenticateWithCredentials error: ",error);
-//         throw error;
-//     }
-// }
-
-
-
-
-
-// export async function authenticateWithCredentials(formData: FormData){
-//     console.log("authenticateWithCredentials formData: ",formData);
-
-//     const login = formData.get('login');
-//     const password = formData.get('password');
-//     if(typeof login !== "string" || typeof password !== "string"){
-//         return {
-//             ok:false
-//         };
-//     }
-
-//     try {
-//         await signIn('credentials', {
-//             // email: `Radn@gmail.cooi${Math.random()}`,
-//             login: login,
-//             password: password,
-//             redirect:false,
-//         });
-//     } catch (error) {
-//         // if (error instanceof AuthError) {
-//         //     switch (error.type) {
-//         //         case 'CredentialsSignin':
-//         //         return 'Invalid credentials.';
-//         //         default:
-//         //         return 'Something went wrong.';
-//         //     }
-//         // }
-//         console.log("authenticateWithCredentials error: ",error);
-//         throw error;
-//     }
-// }
+        //for clear JWT
+        const signOutRes = await signOut({
+            redirect:false
+        });
+        // console.log("signOutAction signOut signOutRes",signOutRes);
+        return true;
+    } catch (error) {
+        console.log("signOutAction error",error);
+        return false;
+    }
+}
