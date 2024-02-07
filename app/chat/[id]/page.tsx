@@ -10,9 +10,11 @@ export default async function Home({ params }: { params: { id: string } }) {
     const session = await auth();
     const user = await db.user.currentUser();
 
-    if (!user || !session) {
+    const accessToken = session?.user.accessToken;
+
+    if (!user || !session || !accessToken) {
         return <div>Зарегистрируйтесь</div>;
-    }
+    }    
 
     const chat = await findChatByIdAndUserIdWithItem(chatId, user.id);
 
@@ -20,7 +22,6 @@ export default async function Home({ params }: { params: { id: string } }) {
         return <div>Chat with id {chatId} is not exist.</div>;
     }
 
-    const accessToken = session.user.accessToken;
 
     const userCom = chat.chatUsers.length > 0 ? chat.chatUsers[0].user : undefined;
 

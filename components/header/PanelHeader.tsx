@@ -1,6 +1,9 @@
+"use client"
 import React from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
+
+// import { signOut } from '@/config/authConfig';
 
 import { 
     XMarkIcon,
@@ -12,6 +15,7 @@ import {
     
 import { User } from '@prisma/client';
 import SignInButton from './SignInButton';
+import { signOutAction } from '@/lib/actions/auth';
 
 
 interface Props {
@@ -20,7 +24,20 @@ interface Props {
     onClose?:()=>void;
 }
 
-function PanelHeader({user,isOpen,onClose}: Props) {    
+function PanelHeader({user,isOpen,onClose}: Props) {
+
+    const handleSignOut = ()=>{
+        // signOut({
+        //     redirect:false,
+        // })
+        signOutAction()
+        .then((res)=>{
+            console.log("signOut res",res);
+        }).catch((ress)=>{
+            console.log("signOut catch ress",ress);
+        });
+    }
+
     return (
         <div className={clsx(
             "z-30 fixed inset-0 w-full bg-gray-50 transition-all _duration-1000 duration-300",
@@ -73,8 +90,8 @@ function PanelHeader({user,isOpen,onClose}: Props) {
                         </Link>
                         <button
                             className='block m-2 _w-max p-1 px-3 text-white bg-orange-300 rounded-lg'
-                            onClick={()=>{ }}>
-                            Sing out
+                            onClick={handleSignOut}>
+                            Sign out2
                         </button>
                     </> :
                     <SignInButton/>

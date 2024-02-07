@@ -1,8 +1,9 @@
 'use client'
 
-import { registerWithCredentials } from "@/lib/actions/auth";
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { signUpWithCredentials } from "@/lib/actions/auth";
 
 
 function SignUpForm() {
@@ -20,10 +21,10 @@ function SignUpForm() {
         try {
             const formData = new FormData(event.currentTarget)
 
-            const response = await registerWithCredentials(formData);
+            const response = await signUpWithCredentials(formData);
             console.log('authenticateWithCredentials response:',response);
-            if(response.registered){
-
+            if(response.signUp){
+                // router.refresh();
             }else{
                 setErrorUp(`Error registration ${response.error}`);
             }

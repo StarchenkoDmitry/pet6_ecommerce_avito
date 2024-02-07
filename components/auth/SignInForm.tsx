@@ -22,8 +22,8 @@ function SignInForm() {
 
             const response = await signInWithCredentials(formData);
             console.log('authenticateWithCredentials response:',response);
-            if(response.signUp){
-
+            if(response.signIn){
+                // router.refresh();
             }else{
                 setErrorIn(`Error registration ${response.error}`);
             }
