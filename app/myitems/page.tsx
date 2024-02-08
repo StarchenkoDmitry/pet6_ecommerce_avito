@@ -1,5 +1,5 @@
 import db from "@/db";
-import MyItem from "./MyItem";
+import MyItem from "@/components/item/MyItem";
 
 
 const MAX_TAKE_ITEM = 64;
