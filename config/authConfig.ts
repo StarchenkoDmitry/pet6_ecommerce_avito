@@ -18,16 +18,16 @@ const AUTH_DEBUG_ENABLE = false;
 
 declare module 'next-auth' {
     interface User{
-        // userId:string;
         accessToken:string;
     }
-    interface Session{  
+    interface Session{
         user:{
             userId?:string;
             accessToken?:string;
         }
-    }   
+    }
 }
+
 declare module "@auth/core/jwt" {
     interface JWT {
         userId?:string;
@@ -40,10 +40,6 @@ export const { handlers, auth, signIn, signOut,update } = NextAuth({
         CredentialsProvider({
             id: 'credentials',
             name: "credentials",
-            // credentials: {
-            //     email: { label: "Email", type: "text", placeholder: "myemail@mail.com" },
-            //     password: { label: "Password", type: "password", }
-            // },
             async authorize(credentials){
                 if(LOGGING_ENABLE)
                 console.log("/authorize:",credentials);
@@ -89,11 +85,6 @@ export const { handlers, auth, signIn, signOut,update } = NextAuth({
             }
         })
     ],
-
-    //TODO: когда буду выкладывать проект нужно обязательно удалить эту строчку trustHost:true
-    //[auth][error] UntrustedHost: Host must be trusted. URL was: http://127.0.0.1:3000/
-    //.Read more at https://errors.authjs.dev#untrustedhost    
-    trustHost:true,
 
     debug:AUTH_DEBUG_ENABLE,
     session:{ strategy:"jwt", },
