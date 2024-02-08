@@ -22,8 +22,8 @@ export const CONVERT_TO_MAX_HEIGHT = 1024*16;
 
 
 
-
-export const MAX_COUNT_PICTURES = 12;//maximum count of pictures
+//maximum count of pictures
+export const MAX_COUNT_PICTURES = 12;
 // export const MIN_COUNT_PICTURES = 0;
 
 export const MAX_ASPECT_RATION_PICTURE = 3;
@@ -62,9 +62,14 @@ export const MAX_EMAIL_LENGHT = 64;
 export const MIN_EMAIL_LENGHT = 3;
 export const MAX_PASSWORD_LENGHT = 64;
 export const MIN_PASSWORD_LENGHT = 4;
+export const MAX_NAME_LENGHT = 16;
+export const MIN_NAME_LENGHT = 0;
+export const MAX_SURNAME_LENGHT = 16;
+export const MIN_SURNAME_LENGHT = 0;
 
 //after register
-export const TRANSFER_MAX_FAVORITE = 1024;//count tempFavorite for transfer to favorite
+//count tempFavorite for transfer to favorite
+export const TRANSFER_MAX_FAVORITE = 1024;
 
 
 
