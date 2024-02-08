@@ -10,9 +10,7 @@ export interface ISubCategory{
 }
 
 
-
 const baseUrl = "/all";
-export const daf_category = ""
 export const categorys = createCategorys();
 
 
@@ -25,10 +23,12 @@ function createCategorys(){
     createSubCategory(transport,"Super car","supercar");
     ctgs.push(transport);
 
+
     const laptop = createCategory("Ноутбук","laptop");
     createSubCategory(laptop,"Игровой Ноутбук","gaminglaptop");
     createSubCategory(laptop,"Ноутбук для бизнеса","bisneslaptop");
     ctgs.push(laptop);
+
 
     const rand1 = createCategory("Недвижимость","rfghdf678gh");
     createSubCategory(rand1,"Вторичка","tuityuil76ir67");
@@ -44,7 +44,6 @@ function createCategorys(){
     createSubCategory(rand2,"Аренда оборудования","9uert0h3um40hmu");
 
 
-
     const rand3 = createCategory("Электроника","rfghd678uky9uktfgh");
     createSubCategory(rand3,"Телефоны","esrthnetrjhnertn");
     createSubCategory(rand3,"Аксессуары","dsrdrtyjrtfyrftkrtukr");
@@ -52,16 +51,19 @@ function createCategorys(){
     createSubCategory(rand3,"Монитры","wr7jkredjue56ertnuerune");
     createSubCategory(rand3,"Клавиатуры и мыши","4ws57w45y7kw45");
 
+
     const rand4 = createCategory("Работа","rfghdyuktyuktyuktfgh");
     createSubCategory(rand4,"Без опыта","rtyrjtyjrtyjrutyuo");
     createSubCategory(rand4,"Банки, инвестиции","sdrtghdrgtjdr7iseryuj");
     createSubCategory(rand4,"IT, интернет","rtyjrtuksetyjrtfyjdtry");
+
 
     ctgs.push(rand1);
     ctgs.push(rand2);
     ctgs.push(rand3);
     ctgs.push(rand4);
 
+    
     return ctgs;
 }
 
@@ -85,16 +87,16 @@ function createSubCategory(perent:ICategory,name:string,url:string):ISubCategory
     return subctg;
 }
 
+
 // console.log("categorys",JSON.stringify(categorys));
 // logCatygorys();
 
 function logCatygorys(){
-    console.log("======Category======");
+    console.log("list of cotigories:");
     categorys.map(c=>{
         console.log("Category: ",c.name,c.url);
         c.subCategorys.map(subc=>{
             console.log("sub: ",subc.name,subc.url);
         })
     })
-    console.log("==end=Category======");
 }

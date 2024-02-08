@@ -1,7 +1,7 @@
 'use client'
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
-import { categorys } from "@/lib/Categorys";
+import { categorys } from "@/constants/categories";
 import { Search } from "./Search";
 import { Button } from "./buttons/Button";
 
