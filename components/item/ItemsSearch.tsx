@@ -4,7 +4,7 @@ import Navbar from '../ui/Navbar';
 import ItemView from './ItemView';
 import { ItemAndFavorite } from '@/lib/types/item';
 import { getItemsWithFavoriteAndCountByText } from '@/lib/actions/item';
-import { COUNT_ITEMS_LOAD } from '@/lib/const';
+import { COUNT_ITEMS_LOAD } from '@/lib/constants';
 
 
 interface Props {

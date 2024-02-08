@@ -1,4 +1,4 @@
-import { TRANSFER_MAX_FAVORITE } from "../const";
+import { TRANSFER_MAX_FAVORITE } from "../constants";
 import db from "../db";
 import { 
     Favorite, 

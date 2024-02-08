@@ -10,7 +10,7 @@ import io, { Socket } from 'socket.io-client';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-import { GetBaseAddressWS } from '@/lib/const/websocket';
+import { GetBaseAddressWS } from '@/lib/constants/websocket';
 import { 
     CHAT_ADDED_MESSAGE, 
     CHAT_ADD_MESSAGE, 

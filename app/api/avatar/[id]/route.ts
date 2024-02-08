@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { 
     AVATAR_SCALE_WIDTH_0,
     AVATAR_SCALE_WIDTH_1,
-} from "@/lib/const";
+} from "@/lib/constants";
 
 
 export async function GET(

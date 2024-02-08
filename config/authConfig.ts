@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import db from "@/lib/db";
 import { v4 } from "uuid";
 
-import { COOKIE_FAVORITE_KEY } from "@/lib/const";
+import { COOKIE_FAVORITE_KEY } from "@/lib/constants";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 

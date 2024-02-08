@@ -5,7 +5,7 @@ import {
     PICTURE_SCALE_WIDTH_1,
     PICTURE_SCALE_WIDTH_2,
     PICTURE_SCALE_WIDTH_3 
-} from "@/lib/const";
+} from "@/lib/constants";
 
 
 export async function GET(

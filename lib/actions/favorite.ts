@@ -7,7 +7,7 @@ import {
     addTempFavorite, 
     createMyTempFavoriteList 
 } from "../services/favorite.service";
-import { COOKIE_FAVORITE_KEY } from "../const";
+import { COOKIE_FAVORITE_KEY } from "../constants";
 
 
 export async function addFavorite(itemId:string){

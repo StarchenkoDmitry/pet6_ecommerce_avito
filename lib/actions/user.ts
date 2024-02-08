@@ -12,7 +12,7 @@ import {
     AVATAR_SCALE_WIDTH_1, 
     MAX_ASPECT_RATION_AVATAR,
     MAX_FILE_SIZE_AVATAR 
-} from "../const";
+} from "../constants";
 
 
 export async function changeAvatar(formData: FormData){

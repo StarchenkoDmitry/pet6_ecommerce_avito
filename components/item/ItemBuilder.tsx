@@ -7,7 +7,7 @@ import {
     MAX_ITEM_PRICE, 
     MAX_SIZE_ITEM_DESCRIPTION, 
     MIN_ITEM_PRICE 
-} from "@/lib/const";
+} from "@/lib/constants";
 
 import { createItem } from "@/lib/actions/item";
 import { convertFileToDataURL } from "@/lib/utils/imager";

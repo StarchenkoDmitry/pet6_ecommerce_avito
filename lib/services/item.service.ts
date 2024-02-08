@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import db from "../db";
 import { ItemAndFavorite } from "../types/item";
-import { COOKIE_FAVORITE_KEY, COUNT_ITEMS_LOAD } from "../const";
+import { COOKIE_FAVORITE_KEY, COUNT_ITEMS_LOAD } from "../constants";
 
 
 export async function getItemsForMainPage(

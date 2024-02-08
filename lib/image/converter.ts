@@ -3,7 +3,7 @@ import {
     CONVERT_TO_MAX_HEIGHT, 
     CONVERT_TO_MAX_WIDTH, 
     MAX_PIXELS_IN_PICTURE 
-} from "../const";
+} from "../constants";
 
 
 export async function convertByWidth(imageBuffer:Buffer,maxWidth:number) {

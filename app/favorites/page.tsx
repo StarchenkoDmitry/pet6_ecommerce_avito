@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import db from "@/lib/db";
 import ItemView from "@/components/item/ItemView";
-import { COOKIE_FAVORITE_KEY } from "@/lib/const";
+import { COOKIE_FAVORITE_KEY } from "@/lib/constants";
 import { ItemAndFavorite } from "@/lib/types/item";
 
 

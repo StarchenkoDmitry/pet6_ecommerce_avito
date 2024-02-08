@@ -16,7 +16,7 @@ import {
     PICTURE_SCALE_WIDTH_2, 
     PICTURE_SCALE_WIDTH_3, 
     MAX_TAKE_ITEMS
-} from "../const";
+} from "../constants";
 import { ItemAndFavorite } from "../types/item";
 import { 
     getCountItemsByText, 
