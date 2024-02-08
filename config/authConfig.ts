@@ -85,6 +85,8 @@ export const { handlers, auth, signIn, signOut,update } = NextAuth({
             }
         })
     ],
+    
+    trustHost:true,
 
     debug:AUTH_DEBUG_ENABLE,
     session:{ strategy:"jwt", },
