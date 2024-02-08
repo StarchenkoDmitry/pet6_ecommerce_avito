@@ -15,7 +15,7 @@ model User{
   updatedAt DateTime @updatedAt()
 
   name String
-  surname String?
+  surname String
 
   imageId String?
   image AvatarImage? @relation(fields: [imageId],references: [id])
