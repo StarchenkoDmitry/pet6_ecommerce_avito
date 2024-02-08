@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { ChatWithChatUserAndItem } from '@/types/chat';
+
 import Avatar from '../ui/Avatar';
-import { ChatWithChatUserAndItem } from '@/lib/types/chat';
 
 
 export interface ChatViewProps {

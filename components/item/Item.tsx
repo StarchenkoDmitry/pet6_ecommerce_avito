@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
@@ -8,9 +7,9 @@ import { HeartIcon as HeartIconOutLine } from "@heroicons/react/24/outline";
 import ItemSidePanel from "./ItemSidePanel";
 import ItemImage from "../ui/ItemImage";
 
-import { Item, User } from "@prisma/client";
-import { UserOwner } from "@/lib/types/user";
-import { changeFavorite } from "../../lib/actions/favorite";
+import { Item } from "@prisma/client";
+import { UserOwner } from "@/types/user";
+import { changeFavorite } from "@/actions/favorite";
 
 
 export interface Props {

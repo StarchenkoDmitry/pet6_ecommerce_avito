@@ -1,10 +1,15 @@
 'use client'
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { 
+    ChangeEvent, 
+    useEffect, 
+    useRef, 
+    useState 
+} from 'react';
 import clsx from 'clsx';
 
 import { User } from '@prisma/client';
 
-import { changeAvatar, changeName } from '@/lib/actions/user';
+import { changeAvatar, changeName } from '@/actions/user';
 
 import ProfileInput from '../ui/input/ProfileInput';
 import Avatar from '../ui/Avatar';

@@ -1,6 +1,6 @@
 import { auth } from "@/config/authConfig";
-import db from "@/lib/db";
-import { findChatByIdAndUserIdWithItem } from "@/lib/db/chat";
+import db from "@/db";
+import { findChatByIdAndUserIdWithItem } from "@/db/chat";
 import ChatSocket from "@/components/chat/ChatSocket";
 
 

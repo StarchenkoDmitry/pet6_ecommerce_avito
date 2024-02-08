@@ -1,5 +1,4 @@
 'use client'
-
 import { 
     ChangeEvent, 
     useEffect, 
@@ -10,7 +9,7 @@ import io, { Socket } from 'socket.io-client';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-import { GetBaseAddressWS } from '@/lib/constants/websocket';
+import { GetBaseAddressWS } from '@/constants/websocket';
 import { 
     CHAT_ADDED_MESSAGE, 
     CHAT_ADD_MESSAGE, 
@@ -19,7 +18,7 @@ import {
     EVENT_CLIENT_MESSAGE, 
     EVENT_SERVER_MESSAGE, 
     ServerMessage 
-} from '@/lib/interfaces/chat.socket';
+} from '@/interfaces/chat.socket';
 
 import { Item, Message, User } from '@prisma/client';
 

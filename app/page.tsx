@@ -1,7 +1,7 @@
 import { 
     getCountItems, 
     getItemsForMainPage 
-} from "@/lib/services/item.service";
+} from "@/services/item.service";
 import InfiniteItems from "@/components/item/InfiniteItems";
 
 

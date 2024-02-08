@@ -1,18 +1,17 @@
 "use server"
-
-import db from "../db";
+import db from "@/db";
 
 import { 
     checkMaxAspectRation, 
     convertByWidth 
-} from "../image/converter";
+} from "@/image/converter";
 
 import { 
     AVATAR_SCALE_WIDTH_0, 
     AVATAR_SCALE_WIDTH_1, 
     MAX_ASPECT_RATION_AVATAR,
     MAX_FILE_SIZE_AVATAR 
-} from "../constants";
+} from "@/constants";
 
 
 export async function changeAvatar(formData: FormData){

@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
-import db from "@/lib/db";
+import db from "@/db";
+import { COOKIE_FAVORITE_KEY } from "@/constants";
+import { ItemAndFavorite } from "@/types/item";
+
 import ItemView from "@/components/item/ItemView";
-import { COOKIE_FAVORITE_KEY } from "@/lib/constants";
-import { ItemAndFavorite } from "@/lib/types/item";
 
 
 export default async function Home() {

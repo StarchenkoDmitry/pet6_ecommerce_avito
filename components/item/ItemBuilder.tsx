@@ -1,16 +1,20 @@
 "use client";
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
-
 import { 
-    DEFAULT_ITEM_PRICE, 
+    ChangeEvent, 
+    FormEvent, 
+    useRef, 
+    useState 
+} from "react";
+
+import {
     MAX_COUNT_PICTURES, 
     MAX_ITEM_PRICE, 
     MAX_SIZE_ITEM_DESCRIPTION, 
     MIN_ITEM_PRICE 
-} from "@/lib/constants";
+} from "@/constants";
 
-import { createItem } from "@/lib/actions/item";
-import { convertFileToDataURL } from "@/lib/utils/imager";
+import { createItem } from "@/actions/item";
+import { convertFileToDataURL } from "@/utils/imager";
 
 
 interface Props {}

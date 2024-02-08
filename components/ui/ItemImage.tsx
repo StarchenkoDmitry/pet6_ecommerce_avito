@@ -5,7 +5,7 @@ import {
     PICTURE_SCALE_WIDTH_2, 
     PICTURE_SCALE_WIDTH_3, 
     PICTURE_SCALE_WIDTH_MAX 
-} from "@/lib/constants";
+} from "@/constants";
 
 
 interface Props {

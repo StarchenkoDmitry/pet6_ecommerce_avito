@@ -4,11 +4,12 @@ import {
     useRef, 
     useState 
 } from 'react';
-import { ItemAndFavorite } from '@/lib/types/item';
+
+import { COUNT_ITEMS_LOAD } from '@/constants';
+import { ItemAndFavorite } from '@/types/item';
 import { 
     getItemsWithFavoriteAndCountByText, 
-} from '@/lib/actions/item';
-import { COUNT_ITEMS_LOAD } from '@/lib/constants';
+} from '@/actions/item';
 
 import Navbar from '../ui/Navbar';
 import ItemView from './ItemView';

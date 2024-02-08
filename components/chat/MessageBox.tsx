@@ -1,5 +1,5 @@
-import { convertToStringDate } from "@/lib/utils/Date";
-import { Message } from "@prisma/client"
+import { Message } from "@prisma/client";
+import { convertToStringDate } from "@/utils/Date";
 
 
 export interface MessageProps{

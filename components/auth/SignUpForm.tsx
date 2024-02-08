@@ -1,9 +1,8 @@
 'use client'
-
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { signUpWithCredentials } from "@/lib/actions/auth";
+import { signUpWithCredentials } from "@/actions/auth";
 
 
 function SignUpForm() {

@@ -1,15 +1,15 @@
 import NextAuth from "next-auth";
 import { cookies } from "next/headers";
 
-import db from "@/lib/db";
+import db from "@/db";
 import { v4 } from "uuid";
 
-import { COOKIE_FAVORITE_KEY } from "@/lib/constants";
+import { COOKIE_FAVORITE_KEY } from "@/constants";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { transferFavorite } from "@/lib/services/favorite.service";
-import { deleteAccessToken } from "@/lib/services/user.service";
+import { transferFavorite } from "@/services/favorite.service";
+import { deleteAccessToken } from "@/services/user.service";
 
 
 const LOGGING_ENABLE = false;

@@ -3,7 +3,7 @@ import {
     AVATAR_SCALE_WIDTH_0,
     AVATAR_SCALE_WIDTH_1,
     AVATAR_SCALE_WIDTH_MAX,
-} from "@/lib/constants";
+} from "@/constants";
 
 
 interface Props {

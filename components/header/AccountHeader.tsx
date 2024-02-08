@@ -1,5 +1,4 @@
 'use client'
-
 import Link from "next/link";
 import { useState } from "react";
 
@@ -10,10 +9,10 @@ import {
     ShoppingBagIcon 
 } from "@heroicons/react/24/solid";
 
+import { User } from "@prisma/client";
+
 import SignInButton from "./SignInButton";
 import Avatar from "../ui/Avatar";
-
-import { User } from "@prisma/client";
 
 
 export interface Props {

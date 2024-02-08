@@ -1,13 +1,12 @@
 'use server'
-
 import { cookies } from 'next/headers';
-import db from "../db";
+import db from "@/db";
 import { 
     addMyFavorite, 
     addTempFavorite, 
     createMyTempFavoriteList 
-} from "../services/favorite.service";
-import { COOKIE_FAVORITE_KEY } from "../constants";
+} from "@/services/favorite.service";
+import { COOKIE_FAVORITE_KEY } from "@/constants";
 
 
 export async function addFavorite(itemId:string){

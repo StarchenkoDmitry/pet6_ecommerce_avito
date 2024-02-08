@@ -1,11 +1,10 @@
 "use client";
 
 import { Item } from "@prisma/client";
-import { UserOwner } from "@/lib/types/user";
+import { UserOwner } from "@/types/user";
 
-import { createChatAboutItem } from "@/lib/actions/chat";
+import { createChatAboutItem } from "@/actions/chat";
 import Avatar from "../ui/Avatar"
-
 
 
 export interface Props {

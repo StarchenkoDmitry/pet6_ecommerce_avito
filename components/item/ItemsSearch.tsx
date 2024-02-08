@@ -1,10 +1,13 @@
 'use client'
 import { useRef, useState } from 'react';
+
+import { COUNT_ITEMS_LOAD } from '@/constants';
+import { ItemAndFavorite } from '@/types/item';
+
+import { getItemsWithFavoriteAndCountByText } from '@/actions/item';
+
 import Navbar from '../ui/Navbar';
 import ItemView from './ItemView';
-import { ItemAndFavorite } from '@/lib/types/item';
-import { getItemsWithFavoriteAndCountByText } from '@/lib/actions/item';
-import { COUNT_ITEMS_LOAD } from '@/lib/constants';
 
 
 interface Props {

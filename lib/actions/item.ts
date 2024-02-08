@@ -1,8 +1,7 @@
 "use server"
-
 import { File } from "buffer";
-import db from "../db";
-import { checkMaxAspectRation, convertByHeight } from "../image/converter";
+import db from "@/db";
+import { checkMaxAspectRation, convertByHeight } from "@/image/converter";
 import { 
     MAX_ASPECT_RATION_PICTURE, 
     MAX_COUNT_PICTURES, 
@@ -16,12 +15,12 @@ import {
     PICTURE_SCALE_WIDTH_2, 
     PICTURE_SCALE_WIDTH_3, 
     MAX_TAKE_ITEMS
-} from "../constants";
-import { ItemAndFavorite } from "../types/item";
+} from "@/constants";
+import { ItemAndFavorite } from "@/types/item";
 import { 
     getCountItemsByText, 
     getItemsForMainPage 
-} from "../services/item.service";
+} from "@/services/item.service";
 
 
 export async function createItem(formData: FormData){

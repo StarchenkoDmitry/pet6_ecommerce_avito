@@ -1,9 +1,9 @@
-import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import db from "@/db";
 import { 
     AVATAR_SCALE_WIDTH_0,
     AVATAR_SCALE_WIDTH_1,
-} from "@/lib/constants";
+} from "@/constants";
 
 
 export async function GET(

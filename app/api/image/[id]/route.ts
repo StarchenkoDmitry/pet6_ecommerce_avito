@@ -1,11 +1,11 @@
-import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import db from "@/db";
 import { 
     PICTURE_SCALE_WIDTH_0,
     PICTURE_SCALE_WIDTH_1,
     PICTURE_SCALE_WIDTH_2,
     PICTURE_SCALE_WIDTH_3 
-} from "@/lib/constants";
+} from "@/constants";
 
 
 export async function GET(

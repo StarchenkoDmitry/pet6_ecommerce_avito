@@ -1,6 +1,7 @@
+import db from "@/db";
+
 import Profile from "@/components/profile/Profile";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import db from "@/lib/db";
 
 
 export default async function Home() {

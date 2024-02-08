@@ -1,14 +1,13 @@
 'use client'
-
 import { useState } from 'react';
 
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartIconOutLine } from '@heroicons/react/24/outline';
 
-import { changeFavorite } from '../../lib/actions/favorite';
+import { changeFavorite } from '@/actions/favorite';
 
 import ItemImage from '../ui/ItemImage';
-import { ItemAndFavorite } from '@/lib/types/item';
+import { ItemAndFavorite } from '@/types/item';
 
 
 export interface Props {

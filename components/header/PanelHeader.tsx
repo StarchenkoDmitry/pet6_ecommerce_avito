@@ -3,8 +3,6 @@ import React from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 
-// import { signOut } from '@/config/authConfig';
-
 import { 
     XMarkIcon,
     ChatBubbleLeftRightIcon,
@@ -12,10 +10,10 @@ import {
     HeartIcon, 
     ShoppingBagIcon 
 } from '@heroicons/react/24/solid';
-    
+
 import { User } from '@prisma/client';
 import SignInButton from './SignInButton';
-import { signOutAction } from '@/lib/actions/auth';
+import { signOutAction } from '@/actions/auth';
 
 
 interface Props {
@@ -27,9 +25,6 @@ interface Props {
 function PanelHeader({user,isOpen,onClose}: Props) {
 
     const handleSignOut = ()=>{
-        // signOut({
-        //     redirect:false,
-        // })
         signOutAction()
         .then((res)=>{
             console.log("signOut res",res);

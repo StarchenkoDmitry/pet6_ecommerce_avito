@@ -1,13 +1,16 @@
 'use client'
 import { useState } from "react";
 
+import { 
+    Bars4Icon, 
+    ChevronRightIcon 
+} from "@heroicons/react/24/solid";
+
 import { categorys } from "@/constants/categories";
 import { Search } from "./Search";
 import { Button } from "./buttons/Button";
 
 import Modal2 from "./Modal/Modal";
-
-import { Bars4Icon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 
 export interface Props {

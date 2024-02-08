@@ -1,7 +1,8 @@
+import db from "@/db";
+import { ChatWithChatUserAndItem } from "@/types/chat";
+
 import ChatView from "@/components/chat/ChatView";
 import ChatsSideBar from "@/components/chats/ChatsSideBar";
-import db from "@/lib/db";
-import { ChatWithChatUserAndItem } from "@/lib/types/chat";
 
 
 export default async function Home() {    

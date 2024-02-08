@@ -1,7 +1,6 @@
 'use server'
-
 import { Message } from "@prisma/client";
-import db from "../db"
+import db from "@/db"
 
 
 export async function createMessage(chatId:string,text:string)

@@ -1,7 +1,7 @@
 import db from ".";
 
 import { Chat } from "@prisma/client";
-import { ChatWithItem } from "../types/chat";
+import { ChatWithItem } from "@/types/chat";
 
 
 export async function findChatByIdAndUserId(chatId:string,userId:string)

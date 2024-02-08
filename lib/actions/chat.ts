@@ -1,7 +1,6 @@
 'use server'
-
 import { Chat } from "@prisma/client";
-import db from "../db";
+import db from "@/db";
 
 
 //create a conversation about a product

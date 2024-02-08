@@ -1,10 +1,10 @@
-import { TRANSFER_MAX_FAVORITE } from "../constants";
-import db from "../db";
+import db from "@/db";
 import { 
     Favorite, 
     TempFavorite, 
     TempFavoriteList 
 } from "@prisma/client";
+import { TRANSFER_MAX_FAVORITE } from "@/constants";
 
 
 export async function createMyTempFavoriteList(

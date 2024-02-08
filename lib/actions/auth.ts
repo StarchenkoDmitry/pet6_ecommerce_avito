@@ -4,7 +4,7 @@ import {
     signOut, 
     update 
 } from "@/config/authConfig";
-import db from "../db";
+import db from "@/db";
 
 
 export async function signUpWithCredentials(formData: FormData, doSingIn:boolean = true){

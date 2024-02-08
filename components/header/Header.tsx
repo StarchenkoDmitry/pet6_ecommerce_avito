@@ -3,11 +3,11 @@ import { useState } from "react";
 
 import { Bars4Icon } from "@heroicons/react/24/solid";
 
+import { User } from "@prisma/client";
+
 import AccountHeader from "./AccountHeader";
 import NavHeader from "./NavHeader";
 import PanelHeader from "./PanelHeader";
-
-import { User } from "@prisma/client";
 
 
 export interface Props {

@@ -1,8 +1,7 @@
 'use client'
-
-import { signInWithCredentials } from "@/lib/actions/auth";
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { signInWithCredentials } from "@/actions/auth";
 
 
 function SignInForm() {
