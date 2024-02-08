@@ -23,7 +23,7 @@ function SignUpForm() {
             const response = await signUpWithCredentials(formData);
             console.log('authenticateWithCredentials response:',response);
             if(response.signUp){
-                // router.refresh();
+                router.refresh();
             }else{
                 setErrorUp(`Error registration ${response.error}`);
             }
@@ -36,28 +36,37 @@ function SignUpForm() {
 
     return (
         <div className="p-3 flex flex-col">
-            <h2 className="m-1 text-xl">SingUp</h2>
+            <h2 className="m-1 text-xl">SignUp</h2>
             <form className="flex flex-col" onSubmit={handleSubmitSignUp}>
-                {/* <label className="mx-2" htmlFor="email">Email</label> */}
                 <input 
-                    className="my-1 mb-4 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
-                    type="text" 
+                    className="my-1 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
+                    type="email" 
                     name="email"
-                    placeholder="Phone or email"
+                    required
+                    placeholder="Email"
                 />
-                {/* <label className="mx-2" htmlFor="password">Password</label> */}
                 <input 
                     className="my-1 py-2 p-1 text-sm rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
                     type="password"
                     name="password"
-                    placeholder="password"
+                    placeholder="Password"
                 />
-                {/* <input 
-                    className="my-1 mb-4 py-2 p-1 text-sm rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
-                    type="password"
-                    name="password"
-                    placeholder="confirme password"
-                /> */}
+                
+                <input 
+                    className="my-1 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
+                    type="text" 
+                    name="name"
+                    required
+                    placeholder="* Name"
+                />
+                
+                <input 
+                    className="my-1 mb-4 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
+                    type="text" 
+                    name="surname"
+                    required
+                    placeholder="* Surname"
+                />
                 <button className="p-1 block text-sm rounded-lg bg-green-400 hover:bg-green-300" type="submit">
                     SignUp
                 </button>

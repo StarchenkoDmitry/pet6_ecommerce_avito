@@ -5,7 +5,7 @@ import SignInForm from "./SignInForm";
 
 
 function AuthForm() {
-    const [register,setRegister] = useState(true);
+    const [register,setRegister] = useState(false);
 
     const handleChangeAuth = ()=>{
         setRegister(prev=>!prev);
@@ -35,6 +35,7 @@ function AuthForm() {
                 <h2 className="m-1 text-lg">SignIn from vender</h2>
                 <ul>
                     <li>
+                        <span className="block">In development</span>
                         <button className="p-2 rounded-full bg-white">
                             GitHub
                         </button>

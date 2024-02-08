@@ -22,7 +22,7 @@ function SignInForm() {
             const response = await signInWithCredentials(formData);
             console.log('authenticateWithCredentials response:',response);
             if(response.signIn){
-                // router.refresh();
+                router.refresh();
             }else{
                 setErrorIn(`Error registration ${response.error}`);
             }
@@ -35,13 +35,19 @@ function SignInForm() {
 
     return (
         <div className="p-3 flex flex-col">
-            <h2 className="m-1 text-xl">SingIn</h2>
+            <h2 className="m-1 text-xl">SignIn</h2>
+            <div>
+                <p>
+                    {errorIn}
+                </p>
+            </div>
             <form className="flex flex-col" onSubmit={handleSubmitSignIn}>
                 <input 
-                    className="my-1 mb-4 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
+                    className="my-1 py-2 p-1 text-sm flex-1 rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
                     type="text" 
                     name="email"
-                    placeholder="Phone or email"
+                    required
+                    placeholder="Email"
                 />
                 <input 
                     className="my-1 py-2 p-1 text-sm rounded-lg placeholder-gray-500 bg-gray-100 hover:bg-gray-200 focus:bg-white focus:outline-green-400"
