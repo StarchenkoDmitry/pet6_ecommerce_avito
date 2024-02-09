@@ -58,12 +58,6 @@ function Item({ item, favorite, isOwner, userOwner }: Props) {
 
                 <ItemSidePanel isOwner={isOwner} item={item} userOwner={userOwner} />
             </div>
-
-            <div>
-                <h3 className="text-2xl font-medium">Адрес</h3>
-                <span>Республика Бурятия, Улан-Удэ р-н Советский</span>
-                <h3 className="text-2xl font-medium">Характеристики</h3>
-            </div>
         </div>
     );
 }
