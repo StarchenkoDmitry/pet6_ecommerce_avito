@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ECommerce Avito
 
-## Getting Started
+This pet project was created to demonstrate my capabilities in creating a web application using NextJS, Prisma.ORM with (PostgreSQL), Socket.IO and others.
 
-First, run the development server:
 
+[Messages Server: pet6_ecommerce_avito](https://github.com/StarchenkoDmitry/pet6_ecommerce_avito_server)
+
+
+**Table of Contents**
+
+[Capabilities](#capabilities)
+[Getting Started](#Getting-Started)
+[List of technologies used](#List-of-technologies-used)
+[Notes](#notes)
+[Ссылки](#Ссылки)
+
+
+
+#### Capabilities
+
+
+1. Home page - displays products on the site. It also has the ability to search by product name.
+<img src="./docs/images/main_page.png" alt="Alt Text" style="border: 1px solid #EEE; border-radius: 6px;">
+
+
+2. Product page - this is a mobile version of the page, on it you can see the main information of the product, or write a message to the seller, and also find out the seller’s number so that you can discuss the details of the product.
+<img src="./docs/images/item.png" alt="Alt Text" style="border: 1px solid #EEE; border-radius: 6px;">
+
+
+3. Burger menu - yum yum.
+<img src="./docs/images/burgermenu.png" alt="Alt Text" style="border: 1px solid #EEE; border-radius: 6px;">
+
+
+4. Page with your chats.
+<img src="./docs/images/chats.png" alt="Alt Text" style="border: 1px solid #EEE; border-radius: 6px;">
+
+
+5. Chat page - on it you can chat with the seller about the product or just because you like the person.
+<img src="./docs/images/chat.png" alt="Alt Text" style="border: 1px solid #EEE; border-radius: 6px;">
+
+
+5. Product announcement page - on it you can give the product name, price, description and add several photos.
+<img src="./docs/images/сreateitem_page.png" alt="Alt Text" style="border: 1px solid #EEE; border-radius: 6px;">
+
+
+
+
+сreateitem_page
+
+
+#### List of technologies used
+- Next.JS
+- Prisma.ORM (PostgreSQL)
+- Socket.IO - for online chat
+- Sharp - library for working with pictures(changes scale, cropping pictures)
+- Next-Auth - for authorization by using JWT(note: in this project I used JWT as DataBase strategy.)
+- Heroicons - the title says it all
+
+
+
+
+#### Getting Started
+
+1. Install the packages first
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+###### ***Start the project in development mode***
+1. Run this script
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+###### ***Building project and start product***
+1. Run this script
+```bash
+npm run build
+```
+2. Run Product Mode
+```bash
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Next-Auth - in this project I used JWT as a DataBase strategy to understand how JWT works in next-auth.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. For chats to work, you need a message server, it is located in another repository. [Messages Server: pet6_ecommerce_avito](https://github.com/StarchenkoDmitry/pet6_ecommerce_avito_server)
