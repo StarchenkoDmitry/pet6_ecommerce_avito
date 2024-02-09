@@ -4,13 +4,20 @@ import { cookies } from "next/headers";
 import db from "@/db";
 import { v4 } from "uuid";
 
-import { COOKIE_FAVORITE_KEY } from "@/constants";
+import { 
+    COOKIE_FAVORITE_KEY, 
+    MAX_EMAIL_LENGHT, 
+    MAX_PASSWORD_LENGHT, 
+    MIN_EMAIL_LENGHT, 
+    MIN_PASSWORD_LENGHT 
+} from "@/constants";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { transferFavorite } from "@/services/favorite.service";
 import { deleteAccessToken } from "@/services/user.service";
 import { comparePassword } from "@/utils/Password";
+import { validateEmail } from "@/utils/Validate";
 
 
 const LOGGING_ENABLE = false;
@@ -49,7 +56,22 @@ export const { handlers, auth, signIn, signOut, update } = NextAuth({
                     const { email , password } = credentials;
                     if(!email || !password)return null;
 
-                    if(typeof password !== "string"){
+                    if( typeof password !== "string" || 
+                        typeof email !== "string"){
+                        return null;
+                    }
+                    
+                    if( email.length > MAX_EMAIL_LENGHT || 
+                        email.length < MIN_EMAIL_LENGHT ){
+                        return null;
+                    }
+
+                    if( password.length > MAX_PASSWORD_LENGHT || 
+                        password.length < MIN_PASSWORD_LENGHT ){
+                        return null;
+                    }
+
+                    if(!validateEmail(email)){
                         return null;
                     }
 

@@ -151,7 +151,13 @@ export async function signUpWithCredentials(
     }
 }
 
-export async function signInWithCredentials(formData: FormData){
+export type SignInResponse = {
+    signIn?:boolean;
+    error?:string;
+}
+
+export async function signInWithCredentials(formData: FormData)
+:Promise<SignInResponse>{
     console.log("signInWithCredentials formData: ", formData);
 
     const email = formData.get('email');
@@ -186,7 +192,8 @@ export async function signInWithCredentials(formData: FormData){
 }
 
 
-export async function signOutAction(){
+export async function signOutAction()
+:Promise<boolean>{
     try {
         //delete accessToken and clear it in token
         const sessionRes = await update({
