@@ -4,16 +4,8 @@ import Avatar from "@/components/ui/Avatar";
 
 export default async function Home({ params }: { params: { id: string } }) {
     const { id } = params;
-
-    const user = await db.user.findFirst({
-        where: { id: id },
-        select: {
-            id: true,
-            name: true,
-            surname: true,
-            imageId: true,
-        },
-    });
+    
+    const user = await getUserByIdForPage(id);
 
     if (!user) {
         return (
@@ -36,4 +28,22 @@ export default async function Home({ params }: { params: { id: string } }) {
             </div>
         </div>
     );
+}
+
+async function getUserByIdForPage(userId:string) {
+    try {
+        const user = await db.user.findFirst({
+            where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                surname: true,
+                imageId: true,
+            },
+        });
+        return user;
+    } catch (error) {
+        console.log("getUserByIdForPage error:",error);
+        return null;
+    }
 }
