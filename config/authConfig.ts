@@ -10,6 +10,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { transferFavorite } from "@/services/favorite.service";
 import { deleteAccessToken } from "@/services/user.service";
+import { comparePassword } from "@/utils/Password";
 
 
 const LOGGING_ENABLE = false;
@@ -35,51 +36,65 @@ declare module "@auth/core/jwt" {
     }
 }
 
-export const { handlers, auth, signIn, signOut,update } = NextAuth({
+export const { handlers, auth, signIn, signOut, update } = NextAuth({
     providers: [
         CredentialsProvider({
             id: 'credentials',
             name: "credentials",
             async authorize(credentials){
-                if(LOGGING_ENABLE)
-                console.log("/authorize:",credentials);
-
-                const { email , password } = credentials;
-                if(!email || !password)return null;
-
-                const userRes = await db.user.findFirst({
-                    where:{
-                        emailProviders:{
-                            some:{
-                                email:email,
-                                passwordhash:password,
-                            }
-                        }
-                    }
-                })
-
-                if(!userRes)return null;
-
-                const favoriteId = cookies().get(COOKIE_FAVORITE_KEY);
-                if(favoriteId){
-                    await transferFavorite(favoriteId.value,userRes.id);
-                    cookies().delete(COOKIE_FAVORITE_KEY);
-                }
                 try {
+                    if(LOGGING_ENABLE)
+                    console.log("/authorize:",credentials);
+
+                    const { email , password } = credentials;
+                    if(!email || !password)return null;
+
+                    if(typeof password !== "string"){
+                        return null;
+                    }
+
+                    const userProvider = await db.emailProvider.findFirst({
+                        where:{
+                            email:email
+                        }
+                    });
+
+                    if(!userProvider){
+                        return null;
+                    }
+                    
+                    const correctPassword = await comparePassword(password,userProvider.passwordhash)
+
+                    if(!correctPassword){
+                        return null;
+                    }
+                    
+                    const userId = userProvider.userId;
+
+                    const favoriteId = cookies().get(COOKIE_FAVORITE_KEY);
+                    if(favoriteId){
+                        await transferFavorite(favoriteId.value,userId);
+                        cookies().delete(COOKIE_FAVORITE_KEY);
+                    }
+                    
                     const tokenRes = await db.accessToken.create({
                         data:{
                             expiresIn: new Date().toISOString(),
-                            token:v4(),
-                            userId:userRes.id,
+                            token: v4(),
+                            userId: userId
                         }
                     });
-                    if(!tokenRes)return null;
-                    
-                    return {
-                        ...userRes,
-                        accessToken:tokenRes.token
-                    };
+
+                    if(!tokenRes){
+                        return null;
+                    }else{
+                        return {
+                            id: userId,
+                            accessToken: tokenRes.token
+                        };
+                    }
                 } catch (error) {
+                    console.log("NextAuth CredentialsProvider authorize error:",error);
                     return null;
                 }
             }

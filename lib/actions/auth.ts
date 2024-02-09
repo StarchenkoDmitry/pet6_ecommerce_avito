@@ -18,6 +18,7 @@ import {
 } from "@/constants";
 
 import {validateEmail} from "@/utils/Validate";
+import { hashPassword } from "@/utils/Password";
 
 
 export type SignUpResponse = {
@@ -87,6 +88,9 @@ export async function signUpWithCredentials(
     }
 
     try {
+        const passwordhash = await hashPassword(password);
+
+
         const resRegistered = await db.$transaction(async(ts)=>{
             const existEmail = await ts.emailProvider.findFirst({
                 where:{
@@ -112,7 +116,7 @@ export async function signUpWithCredentials(
             const emailProviderCreated = await ts.emailProvider.create({
                 data:{
                     email:email,
-                    passwordhash:password,
+                    passwordhash:passwordhash,
                     userId:userCreated.id
                 }
             });
