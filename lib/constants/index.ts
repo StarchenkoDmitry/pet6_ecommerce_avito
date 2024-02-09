@@ -76,3 +76,6 @@ export const TRANSFER_MAX_FAVORITE = 1024;
 //main page
 export const COUNT_ITEMS_LOAD = 10;
 export const MAX_TAKE_ITEMS = 100;
+
+//myitems page
+export const MYITEMS_PAGE__TAKE_ITEMS = 64;
