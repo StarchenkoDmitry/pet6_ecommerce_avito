@@ -24,6 +24,7 @@ import { Item, Message, User } from '@prisma/client';
 
 import MessageBox from './MessageBox';
 import Avatar from '../ui/Avatar';
+import clsx from 'clsx';
 
 
 interface Props{
@@ -92,7 +93,7 @@ export default function ChatSocket({me,user,item,token,chatId}:Props) {
     }
 
     return (
-        <div className="flex flex-col flex-1 h-full">
+        <div className="mx-2 flex flex-col flex-1 h-full">
             <div>
             {
                 user ? 
@@ -120,9 +121,14 @@ export default function ChatSocket({me,user,item,token,chatId}:Props) {
             }
             </div>
 
-            <div className="my-2 p-2 flex-1 flex flex-col-reverse basis-0 overflow-hidden overflow-y-auto bg-sky-50 _bg-gray-100 rounded-lg">
+            <div className="my-2 p-2 flex-1 flex flex-col-reverse basis-0 overflow-hidden overflow-y-auto bg-gray-100 _bg-sky-50 _bg-gray-100 rounded-lg">
             {
-                messages.map(e=>(<MessageBox key={e.id} message={e}/>))
+                messages.map(e=>(<div 
+                    key={e.id} 
+                    // className={clsx(e.userId === me.id ? "bg-green-300" : "")}
+                >
+                    <MessageBox message={e} mine={e.userId === me.id}/>
+                </div>))
             }
             </div>
             <div className="m-1">

@@ -13,6 +13,8 @@ import { User } from "@prisma/client";
 
 import SignInButton from "./SignInButton";
 import Avatar from "../ui/Avatar";
+import { signOutAction } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 
 export interface Props {
@@ -20,6 +22,8 @@ export interface Props {
 }
 
 function AccountHeader({ user }: Props) {
+
+    const router = useRouter();
 
     const [isOpenMenu,setIsOpenMenu] = useState(false);
 
@@ -29,7 +33,10 @@ function AccountHeader({ user }: Props) {
 
     const handleSignOut = ()=>{
         toggleMenu();
-        //todo:SignOut
+        signOutAction()
+        .then(()=>{
+            router.refresh();
+        })
     }
 
     if(user){
@@ -59,19 +66,19 @@ function AccountHeader({ user }: Props) {
                             sizes="32px"
                         />
                     </button>
-                    <div hidden={!isOpenMenu} className="z-10 fixed inset-0" onClick={toggleMenu} ></div>
-                    <div hidden={!isOpenMenu} className="z-20 absolute w-max right-0 top-full p-2 bg-white rounded-lg border-2">
+                    {/* <div hidden={!isOpenMenu} className="z-10 fixed inset-0" onClick={toggleMenu} ></div> */}
+                    <div hidden={!isOpenMenu} className="_flex flex-col z-20 absolute w-max right-0 top-full p-2 bg-white rounded-lg border-2">
                         <Link 
                             className="block mb-2 p-1 px-2 hover:bg-sky-200 rounded-lg" 
                             href="/profile"
                             onClick={toggleMenu}>
-                            Profile
+                            Профиль
                         </Link>
                         <button 
                             className="block p-1 px-2 hover:bg-blue-300 bg-gray-100 rounded-lg"
                             onClick={handleSignOut}
                         >
-                            Sing out
+                            Выйти
                         </button>
                     </div>
                 </div>

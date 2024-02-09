@@ -10,13 +10,13 @@ export default async function Home() {
     const items = await getMyFavoriteItems();
 
     return (
-        <div className="p-2">
+        <div className="px-2">
             <div className="flex flex-col bg-gray-100 rounded-lg">
-                <h2 className="mt-1 mx-4 text-xl">My favorites</h2>
+                <h2 className="my-1 mx-4 text-xl">My favorites</h2>
 
                 <div className="flex flex-wrap justify-between">
                     {items.map((i) => (
-                        <ItemView key={i.id} item={i} />
+                        <ItemView className="m-2" key={i.id} item={i} />
                     ))}
                 </div>
             </div>

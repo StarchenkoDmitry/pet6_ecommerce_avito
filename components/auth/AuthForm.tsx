@@ -18,15 +18,14 @@ function AuthForm() {
                 <SignUpForm/> :
                 <SignInForm/>
             }
-
             {
                 register ? 
                 <button 
-                    className="mb-2 mx-auto p-1 px-2 rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-200 _text-start"
+                    className="mb-2 mx-auto p-1 px-2 rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-200"
                     onClick={handleChangeAuth}
                 >I have an account</button> :
                 <button 
-                    className="mb-2 mx-auto p-1 px-2 rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-200 _text-start"
+                    className="mb-2 mx-auto p-1 px-2 rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-200"
                     onClick={handleChangeAuth}
                 >Register form</button>
             }

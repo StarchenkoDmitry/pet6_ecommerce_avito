@@ -14,6 +14,7 @@ import {
 import { User } from '@prisma/client';
 import SignInButton from './SignInButton';
 import { signOutAction } from '@/actions/auth';
+import { useRouter } from 'next/navigation';
 
 
 interface Props {
@@ -24,12 +25,12 @@ interface Props {
 
 function PanelHeader({user,isOpen,onClose}: Props) {
 
+    const router = useRouter();
+
     const handleSignOut = ()=>{
         signOutAction()
-        .then((res)=>{
-            console.log("signOut res",res);
-        }).catch((ress)=>{
-            console.log("signOut catch ress",ress);
+        .then(()=>{
+            router.refresh();
         });
     }
 
@@ -52,7 +53,7 @@ function PanelHeader({user,isOpen,onClose}: Props) {
                 </ul>
 
                 <div className="flex flex-col m-2 *:my-1 *:p-2 *:bg-gray-100 [&>*:hover]:bg-gray-400 *:rounded-lg">
-                    <Link className='' href="/favorites">
+                    <Link href="/favorites">
                         <HeartIcon className='inline-block w-6 h-6 text-blue-500'/>
                         Favorite
                     </Link>
@@ -73,20 +74,19 @@ function PanelHeader({user,isOpen,onClose}: Props) {
                         </Link>
                     </>
                 }
-                    
-                </div>                
+                </div>
                 {
                     user ?
                     <>
                         <Link 
                             className="block m-2 p-1 px-3 bg-sky-200 rounded-lg" 
                             href="/profile">
-                            Profile
+                            Профиль
                         </Link>
                         <button
                             className='block m-2 _w-max p-1 px-3 text-white bg-orange-300 rounded-lg'
                             onClick={handleSignOut}>
-                            Sign out2
+                            Выйти
                         </button>
                     </> :
                     <SignInButton/>

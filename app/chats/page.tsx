@@ -10,7 +10,7 @@ export default async function Home() {
 
     if (!user) {
         return (
-            <div className="p-2 bg-gray-50 rounded-lg">
+            <div className="px-2 bg-gray-50 rounded-lg">
                 <span className="mx-1 text-xl">Зарегистрируйтесь</span>
             </div>
         );
@@ -52,7 +52,7 @@ export default async function Home() {
     }))
 
     return (
-        <div className="p-2 rounded-lg">
+        <div className="px-2 rounded-lg">
             <h2 className="mx-4 text-xl">Chats</h2>
             <div className="flex max-md:flex-col">
                 <div className="m-1 w-48">

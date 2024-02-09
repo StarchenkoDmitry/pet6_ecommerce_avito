@@ -31,7 +31,7 @@ function SignInButton({className}:Props) {
             <Modal className="flex justify-center items-center bg-[rgba(0,0,0,0.5)]" open={open} onClose={handleClose}>
                 <div className="relative">
                     <AuthForm/>
-                    <button className="absolute right-[-48px] top-[-48px] _top-0 rounded-full hover:bg-[rgba(255,255,255,0.5)]"
+                    <button className="absolute right-[-48px] top-[-48px] rounded-full hover:bg-[rgba(255,255,255,0.5)]"
                         onClick={handleClose}
                     >
                         <XMarkIcon className="p-1 w-12 h-12 text-white"/>

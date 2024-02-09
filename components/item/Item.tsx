@@ -35,10 +35,10 @@ function Item({ item, favorite, isOwner, userOwner }: Props) {
     };
 
     return (
-        <div className="m-2 p-2">
+        <div className="mx-2 px-2">
             <div className="md:flex">
                 <div className="flex-1">
-                    <h2 className="m-2 text-2xl">{lable}</h2>
+                    <h2 className="mx-2 text-2xl">{lable}</h2>
                     <button
                         className="mb-2 px-1 flex items-center bg-gray-200 rounded-lg"
                         onClick={handelChange}
