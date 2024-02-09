@@ -24,7 +24,6 @@ import { Item, Message, User } from '@prisma/client';
 
 import MessageBox from './MessageBox';
 import Avatar from '../ui/Avatar';
-import clsx from 'clsx';
 
 
 interface Props{
