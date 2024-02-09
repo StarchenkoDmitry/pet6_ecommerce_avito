@@ -139,3 +139,18 @@ export async function getCountItemsByText(text:string) {
         return;
     }
 }
+
+export async function getItemsByUserId(userId:string,take:number) {
+    try {
+        const items = await db.item.findMany({
+            where: {
+                userId: userId,
+            },
+            take:take
+        });
+        return items;
+    } catch (error) {
+        console.log("getItemsByUserId error:",error);
+        return;
+    }
+}
