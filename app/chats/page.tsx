@@ -15,36 +15,49 @@ export default async function Home() {
             </div>
         );
     }
+    let chatsRaw;
 
-    let chatsRaw = await db.chat.findMany({
-        where: {
-            chatUsers: {
-                some: {
-                    userId: user.id,
-                },
-            },
-        },
-        include: {
-            chatUsers: {
-                where: {
-                    userId: {
-                        not: user.id,
+    try {
+        chatsRaw = await db.chat.findMany({
+            where: {
+                chatUsers: {
+                    some: {
+                        userId: user.id,
                     },
                 },
-                select: {
-                    user: {
-                        select: {
-                            id: true,
-                            imageId: true,
-                            name: true,
-                            surname: true,
+            },
+            include: {
+                chatUsers: {
+                    where: {
+                        userId: {
+                            not: user.id,
+                        },
+                    },
+                    select: {
+                        user: {
+                            select: {
+                                id: true,
+                                imageId: true,
+                                name: true,
+                                surname: true,
+                            },
                         },
                     },
                 },
+                item: true,
             },
-            item: true,
-        },
-    });
+        });
+    } catch (error) {
+        console.log("Chats page error:",error);
+    }
+
+    if(!chatsRaw){
+        return (
+            <div className="px-2 bg-gray-50 rounded-lg">
+                <span className="mx-1 text-xl">Ошибка</span>
+            </div>
+        );
+    }
 
     const chats: ChatWithChatUserAndItem[] = chatsRaw.map(({chatUsers,...chat})=>({
       ...chat,
