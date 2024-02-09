@@ -26,12 +26,12 @@ function ItemImage({id,className,height,width,sizes,alt}: Props) {
         return (
             <img 
                 className={className}
-                src={imageUrl}                
-                srcSet={srcSeet}                
+                src={imageUrl}
+                srcSet={srcSeet}
                 width={width}
                 height={height}
                 sizes={sizes? sizes : "250px"}
-                alt={alt ? alt : "an item image"}
+                alt={alt ? alt : "item image"}
             />
         )
     }else{
@@ -39,11 +39,11 @@ function ItemImage({id,className,height,width,sizes,alt}: Props) {
             <Image 
                 className={className}
                 src={"/images/noimage.jpg"}
-                width={width ? width : 256}
-                height={height ? height : 256}
+                width={width ?? 256}
+                height={height ?? 256}
                 quality={90}
                 sizes={sizes? sizes : "250px"}
-                alt={alt ? alt : "without image"}
+                alt={alt ? alt : "item without image"}
             />
         )
     }
@@ -59,6 +59,6 @@ function createSet(id:string){
     bs+`?w=${PICTURE_SCALE_WIDTH_2} ${PICTURE_SCALE_WIDTH_2}w, `+
     bs+`?w=${PICTURE_SCALE_WIDTH_1} ${PICTURE_SCALE_WIDTH_1}w, `+
     bs+`?w=${PICTURE_SCALE_WIDTH_0} ${PICTURE_SCALE_WIDTH_0}w, `+
-    bs+` ${PICTURE_SCALE_WIDTH_MAX}w`;    
+    bs+` ${PICTURE_SCALE_WIDTH_MAX}w`;
     return sets;
 }

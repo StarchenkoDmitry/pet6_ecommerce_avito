@@ -136,9 +136,14 @@ function InfiniteItems({
                 }
             </div>
             
-            <div className="bg-gray-100 rounded-lg flex flex-wrap justify-between">
+            <div className="flex flex-wrap justify-around bg-gray-100 rounded-lg">
                 {items.map((i) => (
-                    <ItemView key={i.id} item={i} />
+                    <ItemView
+                        className="m-2 max-[580px]:w-full w-[256px]"
+                        key={i.id}
+                        item={i}
+                        imageSizes="(max-width: 400px) 200px, (max-width: 580px) 400px, 250px"
+                    />
                 ))}
             </div>
 

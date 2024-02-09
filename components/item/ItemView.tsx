@@ -8,13 +8,16 @@ import { changeFavorite } from '@/actions/favorite';
 
 import ItemImage from '../ui/ItemImage';
 import { ItemAndFavorite } from '@/types/item';
+import clsx from 'clsx';
 
 
 export interface Props {
     item: ItemAndFavorite;
+    className?:string;
+    imageSizes?:string;
 }
 
-function ItemView({item}: Props) {
+function ItemView({item,className,imageSizes}: Props) {
     const {id,mainImageId,lable,price,isFavorite:isFavoriteProp} = item;
     
     const itemUrl = `/item/${id}`;
@@ -33,12 +36,14 @@ function ItemView({item}: Props) {
     }
 
     return (
-        <div className="m-2 p-2 w-64 bg-white rounded-lg">
+        <div className={clsx("p-2 bg-white rounded-lg",
+            className
+        )}>
             <a href={itemUrl}>
                 <ItemImage
-                    className="w-[250px] h-[200px] object-cover rounded"
+                    className="w-full aspect-square object-cover rounded"
                     id={mainImageId}
-                    sizes='250px'
+                    sizes={imageSizes ?? "250px"}
                 />
             </a>
             <div className='flex justify-between'>
