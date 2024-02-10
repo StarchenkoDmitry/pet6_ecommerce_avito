@@ -89,9 +89,9 @@ function createSubCategory(perent:ICategory,name:string,url:string):ISubCategory
 
 
 // console.log("categorys",JSON.stringify(categorys));
-// logCatygorys();
+// printCategories();
 
-function logCatygorys(){
+function printCategories(){
     console.log("list of cotigories:");
     categorys.map(c=>{
         console.log("Category: ",c.name,c.url);

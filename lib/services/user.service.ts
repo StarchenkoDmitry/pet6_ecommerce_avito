@@ -7,7 +7,7 @@ export async function deleteAccessToken(accessToken:string){
                 token:accessToken
             }
         });
-        console.log("deleteAccessToken res",res);
+        // console.log("deleteAccessToken res",res);
         return;
     } catch (error) {
         console.log("deleteAccessToken error",error);

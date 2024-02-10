@@ -169,21 +169,40 @@ export async function signInWithCredentials(formData: FormData)
             error:"email or password is not string",
         };
     }
+    
+    if(email.length > MAX_EMAIL_LENGHT || email.length < MIN_EMAIL_LENGHT ){
+        return {
+            signIn:false,
+            error:`email length is greater than ${MAX_EMAIL_LENGHT} or less than ${MIN_EMAIL_LENGHT}`
+        };
+    }
+
+    if(!validateEmail(email)){
+        return {
+            signIn:false,
+            error:`email filed is not email`
+        };
+    }
+
+    if(password.length > MAX_PASSWORD_LENGHT || password.length < MIN_PASSWORD_LENGHT ){
+        return {
+            signIn:false,
+            error:`password length is greater than ${MAX_PASSWORD_LENGHT} or less than ${MIN_PASSWORD_LENGHT}`
+        };
+    }
 
     try {
-        //проверить что будет если signIn выдаст ошибку при неверных данных
         const resSingIn = await signIn("credentials", {
             email: email,
             password: password,
             redirect:false,
         });
-        
+        console.log("resSingIn ",resSingIn);
         return {
             signIn:true
         }
     } catch (error) {
         console.log("signInWithCredentials error:",error);
-        // throw error;
         return {
             signIn:false,
             error:"server error"
@@ -195,6 +214,10 @@ export async function signInWithCredentials(formData: FormData)
 export async function signOutAction()
 :Promise<boolean>{
     try {
+        const user = await db.user.currentUser();
+        if(!user){
+            return false;
+        }        
         //delete accessToken and clear it in token
         const sessionRes = await update({
             user:{ accessToken:"" }

@@ -119,6 +119,7 @@ export async function changeName(name:string){
         });
         return !!result;    
     } catch (error) {
+        console.log("changeName error:",error);
         return false;
     }
 }
@@ -147,6 +148,7 @@ export async function changeSurname(surname:string){
         });
         return !!result;    
     } catch (error) {
+        console.log("changeSurname error:",error);
         return false;
     }
 }
