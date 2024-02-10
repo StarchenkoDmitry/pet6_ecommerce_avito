@@ -15,7 +15,7 @@ describe("validateEmail",()=>{
     });
 
     it("no valid russian cyrillic in email",()=>{
-        expect(validateEmail("ваня@закуток")).toBe(true);
+        expect(validateEmail("ваня@закуток")).toBe(false);
     });
     
     it("no valid cyrillic in email",()=>{
@@ -23,6 +23,6 @@ describe("validateEmail",()=>{
     });
 
     it("valid cyrillic in email",()=>{
-        expect(validateEmail("киска@лапки.животные")).toBe(false);
+        expect(validateEmail("киска@лапки.животные")).toBe(true);
     });
 });
